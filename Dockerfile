@@ -11,12 +11,13 @@ RUN apt-get update && apt-get install -y \
 
 # 2. Tes extensions PHP existantes
 RUN install-php-extensions \
-    pdo_pgsql \
+    pdo_mysql \
     gd \
     intl \
     zip \
     amqp \
-    opcache
+    opcache \
+    exif
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1

@@ -1,9 +1,23 @@
+###> OS ###
+.DS_Store
+Thumbs.db
+._*
+###< OS ###
+
+###> IDE ###
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*~
+###< IDE ###
 /public/assets
 /public/build
 /public/css
 /public/js
 /public/media
 !/public/media/image/.gitkeep
+/config/encryption/*.key
 
 /etc/build/*
 !/etc/build/.gitignore

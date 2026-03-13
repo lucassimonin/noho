@@ -1,5 +1,6 @@
 EXEC_PHP = docker compose exec php
 SYMFONY = $(EXEC_PHP) php bin/console
+YARN = $(EXEC_PHP) yarn
 
 .PHONY: help start stop open shell install db-diff db-migrate db-fixture reset-db reset-test consume watch reset-test tests test-unit test-func qa fix cs-check rector-check stan deploy
 
@@ -22,6 +23,7 @@ shell: ## Enter the PHP container
 install: start ## Install the entire project (Vendor + Dev database + Test database)
 	$(EXEC_PHP) composer install
 	$(SYMFONY) sylius:install --no-interaction
+	@$(MAKE) build-assets
 	@$(MAKE) reset-test
 	@echo "✅ Projet installé et prêt !"
 
@@ -49,8 +51,8 @@ consume: ## Cosume message async
 ## ——— FRONTEND———
 
 build-assets:
-	$(SYMFONY) yarn install --pure-lockfile
-	$(SYMFONY) yarn encore production
+	$(YARN) install --pure-lockfile
+	$(YARN) encore production
 
 ## ——— TESTS ———
 
@@ -58,7 +60,7 @@ reset-test: ## Reset the Test database (Drop -> Create -> Schema)
 	$(SYMFONY) doctrine:database:drop --env=test --force --if-exists -n
 	$(SYMFONY) doctrine:database:create --env=test -n
 	$(SYMFONY) doctrine:schema:create --env=test -n
-	$(SYMFONY) doctrine:fixtures:load --env=test -n
+	$(SYMFONY) sylius:fixtures:load --env=test -n
 	$(SYMFONY) cache:clear --env=test
 	$(SYMFONY) doctrine:cache:clear-metadata --env=test
 
