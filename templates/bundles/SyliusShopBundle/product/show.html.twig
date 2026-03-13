@@ -1,0 +1,281 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ product.name }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+{% set productImages = product.images %}
+{% set mainImage = productImages.first %}
+{% set imagePath = mainImage ? mainImage.path|imagine_filter('sylius_shop_product_large_thumbnail') : 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80' %}
+{% set imageOriginal = mainImage ? mainImage.path|imagine_filter('sylius_shop_product_original') : 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80' %}
+{% set variant = product.enabledVariants|length > 0 ? product.enabledVariants.first : null %}
+{% set attributesByLocale = product.getAttributesByLocale(app.request.locale, app.request.defaultLocale|default(app.request.locale), sylius_base_locale|default('en_US'))|default([])|sylius_sort_by('attribute.position') %}
+{% set address = null %}
+{% set lat = '48.8566' %}
+{% set lng = '2.3522' %}
+{% set tarifAttr = null %}
+{% set dureeAttr = null %}
+{% set accueilAttr = null %}
+{% set emplacementAttr = null %}
+{% set politiqueAttr = null %}
+{% set personnesAttr = null %}
+{% set chambresAttr = null %}
+{% for attrVal in attributesByLocale %}
+    {% if attrVal.attribute.code is defined %}
+        {% if attrVal.attribute.code in ['adresse', 'address', 'location'] %}{% set address = attrVal.value %}{% endif %}
+        {% if attrVal.attribute.code in ['latitude', 'lat'] and attrVal.value is not empty %}{% set lat = attrVal.value %}{% endif %}
+        {% if attrVal.attribute.code in ['longitude', 'lng'] and attrVal.value is not empty %}{% set lng = attrVal.value %}{% endif %}
+        {% if attrVal.attribute.code in ['tarif', 'price_label'] %}{% set tarifAttr = attrVal %}{% endif %}
+        {% if attrVal.attribute.code in ['duree', 'duree_minimale'] %}{% set dureeAttr = attrVal %}{% endif %}
+        {% if attrVal.attribute.code in ['accueil_sur_mesure', 'accueil'] %}{% set accueilAttr = attrVal %}{% endif %}
+        {% if attrVal.attribute.code in ['emplacement', 'emplacement_ideal'] %}{% set emplacementAttr = attrVal %}{% endif %}
+        {% if attrVal.attribute.code in ['politique_annulation', 'politique'] %}{% set politiqueAttr = attrVal %}{% endif %}
+        {% if attrVal.attribute.code in ['personnes', 'voyageurs'] %}{% set personnesAttr = attrVal %}{% endif %}
+        {% if attrVal.attribute.code in ['chambres'] %}{% set chambresAttr = attrVal %}{% endif %}
+    {% endif %}
+{% endfor %}
+{% set destination = product.mainTaxon ? product.mainTaxon.name : 'Paris' %}
+{% set address = address ?? 'Boulevard de Pesaro, 92000 Nanterre' %}
+{% set shortDescStatic = "Au dernier étage d'un immeuble neuf, ce penthouse contemporain offre une expérience unique aux portes de Paris. Ce 3 pièces lumineux peut accueillir confortablement jusqu'à 4 voyageurs." %}
+{% set descStatic = "L'espace de vie s'ouvre sur un balcon filant baigné de lumière ; à l'étage supérieur, un rooftop privé aménagé avec salon extérieur. Vue dégagée à 360°, le luxe d'un extérieur en pleine ville." %}
+{% set accueilStatic = "Tout est à votre disposition : Internet fibre, télévision connectée, linge de maison, cuisine entièrement équipée, lave-vaisselle, machine Nespresso, lave-linge séchant, climatisation, balcon et rooftop privé." %}
+{% set emplacementStatic = "Quartier en pleine transformation, entre architecture contemporaine et proximité de La Défense. En quelques minutes, vous rejoignez le centre de Paris grâce au RER A et à la ligne 1 du métro." %}
+{% set politiqueStatic = "Paiement : 50% à la réservation, 50% un mois avant l'arrivée. Remboursement possible jusqu'à deux mois avant l'arrivée. Une taxe de séjour s'ajoute à votre réservation." %}
+{% set staticThumbUrls = ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&q=80', 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=400&q=80', 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&q=80', 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=400&q=80'] %}
+
+{# Styles alignés sur la page d'accueil + header incrusté sur le hero (comme l'accueil) #}
+<style>
+/* Header sur le hero – même comportement que la page d'accueil */
+body[data-route="sylius_shop_product_show"] .d-flex.min-vh-100 > *:nth-child(1) { position: absolute; top: 0; left: 0; right: 0; background: transparent !important; border: none !important; color: #fff; z-index: 20; }
+body[data-route="sylius_shop_product_show"] .d-flex.min-vh-100 > *:nth-child(1) a { color: #fff !important; }
+body[data-route="sylius_shop_product_show"] .d-flex.min-vh-100 > *:nth-child(1) .noho-logo__main { color: #fff !important; }
+body[data-route="sylius_shop_product_show"] .d-flex.min-vh-100 > *:nth-child(1) .noho-logo__sub { color: rgba(255,255,255,0.9) !important; }
+body[data-route="sylius_shop_product_show"] .d-flex.min-vh-100 > *:nth-child(2) { position: absolute; top: 64px; left: 0; right: 0; background: transparent !important; border: none !important; color: #fff; z-index: 20; }
+body[data-route="sylius_shop_product_show"] .d-flex.min-vh-100 > *:nth-child(2) .nav-link { color: #fff !important; }
+body[data-route="sylius_shop_product_show"] .d-flex.min-vh-100 > *:nth-child(2) .navbar-nav .nav-link:hover { color: rgba(255,255,255,0.85) !important; }
+body[data-route="sylius_shop_product_show"] .d-flex.min-vh-100 > *:nth-child(2) a,
+body[data-route="sylius_shop_product_show"] .d-flex.min-vh-100 > *:nth-child(2) span { color: #fff !important; }
+body[data-route="sylius_shop_product_show"] .d-flex.min-vh-100 > *:nth-child(2) .btn-close { filter: invert(1); }
+
+.noho-hero { position: relative; min-height: 50vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 180px 1.5rem 4rem; color: #fff; background: #1a1a1a no-repeat center center / cover; }
+.noho-hero::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.4); z-index: 0; }
+.noho-hero > div { position: relative; z-index: 1; }
+.noho-hero h1 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.75rem, 4vw, 2.75rem); font-weight: 400; letter-spacing: 0.02em; line-height: 1.3; margin-bottom: 0.5rem; }
+.noho-hero .noho-hero__sub { font-size: 1rem; opacity: 0.9; }
+.noho-section { padding: 4rem 0; }
+.noho-section--light { background: #fafafa; }
+.noho-section-title { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 400; color: #1a1a1a; text-align: center; margin-bottom: 3rem; letter-spacing: 0.02em; }
+.noho-about { max-width: 42rem; margin: 0 auto; text-align: center; }
+.noho-about p { font-size: 1rem; color: #444; line-height: 1.7; margin-bottom: 1.5rem; }
+/* Description produit – bloc plus grand et lisible */
+.noho-product-desc { max-width: 56rem; margin: 0 auto 2.5rem; text-align: left; }
+.noho-product-desc p { font-size: 1.15rem; color: #444; line-height: 1.8; margin-bottom: 1.25rem; }
+.noho-product-desc p:last-child { margin-bottom: 0; }
+.noho-trust { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; max-width: 64rem; margin: 0 auto; }
+.noho-trust-item { text-align: center; padding: 1.5rem 1rem; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.noho-trust-item h3 { font-size: 0.95rem; font-weight: 600; color: #1a1a1a; margin-bottom: 0.4rem; }
+.noho-trust-item p { font-size: 0.85rem; color: #555; margin: 0; line-height: 1.4; }
+.noho-pillars { display: grid; gap: 0; max-width: 56rem; margin: 0 auto; }
+.noho-pillar { text-align: left; }
+.noho-pillar__title { font-family: Georgia, 'Times New Roman', serif; font-size: 1rem; font-weight: 600; letter-spacing: 0.08em; color: #1a1a1a; text-transform: uppercase; margin-bottom: 0.75rem; line-height: 1.3; }
+.noho-pillar__text { font-size: 0.95rem; color: #555; line-height: 1.65; margin: 0 0 1rem; }
+.noho-card { background: #fff; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.noho-card__body { padding: 1.25rem; }
+.noho-card__title { font-size: 1.05rem; font-weight: 600; color: #1a1a1a; margin-bottom: 0.75rem; line-height: 1.3; }
+.noho-card__cta { display: block; text-align: center; padding: 0.65rem 1rem; background: #1a1a1a; color: #fff; text-decoration: none; font-size: 0.85rem; letter-spacing: 0.05em; transition: background 0.2s; border: none; width: 100%; cursor: pointer; }
+.noho-card__cta:hover { background: #333; color: #fff; }
+.noho-card .btn, .noho-card [type=submit] { display: block; width: 100%; text-align: center; padding: 0.65rem 1rem; background: #1a1a1a; color: #fff; border: none; font-size: 0.85rem; letter-spacing: 0.05em; cursor: pointer; transition: background 0.2s; }
+.noho-card .btn:hover, .noho-card [type=submit]:hover { background: #333; color: #fff; }
+.noho-product__img-wrap { aspect-ratio: 4/3; background: #eee; overflow: hidden; }
+.noho-product__img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.noho-product__thumbs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+.noho-product__thumb { width: 64px; height: 64px; border-radius: 4px; overflow: hidden; cursor: pointer; border: 2px solid transparent; flex-shrink: 0; }
+.noho-product__thumb:hover, .noho-product__thumb.is-active { border-color: #1a1a1a; }
+.noho-product__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.noho-product__meta { font-size: 1.1rem; color: #444; line-height: 1.75; margin-bottom: 1.5rem; }
+.noho-product__price { font-family: Georgia, serif; font-size: 1.35rem; color: #1a1a1a; margin-bottom: 0.5rem; }
+.noho-product__specs { font-size: 0.95rem; color: #555; margin-bottom: 1.25rem; }
+.noho-map-embed { width: 100%; height: 360px; border: 0; border-radius: 0; background: #e8e8e8; }
+/* Bloc droit : style éditorial comme les piliers de l'accueil, sans boîtes */
+.noho-product-sidebar { position: sticky; top: 2rem; }
+.noho-product-sidebar .noho-pillar { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #eee; }
+.noho-product-sidebar .noho-pillar:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+.noho-product-sidebar .noho-pillar__title { font-size: 0.9rem; margin-bottom: 0.5rem; }
+.noho-product-sidebar .noho-pillar__text { font-size: 0.95rem; margin: 0; }
+.noho-product-sidebar__cta { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #eee; }
+.noho-product-sidebar .btn, .noho-product-sidebar [type=submit] { display: block; width: 100%; text-align: center; padding: 0.65rem 1rem; background: #1a1a1a; color: #fff; border: none; font-size: 0.85rem; letter-spacing: 0.05em; cursor: pointer; transition: background 0.2s; }
+.noho-product-sidebar .btn:hover, .noho-product-sidebar [type=submit]:hover { background: #333; color: #fff; }
+/* Bloc réserver – même style que la page d'accueil */
+.noho-product-sidebar .noho-search__card { background: #fff; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); padding: 1.5rem 1.75rem; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1rem 1.5rem; margin-top: 0; margin-bottom: 1.5rem; }
+.noho-product-sidebar .noho-search__field { flex: 1 1 0; min-width: 100px; }
+.noho-product-sidebar .noho-search__label { display: block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; color: #888; text-transform: uppercase; margin-bottom: 0.4rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+.noho-product-sidebar .noho-search__input { display: block; width: 100%; padding: 0.65rem 2.25rem 0.65rem 0.85rem; font-size: 0.95rem; color: #333; background: #fff; border: 1px solid #ddd; border-radius: 8px; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.75rem center; }
+.noho-product-sidebar .noho-search__input::placeholder { color: #999; }
+.noho-product-sidebar .noho-search__input:focus { outline: none; border-color: #1a1a1a; }
+.noho-product-sidebar .noho-search__btn { flex-shrink: 0; padding: 0.65rem 1.75rem; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.04em; color: #fff; background: #1a1a1a; border: none; border-radius: 999px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+.noho-product-sidebar .noho-search__btn:hover { background: #333; color: #fff; }
+.noho-product-sidebar .noho-search__form-wrap { width: 100%; margin-top: 0; }
+.noho-product-sidebar .noho-search__form-wrap div.mb-4 { display: none; }
+.noho-product-sidebar .noho-search__form-wrap [type=submit] { width: 100%; padding: 0.65rem 0.85rem; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.04em; color: #fff; background: #1a1a1a; border: none; border-radius: 8px; cursor: pointer; transition: background 0.2s; margin-top: 0.5rem; }
+.noho-product-sidebar .noho-search__form-wrap [type=submit]:hover { background: #333; color: #fff; }
+@media (max-width: 768px) { .noho-product-sidebar .noho-search__card { flex-direction: column; align-items: stretch; } .noho-product-sidebar .noho-search__field { min-width: 0; } .noho-product-sidebar .noho-search__form-wrap [type=submit] { width: 100%; } }
+@media (max-width: 768px) { .noho-hero { min-height: 40vh; padding: 140px 1rem 3rem; } body[data-route="sylius_shop_product_show"] .d-flex.min-vh-100 > *:nth-child(2) { top: 56px; } }
+</style>
+
+{# Hero comme la page d'accueil : même rendu, titre centré #}
+<section class="noho-hero" style="background-image: url('{{ imageOriginal }}');">
+    <div>
+        <h1>{{ product.name }}</h1>
+        <p class="noho-hero__sub">{{ destination }}</p>
+    </div>
+</section>
+
+<div class="container py-5">
+    <div class="row g-4 g-lg-5 align-items-start">
+        <div class="col-lg-7">
+            <div class="noho-product__img-wrap">
+                <img src="{{ imageOriginal }}" alt="{{ product.name }}" id="noho-product-main-img" />
+            </div>
+            {% if productImages|length > 1 %}
+                <div class="noho-product__thumbs" id="noho-product-thumbs">
+                    {% for image in productImages %}
+                        {% set thumbPath = image.path ? image.path|imagine_filter('sylius_shop_product_small_thumbnail') : asset('bundles/syliusui/images/200x200.png') %}
+                        {% set largePath = image.path ? image.path|imagine_filter('sylius_shop_product_original') : thumbPath %}
+                        <button type="button" class="noho-product__thumb {{ loop.first ? 'is-active' : '' }}" data-src="{{ largePath }}" aria-label="Image {{ loop.index }}">
+                            <img src="{{ thumbPath }}" alt="" />
+                        </button>
+                    {% endfor %}
+                </div>
+            {% elseif productImages|length == 0 %}
+                <div class="noho-product__thumbs" id="noho-product-thumbs">
+                    {% for url in staticThumbUrls %}
+                        <button type="button" class="noho-product__thumb {{ loop.first ? 'is-active' : '' }}" data-src="{{ url|replace({'w=400': 'w=1200'}) }}" aria-label="Image {{ loop.index }}">
+                            <img src="{{ url }}" alt="" />
+                        </button>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-5">
+            <aside class="noho-product-sidebar">
+                <h3 class="noho-pillar__title">Description</h3>
+                <p class="noho-product__meta">{{ product.shortDescription is not empty ? product.shortDescription|raw : shortDescStatic }}</p>
+
+                <div class="noho-product__price">
+                    {% if tarifAttr %}{{ tarifAttr.value }}{% elseif variant %}{{ component('sylius_shop:product:price', { variant: variant, template: '@SyliusShop/product/show/content/info/summary/prices/price.html.twig' }) }}{% else %}3.300€/mois{% endif %}
+                </div>
+                <p class="noho-product__specs">{{ dureeAttr ? dureeAttr.value : '1 mois minimum' }} · {{ personnesAttr ? personnesAttr.value : '4' }} personnes · {{ chambresAttr ? chambresAttr.value : '2' }} chambres</p>
+
+                <div class="noho-search__card">
+                    <div class="noho-search__field">
+                        <label class="noho-search__label" for="noho-product-arrivee">Arrivée</label>
+                        <input type="text" id="noho-product-arrivee" class="noho-search__input" placeholder="Sélectionner une date" readonly>
+                    </div>
+                    <div class="noho-search__field">
+                        <label class="noho-search__label" for="noho-product-depart">Départ</label>
+                        <input type="text" id="noho-product-depart" class="noho-search__input" placeholder="Sélectionner une date" readonly>
+                    </div>
+                    <div class="noho-search__field">
+                        <label class="noho-search__label" for="noho-product-voyageurs">Voyageurs</label>
+                        <input type="text" id="noho-product-voyageurs" class="noho-search__input" placeholder="Voyageurs" readonly>
+                    </div>
+                    <div class="noho-search__field">
+                        <label class="noho-search__label" for="noho-product-chambres">Chambres</label>
+                        <input type="text" id="noho-product-chambres" class="noho-search__input" placeholder="Chambres" readonly>
+                    </div>
+                    {% if product.enabledVariants.empty() or (product.simple and not sylius_inventory_is_available(product.enabledVariants.first)) %}
+                        <div class="noho-search__field" style="flex: 1 1 100%;">
+                            <p class="text-muted small mb-0 mt-2">{{ 'sylius.ui.out_of_stock'|trans }}</p>
+                        </div>
+                    {% else %}
+                        <div class="noho-search__form-wrap" style="flex: 1 1 100%;">
+                            {{ component('sylius_shop:product:add_to_cart_form', { product: product, template: '@SyliusShop/product/show/content/info/summary/add_to_cart.html.twig' }) }}
+                        </div>
+                    {% endif %}
+                </div>
+            </aside>
+        </div>
+        <div class="row mt-4 pt-4 border-top">
+            <div class="col-12 col-md-4 mb-4 mb-md-0">
+                <h3 class="noho-pillar__title">Accueil sur mesure</h3>
+                <p class="noho-pillar__text">{{ (accueilAttr ? accueilAttr.value : accueilStatic)|nl2br|raw }}</p>
+            </div>
+            <div class="col-12 col-md-4 mb-4 mb-md-0">
+                <h3 class="noho-pillar__title">Emplacement idéal</h3>
+                <p class="noho-pillar__text">{{ (emplacementAttr ? emplacementAttr.value : emplacementStatic)|nl2br|raw }}</p>
+            </div>
+            <div class="col-12 col-md-4">
+                <h3 class="noho-pillar__title">Politique d'annulation</h3>
+                <p class="noho-pillar__text">{{ (politiqueAttr ? politiqueAttr.value : politiqueStatic)|nl2br|raw }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="noho-section noho-section--light">
+    <h2 class="noho-section-title">Caractéristiques</h2>
+    <div class="container">
+        <div class="noho-product-desc">
+            <p>{{ (product.description is not empty ? product.description : descStatic)|nl2br|raw }}</p>
+        </div>
+    </div>
+</section>
+
+<section class="noho-section">
+    <h2 class="noho-section-title">Localisation</h2>
+    <div class="container">
+        <p class="text-secondary text-center mb-4" style="max-width: 36rem; margin-left: auto; margin-right: auto;">{{ address }}</p>
+        <iframe
+            class="noho-map-embed"
+            src="https://www.openstreetmap.org/export/embed.html?bbox={{ (lng|number_format(4,'.','') - 0.01) }},{{ (lat|number_format(4,'.','') - 0.008) }},{{ (lng|number_format(4,'.','') + 0.01) }},{{ (lat|number_format(4,'.','') + 0.008) }}&layer=mapnik&marker={{ lat }},{{ lng }}"
+            allowfullscreen
+            loading="lazy"
+            title="Localisation"
+        ></iframe>
+    </div>
+</section>
+
+<section class="noho-section noho-section--light">
+    <h2 class="noho-section-title">Expériences vécues</h2>
+    <div class="container">
+        <div class="noho-trust">
+            {% if product.acceptedReviews|length > 0 %}
+                {% for review in product.acceptedReviews %}
+                    <div class="noho-trust-item">
+                        <p class="mb-2">"{{ review.comment }}"</p>
+                        <h3>— {{ review.author ? (review.author.firstName ?? review.author.email) : 'Anonyme' }}</h3>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="noho-trust-item">
+                    <p class="mb-2">"Le rooftop est incroyable. L'appartement est très propre, moderne et super bien équipé."</p>
+                    <h3>— Clarine</h3>
+                </div>
+                <div class="noho-trust-item">
+                    <p class="mb-2">"Très bien situé, à deux pas de La Défense. Mention spéciale pour la vue à 360° depuis le balcon."</p>
+                    <h3>— Benoit</h3>
+                </div>
+                <div class="noho-trust-item">
+                    <p class="mb-2">"The kids loved the rooftop. Everything is thoughtfully set up, the kitchen is practical."</p>
+                    <h3>— Dave</h3>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<script>
+(function() {
+    var thumbs = document.getElementById('noho-product-thumbs');
+    var mainImg = document.getElementById('noho-product-main-img');
+    if (thumbs && mainImg) {
+        thumbs.querySelectorAll('.noho-product__thumb').forEach(function(btn, i) {
+            btn.addEventListener('click', function() {
+                thumbs.querySelectorAll('.noho-product__thumb').forEach(function(b) { b.classList.remove('is-active'); });
+                btn.classList.add('is-active');
+                mainImg.src = btn.getAttribute('data-src');
+            });
+        });
+    }
+})();
+</script>
+{% endblock %}

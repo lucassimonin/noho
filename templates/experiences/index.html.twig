@@ -1,0 +1,55 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}Expériences | {{ parent() }}{% endblock %}
+
+{% block content %}
+<style>
+.noho-exp-header{position:relative;padding:5rem 0;background:#1a1a1a no-repeat center/cover}.noho-exp-header::before{content:'';position:absolute;inset:0;background:rgba(26,26,26,.55)}.noho-exp-header .container{position:relative;z-index:1;text-align:center}.noho-exp-header h1{font-family:Georgia,serif;font-size:clamp(1.75rem,4vw,2.5rem);font-weight:400;color:#fafafa;margin-bottom:1.5rem;letter-spacing:.02em}.noho-exp-header .noho-exp-intro{max-width:42rem;margin:0 auto;font-size:1rem;color:rgba(250,250,250,.9);line-height:1.7;text-align:center}
+.noho-exp-section{padding:4rem 0;text-align:center}.noho-exp-section--light{background:#fafafa}.noho-exp-section h2{font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:400;color:#1a1a1a;margin-bottom:1.5rem;letter-spacing:.02em}
+.noho-exp-pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:64rem;margin:0 auto}.noho-exp-pillar{background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.08);overflow:visible}.noho-exp-pillar__img{display:block;width:100%;height:280px;object-fit:cover}.noho-exp-pillar__body{padding:1.5rem;text-align:left}.noho-exp-pillar__title{font-family:Georgia,serif;font-size:.9rem;font-weight:600;letter-spacing:.08em;color:#1a1a1a;text-transform:uppercase;margin-bottom:.75rem}.noho-exp-pillar__text{font-size:.95rem;color:#555;line-height:1.6;margin:0}
+.noho-contact-form{max-width:32rem;margin:0 auto}.noho-contact-form .form-label{font-size:.85rem;color:#555;margin-bottom:.35rem}.noho-contact-form .form-control{border-radius:6px;border-color:#ddd;padding:.65rem .85rem}.noho-contact-form .btn{padding:.75rem 1.5rem;background:#1a1a1a;color:#fff;border:none;border-radius:6px;font-size:.9rem}
+@media (max-width:768px){.noho-exp-pillars{grid-template-columns:1fr}}
+</style>
+<section class="noho-exp-section noho-exp-header" style="background-image:url('https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1920')">
+    <div class="container">
+        <h1 class="noho-exp-title">L'art de vivre noho</h1>
+        <p class="noho-exp-intro">Parce que chaque séjour est unique, nous dessinons pour vous des moments sur mesure, où l'exclusivité rencontre l'émotion. De la curiosité à l'émerveillement, Noho imagine des parenthèses hors du temps.</p>
+    </div>
+</section>
+
+<section class="noho-exp-section noho-exp-section--light">
+    <div class="container">
+        <h2 class="noho-exp-title">Nos expériences</h2>
+        <div class="noho-exp-pillars">
+            <div class="noho-exp-pillar">
+                <img src="{{ asset('images/experiences/gastronomie.png') }}" alt="Gastronomie & art de la table" class="noho-exp-pillar__img" loading="lazy" width="400" height="280">
+                <div class="noho-exp-pillar__body">
+                    <h3 class="noho-exp-pillar__title">Gastronomie & art de la table</h3>
+                    <p class="noho-exp-pillar__text">Chefs privés et meilleures tables gastronomiques de la région.</p>
+                </div>
+            </div>
+            <div class="noho-exp-pillar">
+                <img src="{{ asset('images/experiences/evasions.png') }}" alt="Évasions & aventures privées" class="noho-exp-pillar__img" loading="lazy" width="400" height="280">
+                <div class="noho-exp-pillar__body">
+                    <h3 class="noho-exp-pillar__title">Évasions & aventures privées</h3>
+                    <p class="noho-exp-pillar__text">Visites privées, locations de bateaux et activités sur mesure.</p>
+                </div>
+            </div>
+            <div class="noho-exp-pillar">
+                <img src="{{ asset('images/experiences/prestige.png') }}" alt="Services de prestige" class="noho-exp-pillar__img" loading="lazy" width="400" height="280">
+                <div class="noho-exp-pillar__body">
+                    <h3 class="noho-exp-pillar__title">Services de prestige</h3>
+                    <p class="noho-exp-pillar__text">Chauffeurs dédiés, massages à domicile et soins exclusifs.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="noho-exp-section" id="contact">
+    <div class="container">
+        <h2 class="noho-exp-title">Discutons de vos envies</h2>
+        {% include 'shared/_contact_form.html.twig' with { form_id_prefix: 'exp' } %}
+    </div>
+</section>
+{% endblock %}

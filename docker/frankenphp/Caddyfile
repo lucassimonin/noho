@@ -1,0 +1,30 @@
+{
+	# Options globales et activation du mode Worker (remplace votre variable d'env)
+	frankenphp {
+		worker ./public/index.php
+	}
+	order php_server before file_server
+}
+
+{$SERVER_NAME} {
+	root * /app/public
+	encode zstd gzip
+
+	php_server
+
+	# --- SÉCURITÉ (Ce qu'on voulait ajouter) ---
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+		X-Frame-Options "SAMEORIGIN"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()"
+		Content-Security-Policy "default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval';"
+		X-XSS-Protection "1; mode=block"
+        -Server
+        -X-Powered-By
+	}
+	# -------------------------------------------
+
+	file_server
+}

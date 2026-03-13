@@ -1,0 +1,160 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block content %}
+{# Concierge homepage – header incrusté sur le hero (style The French Concierge) #}
+<style>
+/* Header incrusté sur le hero (homepage uniquement) – 2 blocs : barre logo, navbar (top bar newsletter supprimé) */
+body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(1) { position: absolute; top: 0; left: 0; right: 0; background: transparent !important; border: none !important; color: #fff; z-index: 20; }
+body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(1) a { color: #fff !important; }
+body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(1) .noho-logo__main { color: #fff !important; }
+body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(1) .noho-logo__sub { color: rgba(255,255,255,0.9) !important; }
+body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(2) { position: absolute; top: 64px; left: 0; right: 0; background: transparent !important; border: none !important; color: #fff; z-index: 20; }
+body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(2) .nav-link { color: #fff !important; }
+body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(2) .navbar-nav .nav-link:hover { color: rgba(255,255,255,0.85) !important; }
+body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(2) .btn-close { filter: invert(1); }
+body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(2) a,
+body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(2) span { color: #fff !important; }
+
+.noho-hero { position: relative; min-height: 85vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 180px 1.5rem 4rem; color: #fff; background: #1a1a1a no-repeat center center / cover; }
+.noho-hero::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.45); z-index: 0; }
+.noho-hero > div { position: relative; z-index: 1; }
+.noho-hero h1 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.75rem, 4vw, 2.75rem); font-weight: 400; letter-spacing: 0.02em; line-height: 1.3; margin-bottom: 1rem; }
+.noho-hero p { font-size: 1.05rem; opacity: 0.95; max-width: 32rem; margin-left: auto; margin-right: auto; margin-bottom: 2rem; }
+.noho-btn { display: inline-block; padding: 0.85rem 2rem; background: #fff; color: #1a1a1a; text-decoration: none; font-size: 0.9rem; letter-spacing: 0.08em; transition: opacity 0.2s; }
+.noho-btn:hover { color: #1a1a1a; opacity: 0.9; }
+.noho-section { padding: 4rem 0; }
+.noho-section--light { background: #fafafa; }
+.noho-section-title { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 400; color: #1a1a1a; text-align: center; margin-bottom: 3rem; letter-spacing: 0.02em; }
+/* Bloc 3 colonnes (sélection / hospitalité / sérénité) – même DA que le site */
+.noho-pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem 3rem; max-width: 64rem; margin: 0 auto; align-items: start; }
+.noho-pillar { text-align: left; }
+.noho-pillar__title { font-family: Georgia, 'Times New Roman', serif; font-size: 1rem; font-weight: 600; letter-spacing: 0.08em; color: #1a1a1a; text-transform: uppercase; margin-bottom: 0.85rem; line-height: 1.3; }
+.noho-pillar__text { font-size: 0.95rem; color: #555; line-height: 1.65; margin: 0; }
+@media (max-width: 768px) { .noho-pillars { grid-template-columns: 1fr; gap: 2rem; } }
+{% include '@SyliusShop/shared/_product_grid_styles.html.twig' %}
+.noho-trust { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; max-width: 64rem; margin: 0 auto; }
+.noho-trust-item { text-align: center; padding: 1.5rem 1rem; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.noho-trust-item h3 { font-size: 0.95rem; font-weight: 600; color: #1a1a1a; margin-bottom: 0.4rem; }
+.noho-trust-item p { font-size: 0.85rem; color: #555; margin: 0; line-height: 1.4; }
+.noho-about { max-width: 42rem; margin: 0 auto; text-align: center; }
+.noho-about p { font-size: 1rem; color: #444; line-height: 1.7; margin-bottom: 1.5rem; }
+/* Bloc de recherche (style The French Concierge) */
+.noho-search { position: relative; z-index: 10; margin-top: -2.5rem; margin-bottom: 3rem; }
+.noho-search__card { background: #fff; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); padding: 1.5rem 1.75rem; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1rem 1.5rem; }
+.noho-search__field { flex: 1 1 0; min-width: 140px; }
+.noho-search__label { display: block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; color: #888; text-transform: uppercase; margin-bottom: 0.4rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+.noho-search__input { display: block; width: 100%; padding: 0.65rem 2.25rem 0.65rem 0.85rem; font-size: 0.95rem; color: #333; background: #fff; border: 1px solid #ddd; border-radius: 8px; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.75rem center; }
+.noho-search__input::placeholder { color: #999; }
+.noho-search__input:focus { outline: none; border-color: #1a1a1a; }
+.noho-search__btn { flex-shrink: 0; padding: 0.65rem 1.75rem; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.04em; color: #fff; background: #1a1a1a; border: none; border-radius: 999px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+.noho-search__btn:hover { background: #333; color: #fff; }
+@media (max-width: 768px) { .noho-search { margin-top: -1.5rem; margin-left: 1rem; margin-right: 1rem; } .noho-search__card { flex-direction: column; align-items: stretch; } .noho-search__field { min-width: 0; } .noho-search__btn { width: 100%; } }
+/* Bandeau destination (style The French Concierge) */
+.noho-bandeau { position: relative; min-height: 42vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 4rem 1.5rem; background: #1a1a1a no-repeat center center / cover; }
+.noho-bandeau::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.35); z-index: 0; }
+.noho-bandeau__inner { position: relative; z-index: 1; }
+.noho-bandeau__title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 600; letter-spacing: 0.15em; color: #fff; text-transform: uppercase; margin: 0 0 1.25rem; line-height: 1.1; text-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+.noho-bandeau__btn { display: inline-block; padding: 0.7rem 1.75rem; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.05em; color: #1a1a1a; background: rgba(255,255,255,0.95); border: 2px solid #fff; text-decoration: none; transition: background 0.2s, color 0.2s; }
+.noho-bandeau__btn:hover { background: #fff; color: #1a1a1a; }
+@media (max-width: 768px) { .noho-bandeau { min-height: 35vh; padding: 3rem 1rem; } .noho-bandeau__title { letter-spacing: 0.08em; } }
+@media (max-width: 768px) { .noho-hero { min-height: 70vh; padding: 140px 1rem 3rem; } .noho-section { padding: 3rem 0; } body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(2) { top: 56px; } }
+</style>
+
+<section class="noho-hero" style="background-image: url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+    <div>
+        <h1>Votre temps est précieux,<br>nous gérons le reste.</h1>
+        <p>Une conciergerie haut de gamme à votre service. Simplicité, discrétion et excellence au quotidien.</p>
+        <a href="#nos-services" class="noho-btn">Découvrir nos services</a>
+    </div>
+</section>
+
+<div class="container">
+    <div class="noho-search">
+        <div class="noho-search__card">
+            <div class="noho-search__field">
+                <label class="noho-search__label" for="noho-search-destination">Destination</label>
+                <input type="text" id="noho-search-destination" class="noho-search__input" placeholder="Toutes les destinations" readonly aria-haspopup="listbox">
+            </div>
+            <div class="noho-search__field">
+                <label class="noho-search__label" for="noho-search-voyageurs">Voyageurs</label>
+                <input type="text" id="noho-search-voyageurs" class="noho-search__input" placeholder="Voyageurs" readonly aria-haspopup="listbox">
+            </div>
+            <div class="noho-search__field">
+                <label class="noho-search__label" for="noho-search-chambres">Chambres</label>
+                <input type="text" id="noho-search-chambres" class="noho-search__input" placeholder="Chambres" readonly aria-haspopup="listbox">
+            </div>
+            <div class="noho-search__field">
+                <label class="noho-search__label" for="noho-search-dates">Dates</label>
+                <input type="text" id="noho-search-dates" class="noho-search__input" placeholder="Sélectionner vos dates" readonly aria-haspopup="dialog">
+            </div>
+            <button type="button" class="noho-search__btn">Rechercher</button>
+        </div>
+    </div>
+</div>
+
+<section class="noho-section">
+    <h2 class="noho-section-title">Comment ça marche ?</h2>
+    <div class="container">
+        <div class="noho-pillars">
+            <div class="noho-pillar">
+                <h3 class="noho-pillar__title">La sélection Noho</h3>
+                <p class="noho-pillar__text">Au-delà de la mise à disposition de lieux d'exception, nous cultivons un art de recevoir fondé sur l'anticipation et la discrétion. Véritables architectes de votre quotidien, notre mission est de rendre chaque instant fluide, simple et mémorable.</p>
+            </div>
+            <div class="noho-pillar">
+                <h3 class="noho-pillar__title">L'hospitalité signature</h3>
+                <p class="noho-pillar__text">Nous parcourons les territoires pour dénicher des propriétés au caractère unique. Chaque demeure de notre portfolio est choisie pour son architecture, son atmosphère et sa capacité à offrir une expérience de vie hors du commun.</p>
+            </div>
+            <div class="noho-pillar">
+                <h3 class="noho-pillar__title">Sérénité absolue</h3>
+                <p class="noho-pillar__text">Que vous séjourniez chez nous ou que vous nous confiiez vos clés, nous prenons tout en charge. De la conciergerie de pointe à la gestion technique complète, notre présence invisible garantit votre tranquillité d'esprit.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="noho-bandeau" style="background-image: url('https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+    <div class="noho-bandeau__inner">
+        <h2 class="noho-bandeau__title">Paris</h2>
+        <a href="#nos-services" class="noho-bandeau__btn">Book here</a>
+    </div>
+</section>
+
+<section id="nos-services" class="noho-section noho-section--light" style="scroll-margin-top: 2rem;">
+    <h2 class="noho-section-title">Nos nouvelles adresses</h2>
+    <div class="container">
+        <div {{ sylius_test_html_attribute('latest-products') }}>
+            {{ component('sylius_shop:product:list', { limit: 4, template: '@SyliusShop/product/services_grid.html.twig' }) }}
+        </div>
+    </div>
+</section>
+
+<section class="noho-section">
+    <h2 class="noho-section-title">La Conciergerie</h2>
+    <div class="noho-about">
+        <p>Pionnière dans l'univers des conciergeries de prestige, notre maison cultive une passion pour l'hospitalité et l'art de recevoir. Cette expertise nous permet de sublimer une collection de prestations d'exception, pour un quotidien simplifié et élégant.</p>
+        <a href="#nos-services" class="noho-btn" style="background: #1a1a1a; color: #fff;">En savoir plus</a>
+    </div>
+</section>
+
+<section class="noho-section noho-section--light">
+    <h2 class="noho-section-title">Pourquoi nous choisir ?</h2>
+    <div class="noho-trust">
+        <div class="noho-trust-item">
+            <h3>Support 7j/7</h3>
+            <p>Une équipe disponible tous les jours pour répondre à vos demandes.</p>
+        </div>
+        <div class="noho-trust-item">
+            <h3>Intervenants qualifiés</h3>
+            <p>Des professionnels rigoureusement sélectionnés et formés à nos standards.</p>
+        </div>
+        <div class="noho-trust-item">
+            <h3>Paiement sécurisé</h3>
+            <p>Transactions protégées et données confidentielles garanties.</p>
+        </div>
+        <div class="noho-trust-item">
+            <h3>Service sur mesure</h3>
+            <p>Des formules adaptées à votre mode de vie et à vos priorités.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

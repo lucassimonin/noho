@@ -1,0 +1,30 @@
+{# Hero (image + titre catégorie) + fil d'Ariane – même rendu que page produit / accueil #}
+{% if taxon.images.first %}
+    {% set heroImage = asset(taxon.images.first.path|imagine_filter('sylius_shop_product_large_thumbnail')) %}
+{% else %}
+    {% set heroImage = 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80' %}
+{% endif %}
+<section class="noho-list-hero" style="background-image: url('{{ heroImage }}');">
+    <div class="noho-list-hero__inner">
+        <h1 class="noho-list-hero__title">{{ taxon.name }}</h1>
+    </div>
+</section>
+
+{% from '@SyliusShop/shared/breadcrumbs.html.twig' import breadcrumbs as breadcrumbs %}
+
+{% set items = [{ path: path('sylius_shop_homepage'), label: 'sylius.ui.home'|trans }] %}
+{% set ancestors = taxon.ancestors|reverse %}
+
+{% for ancestor in ancestors %}
+    {% if ancestor.isRoot() or not ancestor.enabled %}
+        {% set items = items|merge([{ label: ancestor.name }]) %}
+    {% else %}
+        {% set items = items|merge([{ path: path('sylius_shop_product_index', {'slug': ancestor.slug, '_locale': ancestor.translation.locale}), label: ancestor.name }]) %}
+    {% endif %}
+{% endfor %}
+
+{% set items = items|merge([{ label: taxon.name, active: true }]) %}
+
+<div class="noho-list-breadcrumbs">
+    {{ breadcrumbs(items) }}
+</div>

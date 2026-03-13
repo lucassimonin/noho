@@ -1,0 +1,60 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}Espace Propriétaires | {{ parent() }}{% endblock %}
+
+{% block content %}
+<style>
+.noho-ep-header{position:relative;padding:5rem 0;background:#1a1a1a no-repeat center/cover}.noho-ep-header::before{content:'';position:absolute;inset:0;background:rgba(26,26,26,.55)}.noho-ep-header .container{position:relative;z-index:1;text-align:center}.noho-ep-header h1{font-family:Georgia,serif;font-size:clamp(1.75rem,4vw,2.5rem);font-weight:400;color:#fafafa;margin-bottom:1.5rem}.noho-ep-header .noho-ep-intro{max-width:42rem;margin:0 auto;color:rgba(250,250,250,.9);line-height:1.7;text-align:center}
+.noho-ep-section{padding:4rem 0}.noho-ep-section--light{background:#fafafa}.noho-ep-section h2{font-family:Georgia,serif;font-size:clamp(1.5rem,3vw,2rem);color:#1a1a1a;margin-bottom:1.5rem;text-align:center}
+.noho-ep-tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;max-width:64rem;margin:0 auto}.noho-ep-tier{background:#fff;padding:2rem;box-shadow:0 1px 3px rgba(0,0,0,.08)}.noho-ep-tier__title{font-family:Georgia,serif;font-size:1rem;font-weight:600;letter-spacing:.08em;color:#1a1a1a;text-transform:uppercase;margin-bottom:1rem}.noho-ep-tier__list{list-style:none;padding:0;margin:0;color:#555;line-height:1.6}.noho-ep-tier__list li{padding:.35rem 0;padding-left:1.5rem;position:relative}.noho-ep-tier__list li::before{content:'✔';position:absolute;left:0;color:#1a1a1a;font-weight:600}
+.noho-contact-form{max-width:32rem;margin:0 auto}.noho-contact-form .form-label{font-size:.85rem;color:#555}.noho-contact-form .form-control{border-radius:6px;border-color:#ddd;padding:.65rem .85rem}.noho-contact-form .btn{padding:.75rem 1.5rem;background:#1a1a1a;color:#fff;border:none;border-radius:6px}
+@media (max-width:768px){.noho-ep-tiers{grid-template-columns:1fr}}
+</style>
+<section class="noho-ep-section noho-ep-header" style="background-image:url('https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1920')">
+    <div class="container">
+        <h1 class="noho-ep-title">NOHO : L'art de la gestion discrète</h1>
+        <p class="noho-ep-intro">Nous prenons soin de votre propriété comme si c'était la nôtre, avec une approche personnalisée qui respecte votre intimité et vos exigences les plus élevées. Notre présence est invisible, notre rigueur absolue : nous veillons sur chaque détail pour que votre seule priorité soit votre sérénité.</p>
+    </div>
+</section>
+
+<section class="noho-ep-section noho-ep-section--light">
+    <div class="container">
+        <div class="noho-ep-tiers">
+            <div class="noho-ep-tier">
+                <h2 class="noho-ep-tier__title">Tout l'Essentiel</h2>
+                <ul class="noho-ep-tier__list">
+                    <li>Gestion des réservations</li>
+                    <li>Arrivée / Départ</li>
+                    <li>Gestion des clés</li>
+                    <li>Ménage standard</li>
+                    <li>Communication de base avec les voyageurs</li>
+                </ul>
+            </div>
+            <div class="noho-ep-tier">
+                <h2 class="noho-ep-tier__title">Tout l'Essentiel +</h2>
+                <ul class="noho-ep-tier__list">
+                    <li>Linge haut de gamme fourni</li>
+                    <li>Accueil personnalisé des voyageurs</li>
+                    <li>Annonce d'optimisation : photos professionnelles, rédaction titres & descriptions, recommandations</li>
+                    <li>Suivi propriétaire & reporting détaillé</li>
+                </ul>
+            </div>
+            <div class="noho-ep-tier">
+                <h2 class="noho-ep-tier__title">Tout le Premium +</h2>
+                <ul class="noho-ep-tier__list">
+                    <li>Extras sur mesure : panier d'accueil premium, check-in tardif, recommandations lifestyle personnalisées – carnet d'adresses (restaurants, sorties, activités)</li>
+                    <li>Gestion proactive des avis pour maximiser les notes</li>
+                    <li>Suivi quotidien et interventions personnalisées pour imprévus</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="noho-ep-section" id="contact">
+    <div class="container">
+        <h2 class="noho-ep-title">Contact</h2>
+        {% include 'shared/_contact_form.html.twig' with { form_id_prefix: 'ep' } %}
+    </div>
+</section>
+{% endblock %}

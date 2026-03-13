@@ -1,0 +1,13 @@
+{# Styles mutualisés grille + cartes produit (accueil + page liste) – style The French Concierge #}
+.noho-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.75rem; max-width: 72rem; margin: 0 auto; }
+.noho-card { background: #fff; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); transition: box-shadow 0.2s; }
+.noho-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+.noho-card__link { display: block; text-decoration: none; color: inherit; }
+.noho-card__img { aspect-ratio: 4/3; background: #eee; overflow: hidden; }
+.noho-card__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.noho-card__body { padding: 1.25rem; }
+.noho-card__title { font-size: 1.05rem; font-weight: 600; color: #1a1a1a; margin-bottom: 0.35rem; line-height: 1.3; }
+.noho-card__price { font-size: 0.9rem; color: #555; margin-bottom: 0.6rem; }
+.noho-card__price del { color: #999; margin-right: 0.35rem; }
+.noho-card__cta { font-size: 0.8rem; letter-spacing: 0.05em; color: #1a1a1a; text-decoration: underline; }
+.noho-card__cta:hover { color: #333; }

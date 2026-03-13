@@ -1,0 +1,8 @@
+{% set resources = hookable_metadata.context.resources %}
+{% set total = resources.data.nbResults is defined ? resources.data.nbResults : resources.data|length %}
+<div class="noho-list-bar">
+    <div class="noho-list-filters">
+        {% hook 'filters' %}
+    </div>
+    <span class="noho-list-count">{{ total }} {{ total > 1 ? 'sylius.ui.products'|trans : 'sylius.ui.product'|trans }}</span>
+</div>

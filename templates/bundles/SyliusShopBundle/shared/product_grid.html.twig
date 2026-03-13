@@ -1,0 +1,6 @@
+{# Grille produits mutualisée – accueil + page liste (style The French Concierge) #}
+<div class="noho-grid">
+    {% for product in products %}
+        {{ component('sylius_shop:product:card', { product: product, template: '@SyliusShop/shared/noho_product_card.html.twig' }) }}
+    {% endfor %}
+</div>

@@ -1,0 +1,3 @@
+{% if hookable_metadata.context.taxon.description is not null and hookable_metadata.context.taxon.description is not empty %}
+    <div class="noho-list-desc">{{ hookable_metadata.context.taxon.description|raw }}</div>
+{% endif %}

@@ -1,0 +1,22 @@
+{# Carte produit mutualisée – style The French Concierge (image + titre + prix + CTA) #}
+<article {{ sylius_test_html_attribute('product', product.code) }} class="noho-card">
+    <a href="{{ path('sylius_shop_product_show', {'slug': product.slug, '_locale': product.translation.locale|default(app.request.locale)}) }}" class="noho-card__link">
+        <div class="noho-card__img">
+            {% if product.imagesByType('thumbnail') is not empty %}
+                {% set image_path = product.imagesByType('thumbnail').first.path|imagine_filter('sylius_shop_product_thumbnail') %}
+            {% elseif product.images.first %}
+                {% set image_path = product.images.first.path|imagine_filter('sylius_shop_product_thumbnail') %}
+            {% else %}
+                {% set image_path = asset('bundles/syliusui/images/200x200.png') %}
+            {% endif %}
+            <img src="{{ image_path }}" alt="{{ product.name }}" loading="lazy" />
+        </div>
+        <div class="noho-card__body">
+            <h3 class="noho-card__title">{{ product.name }}</h3>
+            <div class="noho-card__price">
+                {{ component('sylius_shop:product:price', { variant: variant, template: '@SyliusShop/product/common/price.html.twig' }) }}
+            </div>
+            <span class="noho-card__cta">Voir la fiche</span>
+        </div>
+    </a>
+</article>

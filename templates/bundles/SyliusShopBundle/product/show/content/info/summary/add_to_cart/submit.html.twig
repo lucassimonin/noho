@@ -1,0 +1,8 @@
+{% import '@SyliusShop/shared/buttons.html.twig' as buttons %}
+{% set form = hookable_metadata.context.form %}
+{% set variant = form.cartItem.vars.value.variant %}
+{% set enabled = form.vars.valid and variant is not null and variant.enabled %}
+
+<div class="mb-0">
+    {{ buttons.submit('Réserver', 'add-to-cart-button', null, 'w-100 noho-btn-reserve', not enabled) }}
+</div>
