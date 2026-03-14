@@ -15,7 +15,7 @@ services:
     environment:
       APP_ENV: prod
       APP_SECRET: ${APP_SECRET}
-      SERVER_NAME: ${SERVER_NAME:-localhost}
+      SERVER_NAME: poplayer.fr, www.poplayer.fr
 
   database:
     restart: always
