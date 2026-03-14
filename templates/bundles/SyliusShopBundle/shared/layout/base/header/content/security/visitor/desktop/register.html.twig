@@ -2,7 +2,7 @@
 
 {{ buttons.transparent(path('sylius_shop_register'), 'sylius.ui.register'|trans, 'register-page-button', null, null) }}
 
-{# Language Switcher with Flags - Opens on hover #}
+{# Language Switcher with Flags #}
 {% set available_locales = sylius.channel.locales %}
 {% set active_locale = app.request.locale %}
 {% set locale_flags = {
@@ -21,79 +21,23 @@
 } %}
 {% if available_locales|length > 1 %}
 <small class="noho-header-separator px-1">|</small>
-<div class="noho-lang-switcher">
-    <button type="button" class="noho-lang-btn">
+<div class="noho-lang-switcher" id="nohoLangSwitcher">
+    <button type="button" class="noho-lang-btn" id="nohoLangBtn">
         <span style="font-size: 1.1rem;">{{ locale_flags[active_locale]|default('🌐') }}</span>
         <span>{{ active_locale|slice(0, 2)|upper }}</span>
         <svg width="10" height="6" viewBox="0 0 10 6" fill="currentColor" style="margin-left: 2px; transition: transform 0.2s;">
             <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" fill="none"/>
         </svg>
     </button>
-    <div class="noho-lang-menu-wrapper">
-        <div class="noho-lang-menu">
-            {% for locale in available_locales %}
-                {% if locale.code != active_locale %}
-                    <a href="{{ path('sylius_shop_switch_locale', {'code': locale.code}) }}" class="noho-lang-item">
-                        <span style="font-size: 1.2rem;">{{ locale_flags[locale.code]|default('🌐') }}</span>
-                        <span>{{ locale_names[locale.code]|default(locale.code|slice(0, 2)|upper) }}</span>
-                    </a>
-                {% endif %}
-            {% endfor %}
-        </div>
+    <div class="noho-lang-menu" id="nohoLangMenu">
+        {% for locale in available_locales %}
+            {% if locale.code != active_locale %}
+                <a href="{{ path('sylius_shop_switch_locale', {'code': locale.code}) }}" class="noho-lang-item">
+                    <span style="font-size: 1.2rem;">{{ locale_flags[locale.code]|default('🌐') }}</span>
+                    <span>{{ locale_names[locale.code]|default(locale.code|slice(0, 2)|upper) }}</span>
+                </a>
+            {% endif %}
+        {% endfor %}
     </div>
 </div>
-
-<style>
-.noho-lang-switcher {
-    position: relative;
-    display: inline-block;
-}
-.noho-lang-btn {
-    background: none;
-    border: none;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    padding: 4px 8px;
-}
-.noho-lang-menu-wrapper {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    padding-top: 10px;
-    display: none;
-    z-index: 99999;
-}
-.noho-lang-menu {
-    background: rgba(26, 26, 26, 0.98);
-    backdrop-filter: blur(10px);
-    border-radius: 8px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-    min-width: 150px;
-    overflow: hidden;
-}
-.noho-lang-switcher:hover .noho-lang-menu-wrapper {
-    display: block;
-}
-.noho-lang-switcher:hover .noho-lang-btn svg {
-    transform: rotate(180deg);
-}
-.noho-lang-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 16px;
-    color: #fff !important;
-    text-decoration: none !important;
-    font-size: 0.9rem;
-    transition: background 0.2s;
-}
-.noho-lang-item:hover {
-    background: rgba(255,255,255,0.1);
-    color: #fff !important;
-    opacity: 1 !important;
-}
-</style>
 {% endif %}
