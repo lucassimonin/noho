@@ -23,4 +23,8 @@ return [
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
+    'tom-select/dist/css/tom-select.default.css' => [
+        'version' => '2.5.2',
+        'type' => 'css',
+    ],
 ];

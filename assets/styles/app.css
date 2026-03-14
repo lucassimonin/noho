@@ -1,5 +1,5 @@
-@import "tailwindcss";
-
+/* Base styles - Tailwind is loaded via assets/shop/styles/tailwind.css */
 body {
-    background-color: skyblue;
+    margin: 0;
+    padding: 0;
 }
