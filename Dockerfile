@@ -28,6 +28,9 @@ ENV SERVER_NAME=:80
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
+# Copy custom php.ini if exists
+COPY docker/php/conf.d/php.ini /usr/local/etc/php/conf.d/docker-php-custom.ini
+
 COPY . .
 RUN composer install --prefer-dist --no-scripts --no-progress
 
@@ -38,5 +41,11 @@ FROM frankenphp_base AS frankenphp_prod
 ENV APP_ENV=prod
 ENV FRANKENPHP_CONFIG="worker ./public/index.php"
 
+# Copy custom php.ini for prod if exists
+COPY docker/php/conf.d/php.ini /usr/local/etc/php/conf.d/docker-php-custom.ini
+
 COPY . .
+
+RUN composer install --no-dev --optimize-autoloader --no-scripts --no-progress
+
 RUN rm -rf docker/
