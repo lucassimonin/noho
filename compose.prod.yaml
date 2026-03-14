@@ -8,11 +8,10 @@ services:
     restart: always
     volumes:
       # NO source mount in prod - code is baked into the image
-      - caddy_data:/data
-      - caddy_config:/config
-      - ./docker/frankenphp/Caddyfile:/etc/frankenphp/Caddyfile
-      # Persist var directory for cache/logs
-      - prod_var:/app/var
+        - ./:/app
+        - caddy_data:/data
+        - caddy_config:/config
+        - ./docker/frankenphp/Caddyfile:/etc/frankenphp/Caddyfile
     environment:
       APP_ENV: prod
       APP_SECRET: ${APP_SECRET}
@@ -24,11 +23,6 @@ services:
 
   database:
     restart: always
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 3s
-      interval: 5s
-      retries: 10
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -45,4 +39,3 @@ services:
 volumes:
   caddy_data:
   caddy_config:
-  prod_var:
