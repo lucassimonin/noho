@@ -39,7 +39,4 @@ ENV APP_ENV=prod
 ENV FRANKENPHP_CONFIG="worker ./public/index.php"
 
 COPY . .
-
-RUN composer install --no-dev --optimize-autoloader --no-scripts --no-progress
-
 RUN rm -rf docker/
