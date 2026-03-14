@@ -7,22 +7,33 @@ services:
       target: frankenphp_prod
     restart: always
     volumes:
-      - ./:/app
+      # NO source mount in prod - code is baked into the image
       - caddy_data:/data
       - caddy_config:/config
       - ./docker/frankenphp/Caddyfile:/etc/frankenphp/Caddyfile
+      # Persist var directory for cache/logs
+      - prod_var:/app/var
     environment:
       APP_ENV: prod
       APP_SECRET: ${APP_SECRET}
-      SERVER_NAME: poplayer.fr, www.poplayer.fr
+      SERVER_NAME: ${SERVER_NAME:-localhost}
+      DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database/${MYSQL_DATABASE}?serverVersion=8.4&charset=utf8mb4
+    depends_on:
+      database:
+        condition: service_healthy
 
   database:
     restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 3s
+      interval: 5s
+      retries: 10
     environment:
-        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-        MYSQL_DATABASE: ${MYSQL_DATABASE}
-        MYSQL_USER: ${MYSQL_USER}
-        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
 
@@ -34,3 +45,4 @@ services:
 volumes:
   caddy_data:
   caddy_config:
+  prod_var:
