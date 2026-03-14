@@ -1,0 +1,103 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'noho.experiences.title'|trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+{# Hero Section #}
+<section style="position: relative; min-height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 140px 24px 80px; color: #fff; background-color: #1a1a1a; background-image: url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); background-repeat: no-repeat; background-position: center center; background-size: cover;">
+    <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 1;"></div>
+    <div style="position: relative; z-index: 2; max-width: 700px;">
+        <h1 style="font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 400; color: #fff !important; margin-bottom: 20px;">{{ 'noho.experiences.title'|trans }}</h1>
+        <p style="font-size: 1.15rem; color: rgba(255,255,255,0.9); line-height: 1.7;">{{ 'noho.experiences.subtitle'|trans }}</p>
+    </div>
+</section>
+
+{# Service 1 - Gastronomie - Image à droite #}
+<section style="padding: 100px 0; background: #fff;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+        <div class="exp-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;">
+            <div>
+                <span style="display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #999; margin-bottom: 16px;">01 — {{ 'noho.experiences.gastronomy.title'|trans }}</span>
+                <h2 style="font-family: Georgia, serif; font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 400; color: #1a1a1a; margin-bottom: 24px; line-height: 1.3;">{{ 'noho.experiences.gastronomy.title'|trans }}</h2>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: #666; margin-bottom: 32px;">
+                    {{ 'noho.experiences.gastronomy.text'|trans }}
+                </p>
+                <a href="{{ path('sylius_shop_contact_request') }}" style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: #1a1a1a !important; text-decoration: none; border-bottom: 2px solid #1a1a1a; padding-bottom: 4px;">
+                    {{ 'noho.experiences.cta.button'|trans }}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+            <div style="aspect-ratio: 4/5; border-radius: 8px; overflow: hidden; background: #f0f0f0;">
+                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="{{ 'noho.experiences.gastronomy.title'|trans }}" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Service 2 - Bien-être - Image à gauche #}
+<section style="padding: 100px 0; background: #f8f8f8;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+        <div class="exp-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;">
+            <div class="exp-img-left" style="aspect-ratio: 4/5; border-radius: 8px; overflow: hidden; background: #e0e0e0;">
+                <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="{{ 'noho.experiences.wellness.title'|trans }}" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div>
+                <span style="display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #999; margin-bottom: 16px;">02 — {{ 'noho.experiences.wellness.title'|trans }}</span>
+                <h2 style="font-family: Georgia, serif; font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 400; color: #1a1a1a; margin-bottom: 24px; line-height: 1.3;">{{ 'noho.experiences.wellness.title'|trans }}</h2>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: #666; margin-bottom: 32px;">
+                    {{ 'noho.experiences.wellness.text'|trans }}
+                </p>
+                <a href="{{ path('sylius_shop_contact_request') }}" style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: #1a1a1a !important; text-decoration: none; border-bottom: 2px solid #1a1a1a; padding-bottom: 4px;">
+                    {{ 'noho.experiences.cta.button'|trans }}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Service 3 - Culture - Image à droite #}
+<section style="padding: 100px 0; background: #fff;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+        <div class="exp-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;">
+            <div>
+                <span style="display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #999; margin-bottom: 16px;">03 — {{ 'noho.experiences.culture.title'|trans }}</span>
+                <h2 style="font-family: Georgia, serif; font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 400; color: #1a1a1a; margin-bottom: 24px; line-height: 1.3;">{{ 'noho.experiences.culture.title'|trans }}</h2>
+                <p style="font-size: 1.05rem; line-height: 1.8; color: #666; margin-bottom: 32px;">
+                    {{ 'noho.experiences.culture.text'|trans }}
+                </p>
+                <a href="{{ path('sylius_shop_contact_request') }}" style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: #1a1a1a !important; text-decoration: none; border-bottom: 2px solid #1a1a1a; padding-bottom: 4px;">
+                    {{ 'noho.experiences.cta.button'|trans }}
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+            <div style="aspect-ratio: 4/5; border-radius: 8px; overflow: hidden; background: #f0f0f0;">
+                <img src="https://images.unsplash.com/photo-1518998053901-5348d3961a04?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="{{ 'noho.experiences.culture.title'|trans }}" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </div>
+    </div>
+</section>
+
+{# CTA Section #}
+<section style="position: relative; padding: 120px 0; text-align: center; background-image: url('https://images.unsplash.com/photo-1582719508461-905c673771fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center;">
+    <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.6);"></div>
+    <div style="position: relative; z-index: 2; max-width: 700px; margin: 0 auto; padding: 0 24px;">
+        <h2 style="font-family: Georgia, serif; font-size: clamp(1.75rem, 3vw, 2.25rem); font-weight: 400; color: #fff !important; margin-bottom: 20px;">{{ 'noho.experiences.cta.title'|trans }}</h2>
+        <a href="{{ path('sylius_shop_contact_request') }}" style="display: inline-block; padding: 16px 40px; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #1a1a1a !important; background: #fff; border-radius: 6px; text-decoration: none; transition: opacity 0.2s;">
+            {{ 'noho.experiences.cta.button'|trans }}
+        </a>
+    </div>
+</section>
+
+<style>
+@media (max-width: 900px) {
+    .exp-grid {
+        grid-template-columns: 1fr !important;
+        gap: 40px !important;
+    }
+    .exp-img-left {
+        order: -1;
+    }
+}
+</style>
+{% endblock %}

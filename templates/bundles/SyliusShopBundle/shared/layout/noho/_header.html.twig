@@ -1,0 +1,58 @@
+{# Header Noho - Tailwind CSS #}
+<header class="noho-header absolute top-0 left-0 right-0 z-50" id="noho-header">
+    {# Top bar with logo and account #}
+    <div class="container mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+            {# Logo #}
+            <a href="{{ path('sylius_shop_homepage') }}" class="noho-logo group">
+                <span class="font-noho-serif text-3xl font-normal tracking-tight text-white/90 group-hover:text-white transition-colors">NOHO</span>
+                <span class="text-[0.55rem] font-light tracking-[0.4em] uppercase text-white/70 ml-2 group-hover:text-white/90 transition-colors">CONCIERGERIE</span>
+            </a>
+
+            {# Account & Cart #}
+            <div class="flex items-center gap-6">
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    <a href="{{ path('sylius_shop_account_dashboard') }}" class="text-sm text-white/80 hover:text-white transition-colors">
+                        {{ 'sylius.ui.my_account'|trans }}
+                    </a>
+                    <a href="{{ path('sylius_shop_logout') }}" class="text-sm text-white/80 hover:text-white transition-colors">
+                        {{ 'sylius.ui.logout'|trans }}
+                    </a>
+                {% else %}
+                    <a href="{{ path('sylius_shop_login') }}" class="text-sm text-white/80 hover:text-white transition-colors">
+                        {{ 'sylius.ui.login'|trans }}
+                    </a>
+                    <span class="text-white/40">|</span>
+                    <a href="{{ path('sylius_shop_register') }}" class="text-sm text-white/80 hover:text-white transition-colors">
+                        {{ 'sylius.ui.register'|trans }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {# Navigation #}
+    <nav class="container mx-auto px-4 py-3">
+        <ul class="flex items-center justify-center gap-8">
+            {% set taxons = sylius_shop_taxons_for_menu() %}
+            {% for taxon in taxons %}
+                <li>
+                    <a href="{{ path('sylius_shop_product_index', {'slug': taxon.slug}) }}" 
+                       class="text-sm text-white/90 hover:text-white transition-colors tracking-wide">
+                        {{ taxon.name }}
+                    </a>
+                </li>
+            {% endfor %}
+            <li>
+                <a href="{{ path('noho_experiences') }}" class="text-sm text-white/90 hover:text-white transition-colors tracking-wide">
+                    {{ 'Expériences'|trans }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('noho_espace_proprietaire') }}" class="text-sm text-white/90 hover:text-white transition-colors tracking-wide">
+                    {{ 'Espace Propriétaires'|trans }}
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>

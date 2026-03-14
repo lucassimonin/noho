@@ -1,6 +1,4 @@
-<div class="col-12 col-lg-9 noho-list-main-col">
-    {% set resources = hookable_metadata.context.resources %}
-    {% set total = resources.data.nbResults is defined ? resources.data.nbResults : resources.data|length %}
-    <p class="noho-list-count">{{ total }} {{ total > 1 ? 'sylius.ui.products'|trans : 'sylius.ui.product'|trans }}</p>
+{# Main Content Area with Product Grid #}
+<main style="flex: 1; min-width: 0;">
     {% hook 'main' %}
-</div>
+</main>

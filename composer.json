@@ -30,7 +30,8 @@
         "sylius/sylius": "^2.1",
         "symfony/dotenv": "^6.4 || ^7.2",
         "symfony/flex": "^2.7",
-        "symfony/runtime": "^6.4 || ^7.2"
+        "symfony/runtime": "^6.4 || ^7.2",
+        "symfonycasts/tailwind-bundle": "*"
     },
     "require-dev": {
         "behat/behat": "^3.14",
@@ -120,7 +121,8 @@
         ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "importmap:install": "symfony-cmd"
         }
     },
     "replace": {

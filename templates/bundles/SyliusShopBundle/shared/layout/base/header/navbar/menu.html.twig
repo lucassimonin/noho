@@ -1,19 +1,199 @@
-<div class="w-100 border-bottom">
-    {% if taxons|length > 0 %}
-        <nav class="navbar offcanvas-lg offcanvas-start offcanvas-wide p-0" id="navbarNav">
-            <div class="offcanvas-header w-full">
-                <h5 class="offcanvas-title">
-                    {{ 'sylius.ui.taxons'|trans }}
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#navbarNav" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body justify-content-lg-center w-full py-0">
-                <div class="navbar-nav my-2 flex-column flex-lg-row gap-lg-4" {{ sylius_test_html_attribute('menu') }}>
-                    {% hook 'menu' with { taxons } %}
-                    <a href="{{ path('noho_experiences', { _locale: app.request.locale }) }}" class="nav-link">{{ 'Expériences'|trans }}</a>
-                    <a href="{{ path('noho_espace_proprietaire', { _locale: app.request.locale }) }}" class="nav-link">{{ 'Espace Propriétaires'|trans }}</a>
+{# Noho Navigation Menu #}
+<div class="w-100 border-bottom noho-nav-wrapper">
+    <nav class="navbar offcanvas-lg offcanvas-start offcanvas-wide p-0" id="navbarNav">
+        <div class="offcanvas-header w-full">
+            <h5 class="offcanvas-title">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#navbarNav" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body justify-content-lg-center w-full py-0">
+            <div class="navbar-nav my-2 flex-column flex-lg-row gap-lg-4 noho-main-nav" {{ sylius_test_html_attribute('menu') }}>
+                
+                {# Catalogue Mega Menu #}
+                {% if taxons|length > 0 %}
+                <div class="noho-mega-dropdown">
+                    <a href="{{ path('sylius_shop_product_index', {slug: 'catalogue'}) }}" class="nav-link noho-mega-trigger">
+                        Catalogue
+                        <svg width="10" height="6" viewBox="0 0 10 6" fill="currentColor" style="margin-left: 6px; transition: transform 0.2s;">
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </a>
+                    
+                    <div class="noho-mega-menu">
+                        <div class="noho-mega-content">
+                            {% for taxon in taxons %}
+                                {# Country column #}
+                                <div class="noho-mega-column">
+                                    <a href="{{ path('sylius_shop_product_index', {slug: taxon.slug}) }}" class="noho-mega-title">
+                                        {{ taxon.name }}
+                                    </a>
+                                    {% if taxon.enabledChildren|length > 0 %}
+                                        <ul class="noho-mega-list">
+                                            {% for child in taxon.enabledChildren %}
+                                                <li>
+                                                    <a href="{{ path('sylius_shop_product_index', {slug: child.slug}) }}">
+                                                        {{ child.name }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
+                {% endif %}
+                
+                {# Expériences #}
+                <a href="{{ path('noho_experiences', { _locale: app.request.locale }) }}" class="nav-link">Expériences</a>
+                
+                {# Espace Propriétaires #}
+                <a href="{{ path('noho_espace_proprietaire', { _locale: app.request.locale }) }}" class="nav-link">Espace Propriétaires</a>
+                
+                {# Contact #}
+                <a href="{{ path('sylius_shop_contact_request') }}" class="nav-link">Contact</a>
             </div>
-        </nav>
-    {% endif %}
+        </div>
+    </nav>
 </div>
+
+<style>
+/* Mega Menu Styles */
+.noho-mega-dropdown {
+    position: relative;
+}
+
+.noho-mega-trigger {
+    display: inline-flex !important;
+    align-items: center;
+}
+
+.noho-mega-trigger svg {
+    transition: transform 0.3s ease;
+}
+
+.noho-mega-dropdown:hover .noho-mega-trigger svg {
+    transform: rotate(180deg);
+}
+
+.noho-mega-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    padding-top: 20px;
+}
+
+.noho-mega-dropdown:hover .noho-mega-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.noho-mega-content {
+    display: flex;
+    gap: 0;
+    background: rgba(20, 20, 20, 0.98);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    padding: 48px 32px;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+}
+
+.noho-mega-column {
+    flex: 0 0 auto;
+    padding: 0 40px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    white-space: nowrap;
+}
+
+.noho-mega-column:last-child {
+    border-right: none;
+}
+
+.noho-mega-title {
+    display: block;
+    font-family: Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #fff !important;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    text-decoration: none !important;
+    transition: opacity 0.2s;
+    letter-spacing: 0.02em;
+}
+
+.noho-mega-title:hover {
+    opacity: 0.7;
+    color: #fff !important;
+}
+
+.noho-mega-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.noho-mega-list li {
+    margin-bottom: 6px;
+}
+
+.noho-mega-list a {
+    display: block;
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.6) !important;
+    text-decoration: none !important;
+    padding: 10px 0;
+    transition: all 0.2s ease;
+    letter-spacing: 0.01em;
+}
+
+.noho-mega-list a:hover {
+    color: #fff !important;
+    padding-left: 10px;
+    opacity: 1 !important;
+}
+
+/* Mobile styles */
+@media (max-width: 991px) {
+    .noho-mega-menu {
+        position: static;
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        padding-top: 0;
+        display: none;
+    }
+    
+    .noho-mega-dropdown:hover .noho-mega-menu,
+    .noho-mega-dropdown.active .noho-mega-menu {
+        display: block;
+    }
+    
+    .noho-mega-content {
+        flex-direction: column;
+        min-width: 100%;
+        background: rgba(26, 26, 26, 0.95);
+        border-radius: 8px;
+        padding: 16px;
+        margin-top: 8px;
+    }
+    
+    .noho-mega-column {
+        padding: 16px 0;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        min-width: auto;
+    }
+    
+    .noho-mega-column:last-child {
+        border-bottom: none;
+    }
+}
+</style>

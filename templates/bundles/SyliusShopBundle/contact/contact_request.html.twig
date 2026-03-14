@@ -1,0 +1,68 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% form_theme form '@SyliusShop/form/theme.html.twig' %}
+
+{% block title %}{{ 'sylius.ui.contact_us'|trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+{# Hero Section #}
+<section style="position: relative; min-height: 50vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 140px 24px 80px; color: #fff; background-color: #1a1a1a; background-image: url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); background-repeat: no-repeat; background-position: center center; background-size: cover;">
+    <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 1;"></div>
+    <div style="position: relative; z-index: 2;">
+        <h1 style="font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; color: #fff !important; margin-bottom: 16px;">Contactez-nous</h1>
+        <p style="font-size: 1.1rem; color: rgba(255,255,255,0.9); max-width: 500px; margin: 0 auto;">Une question ? Un projet ? Notre équipe est à votre écoute.</p>
+    </div>
+</section>
+
+{# Contact Section #}
+<section style="padding: 80px 0; background: #f8f8f8;">
+    <div style="max-width: 1100px; margin: 0 auto; padding: 0 24px;">
+        <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: start;">
+            
+            {# Contact Info #}
+            <div>
+                <h2 style="font-family: Georgia, serif; font-size: 1.75rem; font-weight: 400; color: #1a1a1a; margin-bottom: 32px;">Parlons de votre projet</h2>
+                
+                <p style="font-size: 1rem; line-height: 1.8; color: #666; margin-bottom: 40px;">
+                    Que vous soyez propriétaire souhaitant confier votre bien ou voyageur à la recherche d'une expérience unique, nous sommes là pour vous accompagner.
+                </p>
+                
+                <div style="margin-bottom: 32px;">
+                    <h3 style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #999; margin-bottom: 12px;">Téléphone</h3>
+                    <a href="tel:+33756833888" style="font-size: 1.25rem; color: #1a1a1a !important; text-decoration: none; font-weight: 500;">+33 7 56 83 38 88</a>
+                </div>
+                
+                <div style="margin-bottom: 32px;">
+                    <h3 style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #999; margin-bottom: 12px;">Email</h3>
+                    <a href="mailto:contact@noho.fr" style="font-size: 1.1rem; color: #1a1a1a !important; text-decoration: none;">contact@noho.fr</a>
+                </div>
+                
+            </div>
+            
+            {# Contact Form #}
+            <div style="background: #fff; border-radius: 12px; padding: 40px; box-shadow: 0 4px 24px rgba(0,0,0,0.06);">
+                <h3 style="font-family: Georgia, serif; font-size: 1.5rem; font-weight: 400; color: #1a1a1a; margin: 0 0 32px;">Envoyez-nous un message</h3>
+                
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                    <div style="margin-bottom: 24px;">
+                        <label style="display: block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #999; margin-bottom: 8px;">{{ 'sylius.ui.email'|trans }} *</label>
+                        {{ form_widget(form.email, {'attr': {'style': 'width: 100%; padding: 14px 16px; font-size: 1rem; color: #1a1a1a; border: 1px solid #e5e5e5; border-radius: 8px; outline: none; transition: border-color 0.2s;', 'placeholder': 'votre@email.com', 'onfocus': "this.style.borderColor='#1a1a1a'", 'onblur': "this.style.borderColor='#e5e5e5'"}}) }}
+                        {{ form_errors(form.email) }}
+                    </div>
+                    
+                    <div style="margin-bottom: 24px;">
+                        <label style="display: block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #999; margin-bottom: 8px;">{{ 'sylius.ui.message'|trans }} *</label>
+                        {{ form_widget(form.message, {'attr': {'style': 'width: 100%; padding: 14px 16px; font-size: 1rem; color: #1a1a1a; border: 1px solid #e5e5e5; border-radius: 8px; outline: none; transition: border-color 0.2s; min-height: 180px; resize: vertical;', 'placeholder': 'Votre message...', 'onfocus': "this.style.borderColor='#1a1a1a'", 'onblur': "this.style.borderColor='#e5e5e5'"}}) }}
+                        {{ form_errors(form.message) }}
+                    </div>
+                    
+                    <button type="submit" class="noho-btn-submit" style="width: 100%; padding: 16px 32px; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; background: #1a1a1a; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;">
+                        {{ 'sylius.ui.send'|trans }}
+                    </button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

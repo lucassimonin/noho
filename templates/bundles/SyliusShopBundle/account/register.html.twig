@@ -1,0 +1,141 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% form_theme form '@SyliusShop/form/theme.html.twig' %}
+
+{% block title %}{{ 'sylius.ui.register_in_the_store'|trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+<div style="display: flex; min-height: calc(100vh - 80px);">
+    
+    {# Left - Form #}
+    <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 60px 24px; background: #fff;">
+        <div style="width: 100%; max-width: 420px;">
+            
+            {# Logo/Brand #}
+            <div style="text-align: center; margin-bottom: 40px;">
+                <a href="{{ path('sylius_shop_homepage') }}" style="text-decoration: none;">
+                    <span style="font-family: Georgia, serif; font-size: 1.75rem; font-weight: 400; color: #1a1a1a !important; letter-spacing: 0.02em;">NOHO</span>
+                </a>
+                <p style="font-size: 0.9rem; color: #888; margin-top: 8px;">Créez votre compte</p>
+            </div>
+            
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                
+                {# Name row #}
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px;">
+                    <div>
+                        <label style="display: block; font-size: 0.85rem; font-weight: 500; color: #333; margin-bottom: 8px;">{{ 'sylius.ui.first_name'|trans }}</label>
+                        {{ form_widget(form.firstName, {'attr': {
+                            'style': 'width: 100%; padding: 14px 16px; font-size: 0.95rem; color: #1a1a1a; background: #f8f8f8; border: 1px solid transparent; border-radius: 8px; outline: none; transition: all 0.2s;',
+                            'placeholder': 'Jean',
+                            'onfocus': "this.style.background='#fff'; this.style.borderColor='#1a1a1a';",
+                            'onblur': "this.style.background='#f8f8f8'; this.style.borderColor='transparent';"
+                        }}) }}
+                        {{ form_errors(form.firstName) }}
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.85rem; font-weight: 500; color: #333; margin-bottom: 8px;">{{ 'sylius.ui.last_name'|trans }}</label>
+                        {{ form_widget(form.lastName, {'attr': {
+                            'style': 'width: 100%; padding: 14px 16px; font-size: 0.95rem; color: #1a1a1a; background: #f8f8f8; border: 1px solid transparent; border-radius: 8px; outline: none; transition: all 0.2s;',
+                            'placeholder': 'Dupont',
+                            'onfocus': "this.style.background='#fff'; this.style.borderColor='#1a1a1a';",
+                            'onblur': "this.style.background='#f8f8f8'; this.style.borderColor='transparent';"
+                        }}) }}
+                        {{ form_errors(form.lastName) }}
+                    </div>
+                </div>
+                
+                {# Email #}
+                <div style="margin-bottom: 18px;">
+                    <label style="display: block; font-size: 0.85rem; font-weight: 500; color: #333; margin-bottom: 8px;">{{ 'sylius.ui.email'|trans }}</label>
+                    {{ form_widget(form.email, {'attr': {
+                        'style': 'width: 100%; padding: 14px 16px; font-size: 0.95rem; color: #1a1a1a; background: #f8f8f8; border: 1px solid transparent; border-radius: 8px; outline: none; transition: all 0.2s;',
+                        'placeholder': 'votre@email.com',
+                        'onfocus': "this.style.background='#fff'; this.style.borderColor='#1a1a1a';",
+                        'onblur': "this.style.background='#f8f8f8'; this.style.borderColor='transparent';"
+                    }}) }}
+                    {{ form_errors(form.email) }}
+                </div>
+                
+                {# Phone Number (if exists) #}
+                {% if form.phoneNumber is defined %}
+                <div style="margin-bottom: 18px;">
+                    <label style="display: block; font-size: 0.85rem; font-weight: 500; color: #333; margin-bottom: 8px;">{{ 'sylius.ui.phone_number'|trans }} <span style="color: #999; font-weight: 400;">(optionnel)</span></label>
+                    {{ form_widget(form.phoneNumber, {'attr': {
+                        'style': 'width: 100%; padding: 14px 16px; font-size: 0.95rem; color: #1a1a1a; background: #f8f8f8; border: 1px solid transparent; border-radius: 8px; outline: none; transition: all 0.2s;',
+                        'placeholder': '+33 6 12 34 56 78',
+                        'onfocus': "this.style.background='#fff'; this.style.borderColor='#1a1a1a';",
+                        'onblur': "this.style.background='#f8f8f8'; this.style.borderColor='transparent';"
+                    }}) }}
+                    {{ form_errors(form.phoneNumber) }}
+                </div>
+                {% endif %}
+                
+                {# Password #}
+                <div style="margin-bottom: 18px;">
+                    <label style="display: block; font-size: 0.85rem; font-weight: 500; color: #333; margin-bottom: 8px;">{{ 'sylius.ui.password'|trans }}</label>
+                    {{ form_widget(form.user.plainPassword.first, {'attr': {
+                        'style': 'width: 100%; padding: 14px 16px; font-size: 0.95rem; color: #1a1a1a; background: #f8f8f8; border: 1px solid transparent; border-radius: 8px; outline: none; transition: all 0.2s;',
+                        'placeholder': '••••••••',
+                        'onfocus': "this.style.background='#fff'; this.style.borderColor='#1a1a1a';",
+                        'onblur': "this.style.background='#f8f8f8'; this.style.borderColor='transparent';"
+                    }}) }}
+                    {{ form_errors(form.user.plainPassword.first) }}
+                </div>
+                
+                {# Confirm Password #}
+                <div style="margin-bottom: 28px;">
+                    <label style="display: block; font-size: 0.85rem; font-weight: 500; color: #333; margin-bottom: 8px;">Confirmer le mot de passe</label>
+                    {{ form_widget(form.user.plainPassword.second, {'attr': {
+                        'style': 'width: 100%; padding: 14px 16px; font-size: 0.95rem; color: #1a1a1a; background: #f8f8f8; border: 1px solid transparent; border-radius: 8px; outline: none; transition: all 0.2s;',
+                        'placeholder': '••••••••',
+                        'onfocus': "this.style.background='#fff'; this.style.borderColor='#1a1a1a';",
+                        'onblur': "this.style.background='#f8f8f8'; this.style.borderColor='transparent';"
+                    }}) }}
+                    {{ form_errors(form.user.plainPassword.second) }}
+                </div>
+                
+                <button type="submit" class="noho-btn-submit" style="width: 100%; padding: 16px; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: #fff; background: #1a1a1a; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;">
+                    {{ 'sylius.ui.register'|trans }}
+                </button>
+                
+                {# Hide newsletter if exists #}
+                {% if form.subscribedToNewsletter is defined %}
+                    <div style="display: none;">{{ form_widget(form.subscribedToNewsletter) }}</div>
+                {% endif %}
+                
+                {{ form_rest(form) }}
+            {{ form_end(form) }}
+            
+            <div style="margin-top: 32px; text-align: center;">
+                <span style="font-size: 0.9rem; color: #888;">Déjà inscrit ?</span>
+                <a href="{{ path('sylius_shop_login') }}" style="font-size: 0.9rem; color: #1a1a1a !important; font-weight: 500; text-decoration: none; margin-left: 6px; border-bottom: 1px solid #1a1a1a; padding-bottom: 1px; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='1'">
+                    {{ 'sylius.ui.login'|trans }}
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    {# Right - Image #}
+    <div style="flex: 1; display: none; background: #1a1a1a; position: relative; overflow: hidden;" class="register-image-panel">
+        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+             alt="Luxury property" 
+             style="width: 100%; height: 100%; object-fit: cover; opacity: 0.85;">
+        <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(26,26,26,0.3) 0%, rgba(26,26,26,0.6) 100%);"></div>
+        <div style="position: absolute; bottom: 60px; left: 60px; right: 60px; color: #fff;">
+            <p style="font-family: Georgia, serif; font-size: 1.75rem; font-weight: 400; line-height: 1.4; margin: 0 0 16px;">
+                "Découvrez nos propriétés d'exception"
+            </p>
+            <span style="font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7;">Noho Conciergerie</span>
+        </div>
+    </div>
+</div>
+
+<style>
+@media (min-width: 900px) {
+    .register-image-panel {
+        display: block !important;
+    }
+}
+</style>
+{% endblock %}

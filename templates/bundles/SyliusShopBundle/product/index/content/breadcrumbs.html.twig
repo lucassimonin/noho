@@ -1,30 +1,22 @@
-{# Hero (image + titre catégorie) + fil d'Ariane – même rendu que page produit / accueil #}
-{% if taxon.images.first %}
-    {% set heroImage = asset(taxon.images.first.path|imagine_filter('sylius_shop_product_large_thumbnail')) %}
-{% else %}
-    {% set heroImage = 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80' %}
-{% endif %}
-<section class="noho-list-hero" style="background-image: url('{{ heroImage }}');">
-    <div class="noho-list-hero__inner">
-        <h1 class="noho-list-hero__title">{{ taxon.name }}</h1>
-    </div>
-</section>
+{# Category Hero Banner - Full Width #}
+{% set taxon = noho_current_taxon() %}
+{% set defaultImage = 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80' %}
 
-{% from '@SyliusShop/shared/breadcrumbs.html.twig' import breadcrumbs as breadcrumbs %}
-
-{% set items = [{ path: path('sylius_shop_homepage'), label: 'sylius.ui.home'|trans }] %}
-{% set ancestors = taxon.ancestors|reverse %}
-
-{% for ancestor in ancestors %}
-    {% if ancestor.isRoot() or not ancestor.enabled %}
-        {% set items = items|merge([{ label: ancestor.name }]) %}
+{% if taxon %}
+    {# Use taxon image if available #}
+    {% if taxon.images|length > 0 and taxon.images.first.path %}
+        {% set heroImage = taxon.images.first.path|imagine_filter('noho_hero') %}
     {% else %}
-        {% set items = items|merge([{ path: path('sylius_shop_product_index', {'slug': ancestor.slug, '_locale': ancestor.translation.locale}), label: ancestor.name }]) %}
+        {% set heroImage = defaultImage %}
     {% endif %}
-{% endfor %}
 
-{% set items = items|merge([{ label: taxon.name, active: true }]) %}
-
-<div class="noho-list-breadcrumbs">
-    {{ breadcrumbs(items) }}
-</div>
+    <section style="position: relative; min-height: 45vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 60px; color: #fff; background-color: #1a1a1a; background-image: url('{{ heroImage }}'); background-repeat: no-repeat; background-position: center center; background-size: cover;">
+        <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.45); z-index: 1;"></div>
+        <h1 style="position: relative; z-index: 2; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; font-style: italic; letter-spacing: 0.02em; color: #fff !important;">{{ taxon.name }}</h1>
+    </section>
+{% else %}
+    <section style="position: relative; min-height: 45vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 60px; color: #fff; background-color: #1a1a1a; background-image: url('{{ defaultImage }}'); background-repeat: no-repeat; background-position: center center; background-size: cover;">
+        <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.45); z-index: 1;"></div>
+        <h1 style="position: relative; z-index: 2; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; font-style: italic; letter-spacing: 0.02em; color: #fff !important;">Nos propriétés</h1>
+    </section>
+{% endif %}

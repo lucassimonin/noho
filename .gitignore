@@ -7,6 +7,8 @@ Thumbs.db
 ###> IDE ###
 /.idea/
 /.vscode/
+/.aiassistant/
+/.cursor/
 *.swp
 *.swo
 *~
@@ -75,3 +77,8 @@ phpstan.neon
 ###> liip/imagine-bundle ###
 /public/media/cache/
 ###< liip/imagine-bundle ###
+
+###> symfony/asset-mapper ###
+/public/assets/
+/assets/vendor/
+###< symfony/asset-mapper ###

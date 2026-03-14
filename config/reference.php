@@ -283,7 +283,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         }>,
  *     },
  *     asset_mapper?: bool|array{ // Asset Mapper configuration
- *         enabled?: bool|Param, // Default: false
+ *         enabled?: bool|Param, // Default: true
  *         paths?: array<string, scalar|Param|null>,
  *         excluded_patterns?: list<scalar|Param|null>,
  *         exclude_dotfiles?: bool|Param, // If true, any files starting with "." will be excluded from the asset mapper. // Default: true
@@ -3496,6 +3496,15 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * @psalm-type SyliusMollieConfig = array{
  *     migrations?: array<string, list<scalar|Param|null>>,
  * }
+ * @psalm-type SymfonycastsTailwindConfig = array{
+ *     input_css?: list<scalar|Param|null>,
+ *     config_file?: scalar|Param|null, // Path to the tailwind.config.js file // Default: "%kernel.project_dir%/tailwind.config.js"
+ *     binary?: scalar|Param|null, // The tailwind binary to use instead of downloading a new one // Default: null
+ *     binary_version?: scalar|Param|null, // Tailwind CLI version to download - null means the latest version // Default: null
+ *     binary_platform?: "auto"|"linux-arm64"|"linux-arm64-musl"|"linux-x64"|"linux-x64-musl"|"macos-arm64"|"macos-x64"|"windows-x64"|Param, // Tailwind CLI platform to download - "auto" will try to detect the platform automatically // Default: "auto"
+ *     postcss_config_file?: scalar|Param|null, // Path to PostCSS config file which is passed to the Tailwind CLI // Default: null
+ *     strict_mode?: bool|Param|null, // When enabled, an exception will be thrown if there are no built assets (default: false in `test` env, true otherwise) // Default: null
+ * }
  * @psalm-type WhiteOctoberPagerfantaConfig = array{ // Deprecated: The "white_october_pagerfanta" configuration node is deprecated, migrate your configuration to the "babdev_pagerfanta" configuration node.
  *     exceptions_strategy?: array{
  *         out_of_range_page?: scalar|Param|null, // Default: "to_http_not_found"
@@ -3563,6 +3572,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     sylius_paypal?: SyliusPaypalConfig,
  *     bazinga_js_translation?: BazingaJsTranslationConfig,
  *     sylius_mollie?: SyliusMollieConfig,
+ *     symfonycasts_tailwind?: SymfonycastsTailwindConfig,
  *     white_october_pagerfanta?: WhiteOctoberPagerfantaConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
@@ -3628,6 +3638,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         sylius_paypal?: SyliusPaypalConfig,
  *         bazinga_js_translation?: BazingaJsTranslationConfig,
  *         sylius_mollie?: SyliusMollieConfig,
+ *         symfonycasts_tailwind?: SymfonycastsTailwindConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -3689,6 +3700,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         sylius_paypal?: SyliusPaypalConfig,
  *         bazinga_js_translation?: BazingaJsTranslationConfig,
  *         sylius_mollie?: SyliusMollieConfig,
+ *         symfonycasts_tailwind?: SymfonycastsTailwindConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -3754,6 +3766,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         sylius_paypal?: SyliusPaypalConfig,
  *         bazinga_js_translation?: BazingaJsTranslationConfig,
  *         sylius_mollie?: SyliusMollieConfig,
+ *         symfonycasts_tailwind?: SymfonycastsTailwindConfig,
  *     },
  *     "when@test_cached"?: array{
  *         imports?: ImportsConfig,
@@ -3819,6 +3832,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         sylius_paypal?: SyliusPaypalConfig,
  *         bazinga_js_translation?: BazingaJsTranslationConfig,
  *         sylius_mollie?: SyliusMollieConfig,
+ *         symfonycasts_tailwind?: SymfonycastsTailwindConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,

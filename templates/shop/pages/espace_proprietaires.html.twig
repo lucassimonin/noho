@@ -1,0 +1,117 @@
+{% extends '@SyliusShop/shared/layout/base.html.twig' %}
+
+{% block title %}{{ 'noho.owners.title'|trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+{# Hero Section #}
+<section class="noho-hero" style="background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'); min-height: 70vh;">
+    <div class="noho-hero-content">
+        <h1>{{ 'noho.owners.title'|trans }}</h1>
+        <p>{{ 'noho.owners.subtitle'|trans }}</p>
+        <a href="{{ path('sylius_shop_contact_request') }}" class="noho-btn" style="margin-top: 16px;">{{ 'noho.owners.cta.button'|trans }}</a>
+    </div>
+</section>
+
+{# Why Noho #}
+<section class="noho-section">
+    <h2 class="noho-section-title">{{ 'noho.owners.why_title'|trans }}</h2>
+    <div class="noho-container">
+        <div class="noho-pillars">
+            <div>
+                <h3 class="noho-pillar-title">{{ 'noho.owners.visibility.title'|trans }}</h3>
+                <p class="noho-pillar-text">{{ 'noho.owners.visibility.text'|trans }}</p>
+            </div>
+            <div>
+                <h3 class="noho-pillar-title">{{ 'noho.owners.management.title'|trans }}</h3>
+                <p class="noho-pillar-text">{{ 'noho.owners.management.text'|trans }}</p>
+            </div>
+            <div>
+                <h3 class="noho-pillar-title">{{ 'noho.owners.revenue.title'|trans }}</h3>
+                <p class="noho-pillar-text">{{ 'noho.owners.revenue.text'|trans }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Stats Banner #}
+<section class="noho-banner" style="background-image: url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+    <div class="noho-banner-content">
+        <div style="display: flex; justify-content: center; gap: 80px; flex-wrap: wrap;">
+            <div style="text-align: center;">
+                <div style="font-size: 3.5rem; font-weight: 600; color: #fff;">150+</div>
+                <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8); text-transform: uppercase; letter-spacing: 0.1em;">{{ 'noho.owners.stats.properties'|trans }}</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 3.5rem; font-weight: 600; color: #fff;">93%</div>
+                <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8); text-transform: uppercase; letter-spacing: 0.1em;">{{ 'noho.owners.stats.occupancy'|trans }}</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 3.5rem; font-weight: 600; color: #fff;">4.9/5</div>
+                <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8); text-transform: uppercase; letter-spacing: 0.1em;">{{ 'noho.owners.stats.satisfaction'|trans }}</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Services #}
+<section class="noho-section noho-section-light">
+    <h2 class="noho-section-title">{{ 'noho.owners.services_title'|trans }}</h2>
+    <div class="noho-container">
+        <div class="noho-trust-grid">
+            <div class="noho-trust-item">
+                <h3 class="noho-trust-title">{{ 'noho.owners.marketing.title'|trans }}</h3>
+                <p class="noho-trust-text">{{ 'noho.owners.marketing.text'|trans }}</p>
+            </div>
+            <div class="noho-trust-item">
+                <h3 class="noho-trust-title">{{ 'noho.owners.concierge.title'|trans }}</h3>
+                <p class="noho-trust-text">{{ 'noho.owners.concierge.text'|trans }}</p>
+            </div>
+            <div class="noho-trust-item">
+                <h3 class="noho-trust-title">{{ 'noho.owners.maintenance.title'|trans }}</h3>
+                <p class="noho-trust-text">{{ 'noho.owners.maintenance.text'|trans }}</p>
+            </div>
+            <div class="noho-trust-item">
+                <h3 class="noho-trust-title">{{ 'noho.owners.reporting.title'|trans }}</h3>
+                <p class="noho-trust-text">{{ 'noho.owners.reporting.text'|trans }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Process #}
+<section class="noho-section">
+    <h2 class="noho-section-title">{{ 'noho.owners.how_title'|trans }}</h2>
+    <div class="noho-container">
+        <div class="noho-pillars">
+            <div style="text-align: center;">
+                <div style="width: 60px; height: 60px; border: 2px solid #1a1a1a; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 1.5rem; font-weight: 600;">1</div>
+                <h3 class="noho-pillar-title">{{ 'noho.owners.step1.title'|trans }}</h3>
+                <p class="noho-pillar-text">{{ 'noho.owners.step1.text'|trans }}</p>
+            </div>
+            <div style="text-align: center;">
+                <div style="width: 60px; height: 60px; border: 2px solid #1a1a1a; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 1.5rem; font-weight: 600;">2</div>
+                <h3 class="noho-pillar-title">{{ 'noho.owners.step2.title'|trans }}</h3>
+                <p class="noho-pillar-text">{{ 'noho.owners.step2.text'|trans }}</p>
+            </div>
+            <div style="text-align: center;">
+                <div style="width: 60px; height: 60px; border: 2px solid #1a1a1a; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 1.5rem; font-weight: 600;">3</div>
+                <h3 class="noho-pillar-title">{{ 'noho.owners.step3.title'|trans }}</h3>
+                <p class="noho-pillar-text">{{ 'noho.owners.step3.text'|trans }}</p>
+            </div>
+            <div style="text-align: center;">
+                <div style="width: 60px; height: 60px; border: 2px solid #1a1a1a; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 1.5rem; font-weight: 600;">4</div>
+                <h3 class="noho-pillar-title">{{ 'noho.owners.step4.title'|trans }}</h3>
+                <p class="noho-pillar-text">{{ 'noho.owners.step4.text'|trans }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# CTA #}
+<section class="noho-section noho-section-light">
+    <h2 class="noho-section-title">{{ 'noho.owners.cta.title'|trans }}</h2>
+    <div class="noho-container-sm" style="text-align: center;">
+        <a href="{{ path('sylius_shop_contact_request') }}" class="noho-btn-dark">{{ 'noho.owners.cta.button'|trans }}</a>
+    </div>
+</section>
+{% endblock %}

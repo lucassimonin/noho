@@ -1,0 +1,17 @@
+# Noho Custom Routes
+
+noho_experiences:
+    path: /{_locale}/experiences
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController
+    defaults:
+        template: 'shop/pages/experiences.html.twig'
+    requirements:
+        _locale: ^[a-z]{2}(?:_[A-Z]{2})?$
+
+noho_espace_proprietaire:
+    path: /{_locale}/espace-proprietaires
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController
+    defaults:
+        template: 'shop/pages/espace_proprietaires.html.twig'
+    requirements:
+        _locale: ^[a-z]{2}(?:_[A-Z]{2})?$

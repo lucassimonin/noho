@@ -279,3 +279,9 @@ sylius_twig_hooks:
         'sylius_shop.base#javascripts':
             app_javascripts:
                 template: 'shop/javascripts.html.twig'
+        
+        # Product list sidebar filters
+        'sylius_shop.product.index.content.body.sidebar':
+            search_filter:
+                template: 'bundles/SyliusShopBundle/product/index/content/body/sidebar/search.html.twig'
+                priority: 200

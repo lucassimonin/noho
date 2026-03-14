@@ -1,3 +1,62 @@
-<div class="row">
-    {% hook 'body' %}
+{# Product List Body - Sidebar + Main Grid #}
+{# Get taxon from our custom extension #}
+{% set taxon = noho_current_taxon() %}
+{% set ancestors = noho_taxon_ancestors(taxon) %}
+
+<div style="background: #f8f8f8; padding: 40px 0 80px;">
+    <div class="noho-container">
+        {# Breadcrumbs #}
+        <nav style="font-size: 0.85rem; color: #666; margin-bottom: 24px;">
+            <a href="{{ path('sylius_shop_homepage') }}" style="color: #666 !important; text-decoration: none;">{{ 'noho.breadcrumb.home'|trans }}</a>
+            
+            {% if taxon %}
+                {# Display ancestors from root to parent #}
+                {% for ancestor in ancestors %}
+                    <span style="margin: 0 8px; color: #ccc;">›</span>
+                    {% if ancestor.slug %}
+                        <a href="{{ path('sylius_shop_product_index', {'slug': ancestor.slug}) }}" style="color: #666 !important; text-decoration: none;">{{ ancestor.name }}</a>
+                    {% else %}
+                        <span style="color: #666;">{{ ancestor.name }}</span>
+                    {% endif %}
+                {% endfor %}
+                
+                {# Current taxon #}
+                <span style="margin: 0 8px; color: #ccc;">›</span>
+                <span style="color: #1a1a1a; font-weight: 500;">{{ taxon.name }}</span>
+            {% else %}
+                <span style="margin: 0 8px; color: #ccc;">›</span>
+                <span style="color: #1a1a1a; font-weight: 500;">Catalogue</span>
+            {% endif %}
+        </nav>
+        
+        {# Subcategories pills - if taxon has children #}
+        {% if taxon and taxon.enabledChildren|length > 0 %}
+        <div style="margin-bottom: 32px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                {% for child in taxon.enabledChildren %}
+                    <a href="{{ path('sylius_shop_product_index', {slug: child.slug}) }}" class="noho-category-pill">
+                        {{ child.name }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% elseif taxon and taxon.parent is not null and taxon.parent.enabledChildren|length > 1 %}
+        {# Show sibling categories if no children #}
+        <div style="margin-bottom: 32px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                {% for sibling in taxon.parent.enabledChildren %}
+                    {% set isActive = sibling.code == taxon.code %}
+                    <a href="{{ path('sylius_shop_product_index', {slug: sibling.slug}) }}" class="noho-category-pill {% if isActive %}active{% endif %}">
+                        {{ sibling.name }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        {# Layout: Sidebar + Main #}
+        <div style="display: flex; gap: 48px; align-items: flex-start;">
+            {% hook 'body' with { taxon: taxon } %}
+        </div>
+    </div>
 </div>

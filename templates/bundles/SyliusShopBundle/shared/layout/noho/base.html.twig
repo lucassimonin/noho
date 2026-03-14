@@ -1,0 +1,54 @@
+{% import "@SyliusUi/macro/rtl.html.twig" as rtl %}
+
+{% set generic_hook = 'sylius_shop.base' %}
+{% set prefixes = prefixes|default([])|merge([generic_hook]) %}
+
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|slice(0, 2) }}" {{ rtl.default(sylius.localeCode) }}>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block metatags %}
+        {% hook '#metatags' with { _prefixes: prefixes } %}
+    {% endblock %}
+
+    <title>{% block title %}{{ sylius.channel.name }}{% endblock %}</title>
+
+    {# Tailwind CSS via AssetMapper #}
+    {% block stylesheets %}
+        {{ importmap('shop') }}
+    {% endblock %}
+
+    {% hook 'head' with { _prefixes: prefixes } %}
+</head>
+
+<body data-route="{{ app.request.get('_route') }}" class="min-h-screen flex flex-col bg-white text-noho-dark antialiased">
+    {% block body %}
+        {# Header #}
+        {% block header %}
+            {% include '@SyliusShop/shared/layout/noho/_header.html.twig' %}
+        {% endblock %}
+
+        {# Flash Messages #}
+        {% block flashes %}
+            {% include '@SyliusShop/shared/layout/noho/_flashes.html.twig' %}
+        {% endblock %}
+
+        {# Main Content #}
+        <main class="flex-1">
+            {% block content %}{% endblock %}
+        </main>
+
+        {# Footer #}
+        {% block footer %}
+            {% include '@SyliusShop/shared/layout/noho/_footer.html.twig' %}
+        {% endblock %}
+    {% endblock %}
+
+    {% block javascripts %}
+        {# Sylius JS via Webpack Encore (for Stimulus components) #}
+        {{ encore_entry_script_tags('sylius-shop-entry', null, 'sylius.shop') }}
+        {{ encore_entry_script_tags('app-shop-entry', null, 'app.shop') }}
+    {% endblock %}
+</body>
+</html>

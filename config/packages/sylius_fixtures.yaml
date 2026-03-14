@@ -1,0 +1,584 @@
+# Noho Conciergerie - Fixtures for luxury property rentals
+
+sylius_fixtures:
+    suites:
+        noho:
+            listeners:
+                orm_purger: ~
+                logger: ~
+
+            fixtures:
+                # ==========================================
+                # LOCALES & CURRENCIES
+                # ==========================================
+                locale:
+                    options:
+                        locales:
+                            - 'en_US'
+                            - 'fr_FR'
+
+                currency:
+                    options:
+                        currencies:
+                            - 'EUR'
+                            - 'USD'
+
+                # ==========================================
+                # GEOGRAPHICAL
+                # ==========================================
+                geographical:
+                    options:
+                        countries:
+                            - 'FR'
+                            - 'ES'
+                            - 'PT'
+                            - 'GR'
+                            - 'IT'
+                        zones:
+                            EU:
+                                name: 'European Union'
+                                countries:
+                                    - 'FR'
+                                    - 'ES'
+                                    - 'PT'
+                                    - 'GR'
+                                    - 'IT'
+
+                # ==========================================
+                # TAXONS (Categories)
+                # ==========================================
+                noho_taxon:
+                    name: taxon
+                    options:
+                        custom:
+                            catalogue:
+                                code: 'catalogue'
+                                name: 'Catalogue'
+                                children:
+                                    # FRANCE
+                                    -   code: 'france'
+                                        name: 'France'
+                                        slug: 'catalogue/france'
+                                        children:
+                                            -   code: 'paris'
+                                                name: 'Paris'
+                                                slug: 'catalogue/france/paris'
+                                            -   code: 'nice'
+                                                name: 'Nice'
+                                                slug: 'catalogue/france/nice'
+                                            -   code: 'saint_tropez'
+                                                name: 'Saint-Tropez'
+                                                slug: 'catalogue/france/saint-tropez'
+                                            -   code: 'cannes'
+                                                name: 'Cannes'
+                                                slug: 'catalogue/france/cannes'
+
+                                    # SPAIN
+                                    -   code: 'spain'
+                                        name: 'Espagne'
+                                        slug: 'catalogue/espagne'
+                                        children:
+                                            -   code: 'ibiza'
+                                                name: 'Ibiza'
+                                                slug: 'catalogue/espagne/ibiza'
+                                            -   code: 'marbella'
+                                                name: 'Marbella'
+                                                slug: 'catalogue/espagne/marbella'
+                                            -   code: 'mallorca'
+                                                name: 'Majorque'
+                                                slug: 'catalogue/espagne/majorque'
+
+                                    # PORTUGAL
+                                    -   code: 'portugal'
+                                        name: 'Portugal'
+                                        slug: 'catalogue/portugal'
+                                        children:
+                                            -   code: 'lisbon'
+                                                name: 'Lisbonne'
+                                                slug: 'catalogue/portugal/lisbonne'
+                                            -   code: 'algarve'
+                                                name: 'Algarve'
+                                                slug: 'catalogue/portugal/algarve'
+
+                                    # GREECE
+                                    -   code: 'greece'
+                                        name: 'Grèce'
+                                        slug: 'catalogue/grece'
+                                        children:
+                                            -   code: 'mykonos'
+                                                name: 'Mykonos'
+                                                slug: 'catalogue/grece/mykonos'
+                                            -   code: 'santorini'
+                                                name: 'Santorin'
+                                                slug: 'catalogue/grece/santorin'
+
+                                    # ITALY
+                                    -   code: 'italy'
+                                        name: 'Italie'
+                                        slug: 'catalogue/italie'
+                                        children:
+                                            -   code: 'amalfi'
+                                                name: 'Côte Amalfitaine'
+                                                slug: 'catalogue/italie/amalfi'
+                                            -   code: 'tuscany'
+                                                name: 'Toscane'
+                                                slug: 'catalogue/italie/toscane'
+
+                # ==========================================
+                # CHANNEL
+                # ==========================================
+                channel:
+                    options:
+                        custom:
+                            noho_web:
+                                name: 'Noho Conciergerie'
+                                code: 'NOHO_WEB'
+                                locales:
+                                    - 'en_US'
+                                    - 'fr_FR'
+                                currencies:
+                                    - 'EUR'
+                                enabled: true
+                                hostname: 'localhost'
+                                shop_billing_data:
+                                    company: 'Noho Conciergerie'
+                                    tax_id: 'FR12345678901'
+                                    country_code: 'FR'
+                                    street: '1 Avenue des Champs-Élysées'
+                                    city: 'Paris'
+                                    postcode: '75008'
+                                menu_taxon: 'catalogue'
+                                contact_phone_number: '+33 1 23 45 67 89'
+                                contact_email: 'contact@noho-conciergerie.com'
+
+                # ==========================================
+                # TAX CATEGORIES
+                # ==========================================
+                tax_category:
+                    options:
+                        custom:
+                            rental:
+                                code: 'rental'
+                                name: 'Location saisonnière'
+
+                tax_rate:
+                    options:
+                        custom:
+                            rental_tax:
+                                code: 'rental_tax_10'
+                                name: 'TVA Location 10%'
+                                zone: 'EU'
+                                category: 'rental'
+                                amount: 0.10
+
+                # ==========================================
+                # PRODUCT ATTRIBUTES
+                # ==========================================
+                noho_attribute:
+                    name: product_attribute
+                    options:
+                        custom:
+                            -   name: 'Voyageurs'
+                                code: 'voyageurs'
+                                type: 'integer'
+                                translatable: false
+                            -   name: 'Chambres'
+                                code: 'chambres'
+                                type: 'integer'
+                                translatable: false
+                            -   name: 'Surface (m²)'
+                                code: 'surface'
+                                type: 'integer'
+                                translatable: false
+
+                # ==========================================
+                # ADMIN USER
+                # ==========================================
+                admin_user:
+                    name: 'admin_user'
+                    options:
+                        custom:
+                            -   email: 'admin@noho-conciergerie.com'
+                                username: 'admin'
+                                password: 'noho2024'
+                                enabled: true
+                                locale_code: 'fr_FR'
+                                first_name: 'Admin'
+                                last_name: 'Noho'
+
+                # ==========================================
+                # PRODUCTS (Properties)
+                # ==========================================
+                noho_products:
+                    name: product
+                    options:
+                        custom:
+                            # ========== PARIS ==========
+                            -   code: 'villa-montmartre'
+                                name: 'Villa Montmartre'
+                                short_description: 'Villa d''exception avec vue panoramique sur Paris'
+                                description: 'Nichée au cœur de Montmartre, cette villa d''exception offre une vue imprenable sur Paris. Avec ses 3 chambres, son vaste séjour et son jardin privatif, elle est l''endroit idéal pour un séjour inoubliable dans la capitale.'
+                                tax_category: 'rental'
+                                channels:
+                                    - 'NOHO_WEB'
+                                main_taxon: 'paris'
+                                taxons:
+                                    - 'catalogue'
+                                    - 'france'
+                                    - 'paris'
+                                product_attributes:
+                                    voyageurs: 6
+                                    chambres: 3
+                                    surface: 180
+                                images:
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa1.jpg'
+                                        type: 'main'
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa2.jpg'
+
+                            -   code: 'appartement-marais'
+                                name: 'Appartement Le Marais'
+                                short_description: 'Appartement de charme au cœur du Marais'
+                                description: 'Cet élégant appartement situé dans le quartier historique du Marais allie charme parisien et confort moderne. Hauts plafonds, parquet et mobilier design.'
+                                tax_category: 'rental'
+                                channels:
+                                    - 'NOHO_WEB'
+                                main_taxon: 'paris'
+                                taxons:
+                                    - 'catalogue'
+                                    - 'france'
+                                    - 'paris'
+                                product_attributes:
+                                    voyageurs: 4
+                                    chambres: 2
+                                    surface: 95
+                                images:
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa3.jpg'
+                                        type: 'main'
+
+                            # ========== NICE ==========
+                            -   code: 'villa-promenade'
+                                name: 'Villa Promenade des Anglais'
+                                short_description: 'Villa prestigieuse sur la Promenade des Anglais'
+                                description: 'Cette villa Art Déco offre un accès direct à la plage et une vue panoramique sur la mer. Piscine à débordement, jardin paysager et parking privé.'
+                                tax_category: 'rental'
+                                channels:
+                                    - 'NOHO_WEB'
+                                main_taxon: 'nice'
+                                taxons:
+                                    - 'catalogue'
+                                    - 'france'
+                                    - 'nice'
+                                product_attributes:
+                                    voyageurs: 8
+                                    chambres: 4
+                                    surface: 250
+                                images:
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa3.jpg'
+                                        type: 'main'
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa4.jpg'
+
+                            # ========== SAINT-TROPEZ ==========
+                            -   code: 'villa-ramatuelle'
+                                name: 'Villa Ramatuelle'
+                                short_description: 'Propriété d''exception vue mer'
+                                description: 'Dans les collines de Ramatuelle, cette propriété d''exception offre intimité totale et vue imprenable sur le golfe de Saint-Tropez. Piscine chauffée, court de tennis, logement gardien.'
+                                tax_category: 'rental'
+                                channels:
+                                    - 'NOHO_WEB'
+                                main_taxon: 'saint_tropez'
+                                taxons:
+                                    - 'catalogue'
+                                    - 'france'
+                                    - 'saint_tropez'
+                                product_attributes:
+                                    voyageurs: 12
+                                    chambres: 6
+                                    surface: 450
+                                images:
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa4.jpg'
+                                        type: 'main'
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa1.jpg'
+
+                            # ========== CANNES ==========
+                            -   code: 'penthouse-croisette'
+                                name: 'Penthouse La Croisette'
+                                short_description: 'Penthouse prestigieux sur La Croisette'
+                                description: 'Au dernier étage d''une résidence de prestige, ce penthouse offre une vue à 180° sur la baie de Cannes. Terrasse de 100m², service de conciergerie, accès plage privée.'
+                                tax_category: 'rental'
+                                channels:
+                                    - 'NOHO_WEB'
+                                main_taxon: 'cannes'
+                                taxons:
+                                    - 'catalogue'
+                                    - 'france'
+                                    - 'cannes'
+                                product_attributes:
+                                    voyageurs: 6
+                                    chambres: 3
+                                    surface: 200
+                                images:
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa2.jpg'
+                                        type: 'main'
+
+                            # ========== IBIZA ==========
+                            -   code: 'villa-es-vedra'
+                                name: 'Villa Es Vedrà'
+                                short_description: 'Villa contemporaine avec vue sur Es Vedrà'
+                                description: 'Cette villa contemporaine offre une vue magique sur le rocher mythique d''Es Vedrà. Design minimaliste, piscine à débordement se fondant dans l''horizon.'
+                                tax_category: 'rental'
+                                channels:
+                                    - 'NOHO_WEB'
+                                main_taxon: 'ibiza'
+                                taxons:
+                                    - 'catalogue'
+                                    - 'spain'
+                                    - 'ibiza'
+                                product_attributes:
+                                    voyageurs: 10
+                                    chambres: 5
+                                    surface: 380
+                                images:
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa5.jpg'
+                                        type: 'main'
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa6.jpg'
+
+                            -   code: 'finca-san-juan'
+                                name: 'Finca San Juan'
+                                short_description: 'Finca authentique au nord de l''île'
+                                description: 'Cette finca traditionnelle ibizenca a été soigneusement restaurée en préservant son authenticité. Jardin luxuriant, piscine chauffée, tranquillité absolue.'
+                                tax_category: 'rental'
+                                channels:
+                                    - 'NOHO_WEB'
+                                main_taxon: 'ibiza'
+                                taxons:
+                                    - 'catalogue'
+                                    - 'spain'
+                                    - 'ibiza'
+                                product_attributes:
+                                    voyageurs: 8
+                                    chambres: 4
+                                    surface: 300
+                                images:
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa6.jpg'
+                                        type: 'main'
+
+                            # ========== MARBELLA ==========
+                            -   code: 'villa-golden-mile'
+                                name: 'Villa Golden Mile'
+                                short_description: 'Villa ultra-luxe sur le Golden Mile'
+                                description: 'Sur le célèbre Golden Mile, cette villa d''exception incarne le luxe méditerranéen. Spa privatif, salle de cinéma, cave à vin et personnel de maison.'
+                                tax_category: 'rental'
+                                channels:
+                                    - 'NOHO_WEB'
+                                main_taxon: 'marbella'
+                                taxons:
+                                    - 'catalogue'
+                                    - 'spain'
+                                    - 'marbella'
+                                product_attributes:
+                                    voyageurs: 14
+                                    chambres: 7
+                                    surface: 600
+                                images:
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa7.jpg'
+                                        type: 'main'
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa1.jpg'
+
+                            # ========== MALLORCA ==========
+                            -   code: 'villa-deia'
+                                name: 'Villa Deià'
+                                short_description: 'Villa de charme dans le village des artistes'
+                                description: 'Dans le pittoresque village de Deià, cette villa en pierre offre une vue époustouflante sur la Tramuntana. Oliveraie, piscine au sel, ambiance artistique.'
+                                tax_category: 'rental'
+                                channels:
+                                    - 'NOHO_WEB'
+                                main_taxon: 'mallorca'
+                                taxons:
+                                    - 'catalogue'
+                                    - 'spain'
+                                    - 'mallorca'
+                                product_attributes:
+                                    voyageurs: 8
+                                    chambres: 4
+                                    surface: 280
+                                images:
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa4.jpg'
+                                        type: 'main'
+
+                            # ========== LISBON ==========
+                            -   code: 'palacete-alfama'
+                                name: 'Palacete Alfama'
+                                short_description: 'Palais du XIXe siècle dans l''Alfama'
+                                description: 'Ce magnifique palais du XIXe siècle a été transformé en résidence privée d''un charme exceptionnel. Azulejos, mobilier d''époque, vue sur le Tage.'
+                                tax_category: 'rental'
+                                channels:
+                                    - 'NOHO_WEB'
+                                main_taxon: 'lisbon'
+                                taxons:
+                                    - 'catalogue'
+                                    - 'portugal'
+                                    - 'lisbon'
+                                product_attributes:
+                                    voyageurs: 10
+                                    chambres: 5
+                                    surface: 350
+                                images:
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa2.jpg'
+                                        type: 'main'
+
+                            # ========== ALGARVE ==========
+                            -   code: 'villa-lagos'
+                                name: 'Villa Lagos'
+                                short_description: 'Villa moderne surplombant les falaises'
+                                description: 'Cette villa contemporaine domine les célèbres falaises dorées de Lagos. Piscine à débordement spectaculaire, jardin luxuriant, accès privilégié à une crique.'
+                                tax_category: 'rental'
+                                channels:
+                                    - 'NOHO_WEB'
+                                main_taxon: 'algarve'
+                                taxons:
+                                    - 'catalogue'
+                                    - 'portugal'
+                                    - 'algarve'
+                                product_attributes:
+                                    voyageurs: 8
+                                    chambres: 4
+                                    surface: 300
+                                images:
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa3.jpg'
+                                        type: 'main'
+
+                            # ========== MYKONOS ==========
+                            -   code: 'villa-elia'
+                                name: 'Villa Elia'
+                                short_description: 'Villa cycladique dominant la plage d''Elia'
+                                description: 'Cette somptueuse villa cycladique domine la célèbre plage d''Elia. Architecture blanche immaculée, touches de cobalt, piscine à débordement se fondant dans l''Égée.'
+                                tax_category: 'rental'
+                                channels:
+                                    - 'NOHO_WEB'
+                                main_taxon: 'mykonos'
+                                taxons:
+                                    - 'catalogue'
+                                    - 'greece'
+                                    - 'mykonos'
+                                product_attributes:
+                                    voyageurs: 10
+                                    chambres: 5
+                                    surface: 400
+                                images:
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa8.jpg'
+                                        type: 'main'
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa5.jpg'
+
+                            # ========== SANTORINI ==========
+                            -   code: 'villa-caldera'
+                                name: 'Villa Caldera'
+                                short_description: 'Villa iconique à Oia avec vue sur la caldeira'
+                                description: 'Perchée sur les falaises d''Oia, cette villa troglodyte offre le plus beau coucher de soleil au monde. Jacuzzi privatif, cave à vin, vue imprenable sur la caldeira.'
+                                tax_category: 'rental'
+                                channels:
+                                    - 'NOHO_WEB'
+                                main_taxon: 'santorini'
+                                taxons:
+                                    - 'catalogue'
+                                    - 'greece'
+                                    - 'santorini'
+                                product_attributes:
+                                    voyageurs: 6
+                                    chambres: 3
+                                    surface: 200
+                                images:
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa8.jpg'
+                                        type: 'main'
+
+                            # ========== AMALFI ==========
+                            -   code: 'villa-positano'
+                                name: 'Villa Positano'
+                                short_description: 'Élégante villa en cascade vers la mer'
+                                description: 'Cette élégante villa dévale la falaise pour offrir une expérience unique. Chaque niveau dévoile des vues imprenables sur le village coloré et la mer Tyrrhénienne.'
+                                tax_category: 'rental'
+                                channels:
+                                    - 'NOHO_WEB'
+                                main_taxon: 'amalfi'
+                                taxons:
+                                    - 'catalogue'
+                                    - 'italy'
+                                    - 'amalfi'
+                                product_attributes:
+                                    voyageurs: 8
+                                    chambres: 4
+                                    surface: 320
+                                images:
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa1.jpg'
+                                        type: 'main'
+
+                            # ========== TUSCANY ==========
+                            -   code: 'podere-chianti'
+                                name: 'Podere Chianti'
+                                short_description: 'Domaine historique au cœur du Chianti'
+                                description: 'Ce domaine du XVIe siècle au cœur du Chianti a été restauré avec amour. Vignes, oliviers, piscine à débordement avec vue sur les collines toscanes.'
+                                tax_category: 'rental'
+                                channels:
+                                    - 'NOHO_WEB'
+                                main_taxon: 'tuscany'
+                                taxons:
+                                    - 'catalogue'
+                                    - 'italy'
+                                    - 'tuscany'
+                                product_attributes:
+                                    voyageurs: 12
+                                    chambres: 6
+                                    surface: 500
+                                images:
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa4.jpg'
+                                        type: 'main'
+                                    -   path: '%kernel.project_dir%/src/Resources/fixtures/properties/villa6.jpg'
+
+                # ==========================================
+                # TAXON IMAGES
+                # ==========================================
+                noho_taxon_images:
+                    name: taxon_image
+                    options:
+                        images:
+                            # Countries
+                            -   taxon_code: 'france'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/france.jpg'
+                            -   taxon_code: 'spain'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/spain.jpg'
+                            -   taxon_code: 'portugal'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/portugal.jpg'
+                            -   taxon_code: 'greece'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/greece.jpg'
+                            -   taxon_code: 'italy'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/italy.jpg'
+                            # France cities
+                            -   taxon_code: 'paris'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/paris.jpg'
+                            -   taxon_code: 'nice'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/nice.jpg'
+                            -   taxon_code: 'saint_tropez'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/saint-tropez.jpg'
+                            -   taxon_code: 'cannes'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/cannes.jpg'
+                            # Spain cities
+                            -   taxon_code: 'ibiza'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/ibiza.jpg'
+                            -   taxon_code: 'marbella'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/marbella.jpg'
+                            -   taxon_code: 'mallorca'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/mallorca.jpg'
+                            # Portugal cities
+                            -   taxon_code: 'lisbon'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/lisbon.jpg'
+                            -   taxon_code: 'algarve'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/algarve.jpg'
+                            # Greece cities
+                            -   taxon_code: 'mykonos'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/mykonos.jpg'
+                            -   taxon_code: 'santorini'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/santorini.jpg'
+                            # Italy cities
+                            -   taxon_code: 'amalfi'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/amalfi.jpg'
+                            -   taxon_code: 'tuscany'
+                                path: '%kernel.project_dir%/src/Resources/fixtures/properties/tuscany.jpg'

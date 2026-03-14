@@ -1,159 +1,342 @@
 {% extends '@SyliusShop/shared/layout/base.html.twig' %}
 
 {% block content %}
-{# Concierge homepage – header incrusté sur le hero (style The French Concierge) #}
-<style>
-/* Header incrusté sur le hero (homepage uniquement) – 2 blocs : barre logo, navbar (top bar newsletter supprimé) */
-body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(1) { position: absolute; top: 0; left: 0; right: 0; background: transparent !important; border: none !important; color: #fff; z-index: 20; }
-body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(1) a { color: #fff !important; }
-body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(1) .noho-logo__main { color: #fff !important; }
-body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(1) .noho-logo__sub { color: rgba(255,255,255,0.9) !important; }
-body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(2) { position: absolute; top: 64px; left: 0; right: 0; background: transparent !important; border: none !important; color: #fff; z-index: 20; }
-body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(2) .nav-link { color: #fff !important; }
-body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(2) .navbar-nav .nav-link:hover { color: rgba(255,255,255,0.85) !important; }
-body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(2) .btn-close { filter: invert(1); }
-body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(2) a,
-body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(2) span { color: #fff !important; }
-
-.noho-hero { position: relative; min-height: 85vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 180px 1.5rem 4rem; color: #fff; background: #1a1a1a no-repeat center center / cover; }
-.noho-hero::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.45); z-index: 0; }
-.noho-hero > div { position: relative; z-index: 1; }
-.noho-hero h1 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.75rem, 4vw, 2.75rem); font-weight: 400; letter-spacing: 0.02em; line-height: 1.3; margin-bottom: 1rem; }
-.noho-hero p { font-size: 1.05rem; opacity: 0.95; max-width: 32rem; margin-left: auto; margin-right: auto; margin-bottom: 2rem; }
-.noho-btn { display: inline-block; padding: 0.85rem 2rem; background: #fff; color: #1a1a1a; text-decoration: none; font-size: 0.9rem; letter-spacing: 0.08em; transition: opacity 0.2s; }
-.noho-btn:hover { color: #1a1a1a; opacity: 0.9; }
-.noho-section { padding: 4rem 0; }
-.noho-section--light { background: #fafafa; }
-.noho-section-title { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 400; color: #1a1a1a; text-align: center; margin-bottom: 3rem; letter-spacing: 0.02em; }
-/* Bloc 3 colonnes (sélection / hospitalité / sérénité) – même DA que le site */
-.noho-pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem 3rem; max-width: 64rem; margin: 0 auto; align-items: start; }
-.noho-pillar { text-align: left; }
-.noho-pillar__title { font-family: Georgia, 'Times New Roman', serif; font-size: 1rem; font-weight: 600; letter-spacing: 0.08em; color: #1a1a1a; text-transform: uppercase; margin-bottom: 0.85rem; line-height: 1.3; }
-.noho-pillar__text { font-size: 0.95rem; color: #555; line-height: 1.65; margin: 0; }
-@media (max-width: 768px) { .noho-pillars { grid-template-columns: 1fr; gap: 2rem; } }
-{% include '@SyliusShop/shared/_product_grid_styles.html.twig' %}
-.noho-trust { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; max-width: 64rem; margin: 0 auto; }
-.noho-trust-item { text-align: center; padding: 1.5rem 1rem; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-.noho-trust-item h3 { font-size: 0.95rem; font-weight: 600; color: #1a1a1a; margin-bottom: 0.4rem; }
-.noho-trust-item p { font-size: 0.85rem; color: #555; margin: 0; line-height: 1.4; }
-.noho-about { max-width: 42rem; margin: 0 auto; text-align: center; }
-.noho-about p { font-size: 1rem; color: #444; line-height: 1.7; margin-bottom: 1.5rem; }
-/* Bloc de recherche (style The French Concierge) */
-.noho-search { position: relative; z-index: 10; margin-top: -2.5rem; margin-bottom: 3rem; }
-.noho-search__card { background: #fff; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); padding: 1.5rem 1.75rem; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1rem 1.5rem; }
-.noho-search__field { flex: 1 1 0; min-width: 140px; }
-.noho-search__label { display: block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; color: #888; text-transform: uppercase; margin-bottom: 0.4rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-.noho-search__input { display: block; width: 100%; padding: 0.65rem 2.25rem 0.65rem 0.85rem; font-size: 0.95rem; color: #333; background: #fff; border: 1px solid #ddd; border-radius: 8px; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.75rem center; }
-.noho-search__input::placeholder { color: #999; }
-.noho-search__input:focus { outline: none; border-color: #1a1a1a; }
-.noho-search__btn { flex-shrink: 0; padding: 0.65rem 1.75rem; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.04em; color: #fff; background: #1a1a1a; border: none; border-radius: 999px; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
-.noho-search__btn:hover { background: #333; color: #fff; }
-@media (max-width: 768px) { .noho-search { margin-top: -1.5rem; margin-left: 1rem; margin-right: 1rem; } .noho-search__card { flex-direction: column; align-items: stretch; } .noho-search__field { min-width: 0; } .noho-search__btn { width: 100%; } }
-/* Bandeau destination (style The French Concierge) */
-.noho-bandeau { position: relative; min-height: 42vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 4rem 1.5rem; background: #1a1a1a no-repeat center center / cover; }
-.noho-bandeau::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.35); z-index: 0; }
-.noho-bandeau__inner { position: relative; z-index: 1; }
-.noho-bandeau__title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 600; letter-spacing: 0.15em; color: #fff; text-transform: uppercase; margin: 0 0 1.25rem; line-height: 1.1; text-shadow: 0 2px 20px rgba(0,0,0,0.3); }
-.noho-bandeau__btn { display: inline-block; padding: 0.7rem 1.75rem; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.05em; color: #1a1a1a; background: rgba(255,255,255,0.95); border: 2px solid #fff; text-decoration: none; transition: background 0.2s, color 0.2s; }
-.noho-bandeau__btn:hover { background: #fff; color: #1a1a1a; }
-@media (max-width: 768px) { .noho-bandeau { min-height: 35vh; padding: 3rem 1rem; } .noho-bandeau__title { letter-spacing: 0.08em; } }
-@media (max-width: 768px) { .noho-hero { min-height: 70vh; padding: 140px 1rem 3rem; } .noho-section { padding: 3rem 0; } body[data-route="sylius_shop_homepage"] .d-flex.min-vh-100 > *:nth-child(2) { top: 56px; } }
-</style>
-
+{# Hero Section #}
 <section class="noho-hero" style="background-image: url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
-    <div>
-        <h1>Votre temps est précieux,<br>nous gérons le reste.</h1>
-        <p>Une conciergerie haut de gamme à votre service. Simplicité, discrétion et excellence au quotidien.</p>
-        <a href="#nos-services" class="noho-btn">Découvrir nos services</a>
+    <div class="noho-hero-content">
+        <h1>{{ 'noho.hero.title'|trans|raw }}</h1>
+        <p>{{ 'noho.hero.subtitle'|trans }}</p>
+        <a href="#nos-services" class="noho-btn">{{ 'noho.hero.cta'|trans }}</a>
     </div>
 </section>
 
-<div class="container">
-    <div class="noho-search">
-        <div class="noho-search__card">
-            <div class="noho-search__field">
-                <label class="noho-search__label" for="noho-search-destination">Destination</label>
-                <input type="text" id="noho-search-destination" class="noho-search__input" placeholder="Toutes les destinations" readonly aria-haspopup="listbox">
+{# Search Box - Full Width Horizontal #}
+<div style="max-width: 1100px; margin: -50px auto 0; padding: 0 24px; position: relative; z-index: 100;">
+    <div style="background: #fff; border-radius: 12px; box-shadow: 0 10px 60px rgba(0,0,0,0.15); padding: 28px 36px;">
+        <form action="{{ path('sylius_shop_product_index', {slug: 'catalogue'}) }}" method="get">
+            <div class="search-grid" style="display: grid; grid-template-columns: 1.2fr 0.8fr 0.8fr 1.2fr auto; gap: 20px; align-items: end;">
+                {# Destination #}
+                <div>
+                    <label style="display: block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #999; margin-bottom: 8px;">{{ 'noho.search.destination'|trans }}</label>
+                    <select name="destination" style="display: block; width: 100%; padding: 12px 0; font-size: 0.95rem; color: #1a1a1a; background: transparent; border: none; border-bottom: 1px solid #e5e5e5; outline: none; cursor: pointer; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=\"%23999\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>'); background-repeat: no-repeat; background-position: right 0 center; background-size: 20px;">
+                        <option value="">{{ 'noho.search.all_destinations'|trans }}</option>
+                        <option value="paris">Paris</option>
+                        <option value="nice">Nice</option>
+                        <option value="cannes">Cannes</option>
+                        <option value="saint-tropez">Saint-Tropez</option>
+                        <option value="ibiza">Ibiza</option>
+                        <option value="mykonos">Mykonos</option>
+                    </select>
+                </div>
+                
+                {# Voyageurs #}
+                <div>
+                    <label style="display: block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #999; margin-bottom: 8px;">{{ 'noho.search.travelers'|trans }}</label>
+                    <select name="voyageurs" style="display: block; width: 100%; padding: 12px 0; font-size: 0.95rem; color: #1a1a1a; background: transparent; border: none; border-bottom: 1px solid #e5e5e5; outline: none; cursor: pointer; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=\"%23999\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>'); background-repeat: no-repeat; background-position: right 0 center; background-size: 20px;">
+                        <option value="">{{ 'noho.search.travelers_count'|trans }}</option>
+                        <option value="1">1 {{ 'noho.search.traveler_singular'|trans }}</option>
+                        <option value="2">2 {{ 'noho.search.travelers_plural'|trans }}</option>
+                        <option value="3">3 {{ 'noho.search.travelers_plural'|trans }}</option>
+                        <option value="4">4 {{ 'noho.search.travelers_plural'|trans }}</option>
+                        <option value="5">5 {{ 'noho.search.travelers_plural'|trans }}</option>
+                        <option value="6+">6+ {{ 'noho.search.travelers_plural'|trans }}</option>
+                    </select>
+                </div>
+                
+                {# Chambres #}
+                <div>
+                    <label style="display: block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #999; margin-bottom: 8px;">{{ 'noho.search.rooms'|trans }}</label>
+                    <select name="chambres" style="display: block; width: 100%; padding: 12px 0; font-size: 0.95rem; color: #1a1a1a; background: transparent; border: none; border-bottom: 1px solid #e5e5e5; outline: none; cursor: pointer; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=\"%23999\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>'); background-repeat: no-repeat; background-position: right 0 center; background-size: 20px;">
+                        <option value="">{{ 'noho.search.rooms_count'|trans }}</option>
+                        <option value="1">1 {{ 'noho.search.room_singular'|trans }}</option>
+                        <option value="2">2 {{ 'noho.search.rooms_plural'|trans }}</option>
+                        <option value="3">3 {{ 'noho.search.rooms_plural'|trans }}</option>
+                        <option value="4">4 {{ 'noho.search.rooms_plural'|trans }}</option>
+                        <option value="5">5 {{ 'noho.search.rooms_plural'|trans }}</option>
+                        <option value="6+">6+ {{ 'noho.search.rooms_plural'|trans }}</option>
+                    </select>
+                </div>
+                
+                {# Dates #}
+                <div style="position: relative;">
+                    <label style="display: block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #999; margin-bottom: 8px;">{{ 'noho.search.dates'|trans }}</label>
+                    <div id="datePickerTrigger" style="display: block; width: 100%; padding: 12px 0; font-size: 0.95rem; color: #1a1a1a; background: transparent; border: none; border-bottom: 1px solid #e5e5e5; cursor: pointer; user-select: none;">
+                        <span id="dateDisplay">{{ 'noho.search.select_dates'|trans }}</span>
+                    </div>
+                    <input type="hidden" name="date_start" id="homeArrivalDate">
+                    <input type="hidden" name="date_end" id="homeDepartureDate">
+                    
+                    {# Date Picker Dropdown #}
+                    <div id="datePickerDropdown" style="display: none; position: absolute; top: 100%; left: 0; right: 0; min-width: 320px; background: #fff; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); padding: 20px; margin-top: 12px; z-index: 1000;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                            <button type="button" id="homePrevMonth" style="width: 32px; height: 32px; border: 1px solid #e5e5e5; border-radius: 6px; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                            </button>
+                            <h4 id="homeCalendarMonth" style="font-family: Georgia, serif; font-size: 1rem; font-weight: 400; color: #1a1a1a; margin: 0;"></h4>
+                            <button type="button" id="homeNextMonth" style="width: 32px; height: 32px; border: 1px solid #e5e5e5; border-radius: 6px; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                            </button>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; font-size: 0.75rem; margin-bottom: 8px;">
+                            <div style="padding: 6px; color: #999; font-weight: 500;">{{ 'noho.calendar.days.mon'|trans }}</div>
+                            <div style="padding: 6px; color: #999; font-weight: 500;">{{ 'noho.calendar.days.tue'|trans }}</div>
+                            <div style="padding: 6px; color: #999; font-weight: 500;">{{ 'noho.calendar.days.wed'|trans }}</div>
+                            <div style="padding: 6px; color: #999; font-weight: 500;">{{ 'noho.calendar.days.thu'|trans }}</div>
+                            <div style="padding: 6px; color: #999; font-weight: 500;">{{ 'noho.calendar.days.fri'|trans }}</div>
+                            <div style="padding: 6px; color: #999; font-weight: 500;">{{ 'noho.calendar.days.sat'|trans }}</div>
+                            <div style="padding: 6px; color: #999; font-weight: 500;">{{ 'noho.calendar.days.sun'|trans }}</div>
+                        </div>
+                        <div id="homeCalendarDays" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; font-size: 0.85rem;"></div>
+                        
+                        <div style="display: flex; gap: 12px; margin-top: 16px; padding-top: 16px; border-top: 1px solid #eee;">
+                            <div style="flex: 1;">
+                                <div style="font-size: 0.65rem; color: #999; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">{{ 'noho.search.arrival'|trans }}</div>
+                                <div id="arrivalDisplay" style="font-size: 0.9rem; color: #1a1a1a;">-</div>
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="font-size: 0.65rem; color: #999; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">{{ 'noho.search.departure'|trans }}</div>
+                                <div id="departureDisplay" style="font-size: 0.9rem; color: #1a1a1a;">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {# Submit #}
+                <div>
+                    <button type="submit" class="noho-btn-submit" style="display: inline-block; padding: 14px 32px; font-size: 0.875rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; background-color: #1a1a1a; color: #fff; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: all 0.3s ease;">{{ 'noho.search.search'|trans }}</button>
+                </div>
             </div>
-            <div class="noho-search__field">
-                <label class="noho-search__label" for="noho-search-voyageurs">Voyageurs</label>
-                <input type="text" id="noho-search-voyageurs" class="noho-search__input" placeholder="Voyageurs" readonly aria-haspopup="listbox">
-            </div>
-            <div class="noho-search__field">
-                <label class="noho-search__label" for="noho-search-chambres">Chambres</label>
-                <input type="text" id="noho-search-chambres" class="noho-search__input" placeholder="Chambres" readonly aria-haspopup="listbox">
-            </div>
-            <div class="noho-search__field">
-                <label class="noho-search__label" for="noho-search-dates">Dates</label>
-                <input type="text" id="noho-search-dates" class="noho-search__input" placeholder="Sélectionner vos dates" readonly aria-haspopup="dialog">
-            </div>
-            <button type="button" class="noho-search__btn">Rechercher</button>
-        </div>
+        </form>
     </div>
 </div>
 
-<section class="noho-section">
-    <h2 class="noho-section-title">Comment ça marche ?</h2>
-    <div class="container">
+<style>
+.search-grid select:focus { border-bottom-color: #1a1a1a; }
+.home-cal-day { padding: 8px 4px; cursor: pointer; border-radius: 4px; transition: background 0.15s; }
+.home-cal-day:hover { background: #f5f5f5; }
+.home-cal-day.disabled { color: #ccc; cursor: default; }
+.home-cal-day.disabled:hover { background: transparent; }
+.home-cal-day.selected { background: #1a1a1a; color: #fff; }
+.home-cal-day.in-range { background: #f0f0f0; }
+
+@media (max-width: 900px) {
+    .search-grid { grid-template-columns: 1fr 1fr !important; }
+}
+@media (max-width: 600px) {
+    .search-grid { grid-template-columns: 1fr !important; }
+}
+</style>
+
+<script>
+(function() {
+    var dropdown = document.getElementById('datePickerDropdown');
+    var trigger = document.getElementById('datePickerTrigger');
+    var currentMonth, currentYear;
+    var selectedStart = null;
+    var selectedEnd = null;
+    var monthNames = [
+        '{{ 'noho.calendar.months.january'|trans }}',
+        '{{ 'noho.calendar.months.february'|trans }}',
+        '{{ 'noho.calendar.months.march'|trans }}',
+        '{{ 'noho.calendar.months.april'|trans }}',
+        '{{ 'noho.calendar.months.may'|trans }}',
+        '{{ 'noho.calendar.months.june'|trans }}',
+        '{{ 'noho.calendar.months.july'|trans }}',
+        '{{ 'noho.calendar.months.august'|trans }}',
+        '{{ 'noho.calendar.months.september'|trans }}',
+        '{{ 'noho.calendar.months.october'|trans }}',
+        '{{ 'noho.calendar.months.november'|trans }}',
+        '{{ 'noho.calendar.months.december'|trans }}'
+    ];
+    var selectDatesText = '{{ 'noho.search.select_dates'|trans }}';
+    
+    var now = new Date();
+    currentMonth = now.getMonth();
+    currentYear = now.getFullYear();
+    
+    function formatDate(year, month, day) {
+        return year + '-' + String(month + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+    }
+    
+    function formatDisplayDate(dateStr) {
+        if (!dateStr) return '-';
+        var parts = dateStr.split('-');
+        return parseInt(parts[2]) + ' ' + monthNames[parseInt(parts[1]) - 1].substring(0, 3);
+    }
+    
+    function updateDisplay() {
+        var display = document.getElementById('dateDisplay');
+        var arrDisplay = document.getElementById('arrivalDisplay');
+        var depDisplay = document.getElementById('departureDisplay');
+        
+        if (selectedStart && selectedEnd) {
+            display.textContent = formatDisplayDate(selectedStart) + ' → ' + formatDisplayDate(selectedEnd);
+        } else if (selectedStart) {
+            display.textContent = formatDisplayDate(selectedStart) + ' → ...';
+        } else {
+            display.textContent = selectDatesText;
+        }
+        
+        arrDisplay.textContent = formatDisplayDate(selectedStart);
+        depDisplay.textContent = formatDisplayDate(selectedEnd);
+        
+        document.getElementById('homeArrivalDate').value = selectedStart || '';
+        document.getElementById('homeDepartureDate').value = selectedEnd || '';
+    }
+    
+    function renderCalendar() {
+        var firstDay = new Date(currentYear, currentMonth, 1);
+        var lastDay = new Date(currentYear, currentMonth + 1, 0);
+        var startDay = firstDay.getDay() || 7;
+        var daysInMonth = lastDay.getDate();
+        var today = new Date();
+        today.setHours(0,0,0,0);
+        
+        document.getElementById('homeCalendarMonth').textContent = monthNames[currentMonth] + ' ' + currentYear;
+        
+        var html = '';
+        for (var i = 1; i < startDay; i++) {
+            html += '<div class="home-cal-day disabled"></div>';
+        }
+        
+        for (var day = 1; day <= daysInMonth; day++) {
+            var date = new Date(currentYear, currentMonth, day, 12, 0, 0);
+            var dateStr = formatDate(currentYear, currentMonth, day);
+            var isPast = date < today;
+            var isSelected = (selectedStart && dateStr === selectedStart) || (selectedEnd && dateStr === selectedEnd);
+            var isInRange = selectedStart && selectedEnd && dateStr > selectedStart && dateStr < selectedEnd;
+            
+            var classes = 'home-cal-day';
+            if (isPast) classes += ' disabled';
+            if (isSelected) classes += ' selected';
+            if (isInRange) classes += ' in-range';
+            
+            html += '<div class="' + classes + '" data-date="' + dateStr + '">' + day + '</div>';
+        }
+        
+        document.getElementById('homeCalendarDays').innerHTML = html;
+        
+        document.querySelectorAll('.home-cal-day:not(.disabled)').forEach(function(el) {
+            el.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var dateStr = this.getAttribute('data-date');
+                
+                if (!selectedStart || (selectedStart && selectedEnd)) {
+                    selectedStart = dateStr;
+                    selectedEnd = null;
+                } else {
+                    if (dateStr > selectedStart) {
+                        selectedEnd = dateStr;
+                    } else {
+                        selectedStart = dateStr;
+                    }
+                }
+                updateDisplay();
+                renderCalendar();
+            });
+        });
+    }
+    
+    trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+        if (dropdown.style.display === 'block') renderCalendar();
+    });
+    
+    document.addEventListener('click', function(e) {
+        if (!dropdown.contains(e.target) && e.target !== trigger) {
+            dropdown.style.display = 'none';
+        }
+    });
+    
+    document.getElementById('homePrevMonth').addEventListener('click', function(e) {
+        e.stopPropagation();
+        currentMonth--;
+        if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+        renderCalendar();
+    });
+    
+    document.getElementById('homeNextMonth').addEventListener('click', function(e) {
+        e.stopPropagation();
+        currentMonth++;
+        if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+        renderCalendar();
+    });
+})();
+</script>
+
+{# How it works #}
+<section class="noho-section" style="padding-top: 100px;">
+    <h2 class="noho-section-title">{{ 'noho.how_it_works.title'|trans }}</h2>
+    <div class="noho-container">
         <div class="noho-pillars">
-            <div class="noho-pillar">
-                <h3 class="noho-pillar__title">La sélection Noho</h3>
-                <p class="noho-pillar__text">Au-delà de la mise à disposition de lieux d'exception, nous cultivons un art de recevoir fondé sur l'anticipation et la discrétion. Véritables architectes de votre quotidien, notre mission est de rendre chaque instant fluide, simple et mémorable.</p>
+            <div>
+                <h3 class="noho-pillar-title">{{ 'noho.how_it_works.selection_title'|trans }}</h3>
+                <p class="noho-pillar-text">{{ 'noho.how_it_works.selection_text'|trans }}</p>
             </div>
-            <div class="noho-pillar">
-                <h3 class="noho-pillar__title">L'hospitalité signature</h3>
-                <p class="noho-pillar__text">Nous parcourons les territoires pour dénicher des propriétés au caractère unique. Chaque demeure de notre portfolio est choisie pour son architecture, son atmosphère et sa capacité à offrir une expérience de vie hors du commun.</p>
+            <div>
+                <h3 class="noho-pillar-title">{{ 'noho.how_it_works.hospitality_title'|trans }}</h3>
+                <p class="noho-pillar-text">{{ 'noho.how_it_works.hospitality_text'|trans }}</p>
             </div>
-            <div class="noho-pillar">
-                <h3 class="noho-pillar__title">Sérénité absolue</h3>
-                <p class="noho-pillar__text">Que vous séjourniez chez nous ou que vous nous confiiez vos clés, nous prenons tout en charge. De la conciergerie de pointe à la gestion technique complète, notre présence invisible garantit votre tranquillité d'esprit.</p>
+            <div>
+                <h3 class="noho-pillar-title">{{ 'noho.how_it_works.serenity_title'|trans }}</h3>
+                <p class="noho-pillar-text">{{ 'noho.how_it_works.serenity_text'|trans }}</p>
             </div>
         </div>
     </div>
 </section>
 
-<section class="noho-bandeau" style="background-image: url('https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
-    <div class="noho-bandeau__inner">
-        <h2 class="noho-bandeau__title">Paris</h2>
-        <a href="#nos-services" class="noho-bandeau__btn">Book here</a>
+{# Destination Banner #}
+<section class="noho-banner" style="background-image: url('https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+    <div class="noho-banner-content">
+        <h2 class="noho-banner-title">Paris</h2>
+        <a href="{{ path('sylius_shop_product_index', {slug: 'catalogue/france/paris'}) }}" class="noho-btn-outline">{{ 'noho.discover'|trans }}</a>
     </div>
 </section>
 
-<section id="nos-services" class="noho-section noho-section--light" style="scroll-margin-top: 2rem;">
-    <h2 class="noho-section-title">Nos nouvelles adresses</h2>
-    <div class="container">
+{# Latest Properties #}
+<section id="nos-services" class="noho-section noho-section-light" style="scroll-margin-top: 32px;">
+    <h2 class="noho-section-title">{{ 'noho.latest_properties.title'|trans }}</h2>
+    <div class="noho-container">
         <div {{ sylius_test_html_attribute('latest-products') }}>
             {{ component('sylius_shop:product:list', { limit: 4, template: '@SyliusShop/product/services_grid.html.twig' }) }}
         </div>
     </div>
 </section>
 
+{# About #}
 <section class="noho-section">
-    <h2 class="noho-section-title">La Conciergerie</h2>
-    <div class="noho-about">
-        <p>Pionnière dans l'univers des conciergeries de prestige, notre maison cultive une passion pour l'hospitalité et l'art de recevoir. Cette expertise nous permet de sublimer une collection de prestations d'exception, pour un quotidien simplifié et élégant.</p>
-        <a href="#nos-services" class="noho-btn" style="background: #1a1a1a; color: #fff;">En savoir plus</a>
+    <h2 class="noho-section-title">{{ 'noho.concierge.title'|trans }}</h2>
+    <div class="noho-container-sm" style="text-align: center;">
+        <p style="font-size: 1.05rem; line-height: 1.8; color: #666; margin-bottom: 32px;">
+            {{ 'noho.concierge.text'|trans }}
+        </p>
+        <a href="{{ path('noho_experiences', {_locale: app.request.locale}) }}" class="noho-btn-dark">{{ 'noho.concierge.cta'|trans }}</a>
     </div>
 </section>
 
-<section class="noho-section noho-section--light">
-    <h2 class="noho-section-title">Pourquoi nous choisir ?</h2>
-    <div class="noho-trust">
-        <div class="noho-trust-item">
-            <h3>Support 7j/7</h3>
-            <p>Une équipe disponible tous les jours pour répondre à vos demandes.</p>
-        </div>
-        <div class="noho-trust-item">
-            <h3>Intervenants qualifiés</h3>
-            <p>Des professionnels rigoureusement sélectionnés et formés à nos standards.</p>
-        </div>
-        <div class="noho-trust-item">
-            <h3>Paiement sécurisé</h3>
-            <p>Transactions protégées et données confidentielles garanties.</p>
-        </div>
-        <div class="noho-trust-item">
-            <h3>Service sur mesure</h3>
-            <p>Des formules adaptées à votre mode de vie et à vos priorités.</p>
+{# Trust Badges #}
+<section class="noho-section noho-section-light">
+    <h2 class="noho-section-title">{{ 'noho.trust.title'|trans }}</h2>
+    <div class="noho-container">
+        <div class="noho-trust-grid">
+            <div class="noho-trust-item">
+                <h3 class="noho-trust-title">{{ 'noho.trust.support_title'|trans }}</h3>
+                <p class="noho-trust-text">{{ 'noho.trust.support_text'|trans }}</p>
+            </div>
+            <div class="noho-trust-item">
+                <h3 class="noho-trust-title">{{ 'noho.trust.qualified_title'|trans }}</h3>
+                <p class="noho-trust-text">{{ 'noho.trust.qualified_text'|trans }}</p>
+            </div>
+            <div class="noho-trust-item">
+                <h3 class="noho-trust-title">{{ 'noho.trust.secure_title'|trans }}</h3>
+                <p class="noho-trust-text">{{ 'noho.trust.secure_text'|trans }}</p>
+            </div>
+            <div class="noho-trust-item">
+                <h3 class="noho-trust-title">{{ 'noho.trust.custom_title'|trans }}</h3>
+                <p class="noho-trust-text">{{ 'noho.trust.custom_text'|trans }}</p>
+            </div>
         </div>
     </div>
 </section>

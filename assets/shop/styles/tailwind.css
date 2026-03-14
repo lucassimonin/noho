@@ -1,0 +1,707 @@
+@import "tailwindcss";
+
+@source "../../shop.js";
+@source "../../../templates/**/*.twig";
+
+@theme {
+  --color-noho-dark: #1a1a1a;
+  --color-noho-muted: #666666;
+  --color-noho-light: #f8f8f8;
+  --color-noho-border: #e5e5e5;
+  --font-noho-serif: Georgia, 'Times New Roman', Times, serif;
+  --font-noho-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ========================================
+   RESET & BASE STYLES
+   ======================================== */
+
+body {
+  font-family: var(--font-noho-sans);
+  color: var(--color-noho-dark);
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Override Sylius default colors */
+a {
+  color: var(--color-noho-dark);
+}
+
+a:hover {
+  color: var(--color-noho-dark);
+  opacity: 0.8;
+}
+
+/* Font utilities */
+.font-noho-serif {
+  font-family: var(--font-noho-serif);
+}
+
+/* ========================================
+   HERO SECTIONS
+   ======================================== */
+
+.noho-hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 160px 24px 80px;
+  color: #fff;
+  background-color: var(--color-noho-dark);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.noho-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
+  z-index: 1;
+}
+
+.noho-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
+
+.noho-hero h1 {
+  font-family: var(--font-noho-serif);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+.noho-hero p {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  opacity: 0.95;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  color: #fff;
+}
+
+/* Category Hero */
+.noho-category-hero {
+  position: relative;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 140px 24px 60px;
+  color: #fff;
+  background-color: var(--color-noho-dark);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.noho-category-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1;
+}
+
+.noho-category-hero h1 {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-noho-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: #fff;
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+
+.noho-btn {
+  display: inline-block;
+  padding: 14px 32px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  background-color: #fff;
+  color: var(--color-noho-dark) !important;
+  border: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.noho-btn:hover {
+  background-color: var(--color-noho-dark);
+  color: #fff !important;
+}
+
+.noho-btn-dark {
+  display: inline-block;
+  padding: 14px 32px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  background-color: var(--color-noho-dark);
+  color: #fff !important;
+  border: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.noho-btn-dark:hover {
+  background-color: #333;
+  color: #fff !important;
+}
+
+.noho-btn-outline {
+  display: inline-block;
+  padding: 12px 30px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  background-color: transparent;
+  color: #fff !important;
+  border: 1px solid #fff;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.noho-btn-outline:hover {
+  background-color: #fff;
+  color: var(--color-noho-dark) !important;
+}
+
+/* ========================================
+   SEARCH BOX
+   ======================================== */
+
+.noho-search-box {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 10px 60px rgba(0,0,0,0.15);
+  padding: 24px 32px;
+  margin-top: -60px;
+  position: relative;
+  z-index: 10;
+}
+
+.noho-search-label {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 8px;
+}
+
+.noho-search-input {
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  font-size: 0.95rem;
+  color: var(--color-noho-dark);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-noho-border);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.noho-search-input:focus {
+  border-color: var(--color-noho-dark);
+}
+
+.noho-search-input::placeholder {
+  color: #bbb;
+}
+
+/* ========================================
+   SECTIONS
+   ======================================== */
+
+.noho-section {
+  padding: 80px 0;
+}
+
+.noho-section-light {
+  background-color: var(--color-noho-light);
+}
+
+.noho-section-title {
+  font-family: var(--font-noho-serif);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 400;
+  color: var(--color-noho-dark);
+  text-align: center;
+  margin-bottom: 60px;
+  letter-spacing: 0.02em;
+}
+
+/* ========================================
+   PRODUCT GRID & CARDS
+   ======================================== */
+
+.noho-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.noho-card {
+  background: #fff;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.noho-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+}
+
+.noho-card-image {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.noho-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.noho-card:hover .noho-card-image img {
+  transform: scale(1.05);
+}
+
+.noho-card-body {
+  padding: 20px 0;
+}
+
+.noho-card-title {
+  font-family: var(--font-noho-serif);
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: var(--color-noho-dark) !important;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.noho-card-title a {
+  color: var(--color-noho-dark) !important;
+  text-decoration: none;
+}
+
+.noho-card-title a:hover {
+  color: var(--color-noho-dark) !important;
+  text-decoration: underline;
+}
+
+.noho-card-price {
+  font-size: 0.95rem;
+  color: var(--color-noho-muted);
+  margin-bottom: 12px;
+}
+
+.noho-card-link {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-noho-dark) !important;
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-noho-dark);
+  padding-bottom: 2px;
+  transition: opacity 0.2s;
+}
+
+.noho-card-link:hover {
+  opacity: 0.7;
+}
+
+/* ========================================
+   PILLARS (3 columns features)
+   ======================================== */
+
+.noho-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+}
+
+@media (max-width: 768px) {
+  .noho-pillars {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.noho-pillar-title {
+  font-family: var(--font-noho-serif);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-noho-dark);
+  margin-bottom: 16px;
+}
+
+.noho-pillar-text {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-noho-muted);
+}
+
+/* ========================================
+   TRUST BADGES
+   ======================================== */
+
+.noho-trust-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 992px) {
+  .noho-trust-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .noho-trust-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.noho-trust-item {
+  text-align: center;
+  padding: 32px 24px;
+  background: #fff;
+}
+
+.noho-trust-title {
+  font-family: var(--font-noho-serif);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color-noho-dark);
+  margin-bottom: 8px;
+}
+
+.noho-trust-text {
+  font-size: 0.85rem;
+  color: var(--color-noho-muted);
+  line-height: 1.6;
+}
+
+/* ========================================
+   DESTINATION BANNER
+   ======================================== */
+
+.noho-banner {
+  position: relative;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px;
+  color: #fff;
+  background-color: var(--color-noho-dark);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.noho-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 1;
+}
+
+.noho-banner-content {
+  position: relative;
+  z-index: 2;
+}
+
+.noho-banner-title {
+  font-family: var(--font-noho-sans);
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 24px;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+
+/* ========================================
+   HEADER OVERLAY STYLES
+   ======================================== */
+
+body[data-route="sylius_shop_homepage"],
+body[data-route="sylius_shop_product_index"],
+body[data-route="sylius_shop_product_show"] {
+  /* Header top bar */
+  .border-bottom.py-4 {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: transparent !important;
+    border-bottom: none !important;
+    z-index: 100;
+  }
+  
+  .border-bottom.py-4 a,
+  .border-bottom.py-4 span {
+    color: #fff !important;
+  }
+  
+  .noho-logo__main {
+    color: #fff !important;
+  }
+  
+  .noho-logo__sub {
+    color: rgba(255,255,255,0.8) !important;
+  }
+  
+  /* Navigation */
+  .w-100.border-bottom {
+    position: absolute !important;
+    top: 80px;
+    left: 0;
+    right: 0;
+    background: transparent !important;
+    border-bottom: none !important;
+    z-index: 100;
+  }
+  
+  .w-100.border-bottom .nav-link {
+    color: #fff !important;
+  }
+  
+  .w-100.border-bottom .nav-link:hover {
+    color: rgba(255,255,255,0.8) !important;
+  }
+  
+  /* Flash messages */
+  .sylius-messages {
+    position: absolute !important;
+    top: 140px;
+    left: 0;
+    right: 0;
+    z-index: 50;
+  }
+}
+
+/* ========================================
+   PRODUCT PAGE
+   ======================================== */
+
+.noho-product-hero {
+  position: relative;
+  min-height: 55vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 140px 24px 60px;
+  color: #fff;
+  background-color: var(--color-noho-dark);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.noho-product-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 1;
+}
+
+.noho-product-hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.noho-product-hero h1 {
+  font-family: var(--font-noho-serif);
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 400;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.noho-product-hero p {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.9);
+}
+
+/* Booking card */
+.noho-booking-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 10px 60px rgba(0,0,0,0.12);
+  padding: 28px;
+}
+
+.noho-booking-label {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 6px;
+}
+
+.noho-booking-input {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  color: var(--color-noho-dark);
+  background: #fff;
+  border: 1px solid var(--color-noho-border);
+  border-radius: 4px;
+  outline: none;
+}
+
+.noho-booking-input:focus {
+  border-color: var(--color-noho-dark);
+}
+
+/* ========================================
+   BREADCRUMBS
+   ======================================== */
+
+.noho-breadcrumbs {
+  font-size: 0.85rem;
+  color: var(--color-noho-muted);
+  margin-bottom: 24px;
+}
+
+.noho-breadcrumbs a {
+  color: var(--color-noho-dark);
+  text-decoration: none;
+}
+
+.noho-breadcrumbs a:hover {
+  text-decoration: underline;
+}
+
+/* ========================================
+   FILTERS
+   ======================================== */
+
+.noho-filters-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-noho-border);
+}
+
+.noho-filters-count {
+  font-size: 0.9rem;
+  color: var(--color-noho-muted);
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+
+.noho-footer {
+  background: var(--color-noho-dark);
+  color: rgba(255,255,255,0.7);
+  padding: 80px 0 40px;
+}
+
+.noho-footer a {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.noho-footer a:hover {
+  color: #fff;
+}
+
+.noho-footer-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 20px;
+}
+
+/* ========================================
+   UTILITIES
+   ======================================== */
+
+.noho-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.noho-container-sm {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 768px) {
+  .noho-hero {
+    min-height: 80vh;
+    padding: 120px 20px 60px;
+  }
+  
+  .noho-section {
+    padding: 60px 0;
+  }
+  
+  .noho-section-title {
+    margin-bottom: 40px;
+  }
+  
+  .noho-search-box {
+    margin-top: -40px;
+    padding: 20px;
+  }
+  
+  .noho-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}

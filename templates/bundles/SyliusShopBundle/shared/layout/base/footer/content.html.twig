@@ -1,0 +1,78 @@
+{# Noho Footer #}
+<footer style="background: #1a1a1a; color: rgba(255,255,255,0.7); padding: 80px 0 40px; margin-top: auto;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 60px;">
+            {# Brand #}
+            <div>
+                <div style="margin-bottom: 24px;">
+                    <span style="font-family: Georgia, 'Times New Roman', serif; font-size: 1.75rem; font-weight: 400; letter-spacing: 0.03em; color: #fff;">NOHO</span>
+                    <span style="font-size: 0.55rem; font-weight: 400; letter-spacing: 0.4em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-left: 8px;">CONCIERGERIE</span>
+                </div>
+                <p style="font-size: 0.95rem; line-height: 1.7; color: rgba(255,255,255,0.6); max-width: 300px;">
+                    {{ 'noho.footer.tagline'|trans }}
+                </p>
+            </div>
+            
+            {# Navigation #}
+            <div>
+                <h4 style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 20px;">{{ 'noho.footer.navigation'|trans }}</h4>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 12px;"><a href="{{ path('sylius_shop_homepage') }}" style="color: rgba(255,255,255,0.7) !important; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;">{{ 'noho.footer.home'|trans }}</a></li>
+                    <li style="margin-bottom: 12px;"><a href="{{ path('noho_experiences', {_locale: app.request.locale}) }}" style="color: rgba(255,255,255,0.7) !important; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;">{{ 'noho.footer.experiences'|trans }}</a></li>
+                    <li style="margin-bottom: 12px;"><a href="{{ path('noho_espace_proprietaire', {_locale: app.request.locale}) }}" style="color: rgba(255,255,255,0.7) !important; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;">{{ 'noho.footer.owners'|trans }}</a></li>
+                    <li style="margin-bottom: 12px;"><a href="{{ path('sylius_shop_contact_request') }}" style="color: rgba(255,255,255,0.7) !important; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;">{{ 'noho.footer.contact'|trans }}</a></li>
+                </ul>
+            </div>
+            
+            {# Destinations #}
+            <div>
+                <h4 style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 20px;">Destinations</h4>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 12px;"><a href="{{ path('sylius_shop_product_index', {slug: 'catalogue/france/paris'}) }}" style="color: rgba(255,255,255,0.7) !important; text-decoration: none; font-size: 0.95rem;">Paris</a></li>
+                    <li style="margin-bottom: 12px;"><a href="{{ path('sylius_shop_product_index', {slug: 'catalogue/france/nice'}) }}" style="color: rgba(255,255,255,0.7) !important; text-decoration: none; font-size: 0.95rem;">Nice</a></li>
+                    <li style="margin-bottom: 12px;"><a href="{{ path('sylius_shop_product_index', {slug: 'catalogue/spain/ibiza'}) }}" style="color: rgba(255,255,255,0.7) !important; text-decoration: none; font-size: 0.95rem;">Ibiza</a></li>
+                    <li style="margin-bottom: 12px;"><a href="{{ path('sylius_shop_product_index', {slug: 'catalogue/greece/mykonos'}) }}" style="color: rgba(255,255,255,0.7) !important; text-decoration: none; font-size: 0.95rem;">Mykonos</a></li>
+                </ul>
+            </div>
+            
+            {# Contact #}
+            <div>
+                <h4 style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 20px;">{{ 'noho.footer.contact'|trans }}</h4>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.95rem; color: rgba(255,255,255,0.7);">
+                    <li style="margin-bottom: 12px;">
+                        <a href="tel:+33756833888" style="color: rgba(255,255,255,0.7) !important; text-decoration: none;">+33 7 56 83 38 88</a>
+                    </li>
+                    <li style="margin-bottom: 12px;">
+                        <a href="mailto:contact@noho.fr" style="color: rgba(255,255,255,0.7) !important; text-decoration: none;">contact@noho.fr</a>
+                    </li>
+                    <li style="margin-bottom: 12px; line-height: 1.6;">
+                        Paris, France
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        {# Bottom bar #}
+        <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <p style="font-size: 0.85rem; color: rgba(255,255,255,0.4); margin: 0;">
+                © {{ "now"|date("Y") }} Noho Conciergerie. {{ 'noho.footer.copyright'|trans }}
+            </p>
+            <div style="display: flex; gap: 24px;">
+                <a href="#" style="color: rgba(255,255,255,0.4) !important; text-decoration: none; font-size: 0.85rem;">{{ 'noho.footer.terms'|trans }}</a>
+                <a href="#" style="color: rgba(255,255,255,0.4) !important; text-decoration: none; font-size: 0.85rem;">{{ 'noho.footer.privacy'|trans }}</a>
+                <a href="#" style="color: rgba(255,255,255,0.4) !important; text-decoration: none; font-size: 0.85rem;">{{ 'noho.footer.cookies'|trans }}</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+footer a:hover { color: #fff !important; }
+@media (max-width: 900px) {
+    footer > div > div:first-child { grid-template-columns: 1fr 1fr !important; }
+}
+@media (max-width: 600px) {
+    footer > div > div:first-child { grid-template-columns: 1fr !important; }
+    footer > div > div:last-child { flex-direction: column; text-align: center; }
+}
+</style>

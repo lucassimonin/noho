@@ -1,6 +1,16 @@
-{# Grille produits mutualisée – accueil + page liste (style The French Concierge) #}
-<div class="noho-grid">
+{# Product Grid for List Page #}
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;">
     {% for product in products %}
-        {{ component('sylius_shop:product:card', { product: product, template: '@SyliusShop/shared/noho_product_card.html.twig' }) }}
+        {% set variant = product.enabledVariants|length > 0 ? product.enabledVariants.first : null %}
+        {% include '@SyliusShop/shared/noho_product_card.html.twig' with { product: product, variant: variant } %}
     {% endfor %}
 </div>
+
+<style>
+@media (max-width: 900px) {
+    [style*="grid-template-columns: repeat(3"] { grid-template-columns: repeat(2, 1fr) !important; }
+}
+@media (max-width: 550px) {
+    [style*="grid-template-columns: repeat(3"], [style*="grid-template-columns: repeat(2"] { grid-template-columns: 1fr !important; }
+}
+</style>

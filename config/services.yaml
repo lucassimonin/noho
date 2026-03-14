@@ -28,3 +28,10 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+
+    # Taxon Image Fixture
+    App\Fixture\TaxonImageFixture:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+        tags:
+            - { name: 'sylius_fixtures.fixture' }

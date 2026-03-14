@@ -1,0 +1,14 @@
+framework:
+    asset_mapper:
+        # The paths to make available to the asset mapper.
+        paths:
+            - assets/
+        missing_import_mode: strict
+
+symfonycasts_tailwind:
+    input_css: 'assets/shop/styles/tailwind.css'
+
+when@prod:
+    framework:
+        asset_mapper:
+            missing_import_mode: warn

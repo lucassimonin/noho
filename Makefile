@@ -50,9 +50,18 @@ consume: ## Cosume message async
 
 ## ——— FRONTEND———
 
-build-assets:
+build-assets: ## Build all frontend assets (Encore + Tailwind)
 	$(YARN) install --pure-lockfile
 	$(YARN) encore production
+	@$(MAKE) build-tailwind
+
+build-tailwind: ## Build Tailwind CSS
+	$(SYMFONY) tailwind:build
+	$(EXEC_PHP) mkdir -p /app/public/css
+	$(EXEC_PHP) cp /app/var/tailwind/tailwind.built.css /app/public/css/tailwind.css
+
+watch-tailwind: ## Watch Tailwind CSS for changes
+	$(SYMFONY) tailwind:build --watch
 
 ## ——— TESTS ———
 
@@ -98,7 +107,7 @@ deploy:
 
 	echo "🛑 Arrêt des workers..."
     # On arrête Supervisor pour être sûr que rien ne tourne pendant la mise à jour
-	sudo supervisorctl stop noho-worker:*
+	#sudo supervisorctl stop noho-worker:*
 
 	@echo "📥 Récupération du code..."
 	git pull origin main
@@ -107,6 +116,7 @@ deploy:
 	$(EXEC_PHP) composer install --no-dev --optimize-autoloader --no-interaction
 
 	@echo "🎨 Compilation des assets (Tailwind & AssetMapper)..."
+	$(MAKE) build-assets
 	$(SYMFONY) tailwind:build --minify
 	$(SYMFONY) asset-map:compile
 
@@ -122,6 +132,6 @@ deploy:
 
 	echo "✅ Redémarrage des workers..."
     # On relance la machine !
-	sudo supervisorctl start noho-worker:*
+	#sudo supervisorctl start noho-worker:*
 
 	@echo "✅ Noho est en ligne et à jour !"

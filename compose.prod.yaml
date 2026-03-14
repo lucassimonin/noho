@@ -15,9 +15,7 @@ services:
     environment:
       APP_ENV: prod
       APP_SECRET: ${APP_SECRET}
-      SERVER_NAME: noho.fr, www.noho.fr
-      MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_JWT_SECRET}
-      MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_JWT_SECRET}
+      SERVER_NAME: poplayer.fr, www.poplayer.fr
 
   database:
     restart: always
