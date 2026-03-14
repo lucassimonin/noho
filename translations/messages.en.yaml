@@ -1,0 +1,218 @@
+# Noho Translations - English
+
+noho:
+    # Homepage
+    hero:
+        title: "Your time is precious,<br>we handle the rest."
+        subtitle: "A premium concierge service at your disposal. Simplicity, discretion and excellence every day."
+        cta: "Discover our services"
+    
+    search:
+        destination: "Destination"
+        all_destinations: "All destinations"
+        travelers: "Travelers"
+        travelers_count: "Number"
+        traveler_singular: "traveler"
+        travelers_plural: "travelers"
+        rooms: "Bedrooms"
+        rooms_count: "Number"
+        room_singular: "bedroom"
+        rooms_plural: "bedrooms"
+        dates: "Dates"
+        select_dates: "Select your dates"
+        arrival: "Check-in"
+        departure: "Check-out"
+        search: "Search"
+    
+    how_it_works:
+        title: "How it works"
+        selection_title: "The Noho selection"
+        selection_text: "Beyond providing exceptional properties, we cultivate the art of hospitality based on anticipation and discretion. As true architects of your daily life, our mission is to make every moment smooth, simple and memorable."
+        hospitality_title: "Signature hospitality"
+        hospitality_text: "We travel far and wide to discover properties with unique character. Each residence in our portfolio is chosen for its architecture, atmosphere and ability to offer an extraordinary living experience."
+        serenity_title: "Absolute serenity"
+        serenity_text: "Whether you're staying with us or entrusting us with your keys, we take care of everything. From cutting-edge concierge services to complete technical management, our invisible presence ensures your peace of mind."
+    
+    discover: "Discover"
+    
+    latest_properties:
+        title: "Our latest properties"
+    
+    concierge:
+        title: "The Concierge"
+        text: "A pioneer in the world of prestige concierge services, our house cultivates a passion for hospitality and the art of entertaining. This expertise allows us to elevate a collection of exceptional services, for a simplified and elegant daily life."
+        cta: "Learn more"
+    
+    trust:
+        title: "Why choose us?"
+        support_title: "24/7 Support"
+        support_text: "A team available every day to respond to your requests."
+        qualified_title: "Qualified professionals"
+        qualified_text: "Rigorously selected and trained professionals meeting our standards."
+        secure_title: "Secure payment"
+        secure_text: "Protected transactions and guaranteed data confidentiality."
+        custom_title: "Tailored service"
+        custom_text: "Solutions adapted to your lifestyle and priorities."
+    
+    # Product list
+    filters:
+        title: "Filters"
+        price_per_night: "Price per night"
+        price_under_500: "Under €500"
+        price_500_1000: "€500 - €1,000"
+        price_1000_2000: "€1,000 - €2,000"
+        price_over_2000: "Over €2,000"
+        apply: "Apply filters"
+        reset: "Reset"
+        properties: "properties"
+        property: "property"
+        sort_by: "Sort by"
+        position: "Position"
+        price_asc: "Price ascending"
+        price_desc: "Price descending"
+        name: "Name"
+        newest: "Newest"
+    
+    breadcrumb:
+        home: "Home"
+    
+    # Product page
+    product:
+        per_night: "/ night"
+        guests: "Guests"
+        bedrooms: "Bedrooms"
+        surface: "Surface"
+        sqm: "sqm"
+        description: "Description"
+        features: "Amenities"
+        location: "Location"
+        reviews: "Reviews"
+        booking:
+            title: "Book this property"
+            dates: "Stay dates"
+            select_dates: "Select dates"
+            guests: "Number of guests"
+            select_guests: "Select"
+            guest_singular: "guest"
+            guests_plural: "guests"
+            submit: "Send my request"
+            info: "No commitment • Response within 24h"
+    
+    # Experiences page
+    experiences:
+        title: "Experiences"
+        subtitle: "Exceptional moments designed for you"
+        gastronomy:
+            title: "Gastronomy"
+            text: "Michelin-starred restaurants, private chefs and exclusive tastings. We orchestrate memorable culinary experiences, from intimate dinners to grand celebrations."
+        wellness:
+            title: "Wellness"
+            text: "Private spas, bespoke treatments and rejuvenating retreats. Treat yourself to a moment of serenity in the most beautiful establishments."
+        culture:
+            title: "Culture & Art"
+            text: "Private tours, VIP access to exhibitions and meetings with artists. Dive into the heart of creation and heritage."
+        cta:
+            title: "Let's create your experience together"
+            button: "Contact us"
+    
+    # Owners page
+    owners:
+        title: "Property Owners"
+        subtitle: "Entrust us with your exceptional property"
+        why_title: "Why join Noho?"
+        visibility:
+            title: "Premium visibility"
+            text: "Your property showcased to a demanding and qualified international clientele."
+        management:
+            title: "Complete management"
+            text: "From marketing to welcoming travelers, we handle everything with excellence."
+        revenue:
+            title: "Optimized revenue"
+            text: "Our yield management expertise maximizes your income throughout the year."
+        stats:
+            properties: "managed properties"
+            occupancy: "occupancy rate"
+            satisfaction: "client satisfaction"
+        services_title: "Our owner services"
+        marketing:
+            title: "Marketing & Distribution"
+            text: "Professional photography, premium copywriting and multi-channel distribution."
+        concierge:
+            title: "24/7 Concierge"
+            text: "Personalized welcome, request management and permanent assistance."
+        maintenance:
+            title: "Maintenance & Upkeep"
+            text: "Service provider coordination, technical monitoring and incident management."
+        reporting:
+            title: "Reporting & Transparency"
+            text: "Real-time dashboards and detailed monthly reports."
+        how_title: "How it works"
+        step1:
+            title: "1. First contact"
+            text: "Let's discuss your project and expectations."
+        step2:
+            title: "2. Visit & Evaluation"
+            text: "We visit your property and provide an estimate."
+        step3:
+            title: "3. Go live"
+            text: "Photo shoot, listing creation and publication."
+        step4:
+            title: "4. Management & Revenue"
+            text: "We manage everything, you receive your income."
+        cta:
+            title: "Ready to join us?"
+            button: "Become a partner"
+    
+    # Contact page
+    contact:
+        title: "Contact"
+        subtitle: "A question? A project? We're here to help."
+        form_title: "Send us a message"
+    
+    # Footer
+    footer:
+        tagline: "The art of exceptional hospitality"
+        navigation: "Navigation"
+        home: "Home"
+        properties: "Our properties"
+        experiences: "Experiences"
+        owners: "Property Owners"
+        contact: "Contact"
+        legal: "Legal information"
+        terms: "Terms & conditions"
+        privacy: "Privacy policy"
+        cookies: "Cookie settings"
+        follow_us: "Follow us"
+        copyright: "All rights reserved."
+    
+    # Login/Register
+    auth:
+        login_subtitle: "Sign in to your account"
+        register_subtitle: "Create your account"
+        no_account: "Don't have an account?"
+        already_registered: "Already registered?"
+        confirm_password: "Confirm password"
+    
+    # Calendar
+    calendar:
+        months:
+            january: "January"
+            february: "February"
+            march: "March"
+            april: "April"
+            may: "May"
+            june: "June"
+            july: "July"
+            august: "August"
+            september: "September"
+            october: "October"
+            november: "November"
+            december: "December"
+        days:
+            mon: "Mon"
+            tue: "Tue"
+            wed: "Wed"
+            thu: "Thu"
+            fri: "Fri"
+            sat: "Sat"
+            sun: "Sun"

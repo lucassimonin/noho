@@ -1,0 +1,218 @@
+# Noho Translations - French
+
+noho:
+    # Homepage
+    hero:
+        title: "Votre temps est précieux,<br>nous gérons le reste."
+        subtitle: "Une conciergerie haut de gamme à votre service. Simplicité, discrétion et excellence au quotidien."
+        cta: "Découvrir nos services"
+    
+    search:
+        destination: "Destination"
+        all_destinations: "Toutes les destinations"
+        travelers: "Voyageurs"
+        travelers_count: "Nombre"
+        traveler_singular: "voyageur"
+        travelers_plural: "voyageurs"
+        rooms: "Chambres"
+        rooms_count: "Nombre"
+        room_singular: "chambre"
+        rooms_plural: "chambres"
+        dates: "Dates"
+        select_dates: "Sélectionner vos dates"
+        arrival: "Arrivée"
+        departure: "Départ"
+        search: "Rechercher"
+    
+    how_it_works:
+        title: "Comment ça marche ?"
+        selection_title: "La sélection Noho"
+        selection_text: "Au-delà de la mise à disposition de lieux d'exception, nous cultivons un art de recevoir fondé sur l'anticipation et la discrétion. Véritables architectes de votre quotidien, notre mission est de rendre chaque instant fluide, simple et mémorable."
+        hospitality_title: "L'hospitalité signature"
+        hospitality_text: "Nous parcourons les territoires pour dénicher des propriétés au caractère unique. Chaque demeure de notre portfolio est choisie pour son architecture, son atmosphère et sa capacité à offrir une expérience de vie hors du commun."
+        serenity_title: "Sérénité absolue"
+        serenity_text: "Que vous séjourniez chez nous ou que vous nous confiiez vos clés, nous prenons tout en charge. De la conciergerie de pointe à la gestion technique complète, notre présence invisible garantit votre tranquillité d'esprit."
+    
+    discover: "Découvrir"
+    
+    latest_properties:
+        title: "Nos nouvelles adresses"
+    
+    concierge:
+        title: "La Conciergerie"
+        text: "Pionnière dans l'univers des conciergeries de prestige, notre maison cultive une passion pour l'hospitalité et l'art de recevoir. Cette expertise nous permet de sublimer une collection de prestations d'exception, pour un quotidien simplifié et élégant."
+        cta: "En savoir plus"
+    
+    trust:
+        title: "Pourquoi nous choisir ?"
+        support_title: "Support 7j/7"
+        support_text: "Une équipe disponible tous les jours pour répondre à vos demandes."
+        qualified_title: "Intervenants qualifiés"
+        qualified_text: "Des professionnels rigoureusement sélectionnés et formés à nos standards."
+        secure_title: "Paiement sécurisé"
+        secure_text: "Transactions protégées et données confidentielles garanties."
+        custom_title: "Service sur mesure"
+        custom_text: "Des formules adaptées à votre mode de vie et à vos priorités."
+    
+    # Product list
+    filters:
+        title: "Filtres"
+        price_per_night: "Prix par nuit"
+        price_under_500: "Moins de 500 €"
+        price_500_1000: "500 € - 1 000 €"
+        price_1000_2000: "1 000 € - 2 000 €"
+        price_over_2000: "Plus de 2 000 €"
+        apply: "Appliquer les filtres"
+        reset: "Réinitialiser"
+        properties: "propriétés"
+        property: "propriété"
+        sort_by: "Trier par"
+        position: "Position"
+        price_asc: "Prix croissant"
+        price_desc: "Prix décroissant"
+        name: "Nom"
+        newest: "Nouveautés"
+    
+    breadcrumb:
+        home: "Accueil"
+    
+    # Product page
+    product:
+        per_night: "/ nuit"
+        guests: "Voyageurs"
+        bedrooms: "Chambres"
+        surface: "Surface"
+        sqm: "m²"
+        description: "Description"
+        features: "Équipements"
+        location: "Localisation"
+        reviews: "Avis"
+        booking:
+            title: "Réserver cette propriété"
+            dates: "Dates de séjour"
+            select_dates: "Sélectionner les dates"
+            guests: "Nombre de voyageurs"
+            select_guests: "Sélectionner"
+            guest_singular: "voyageur"
+            guests_plural: "voyageurs"
+            submit: "Envoyer ma demande"
+            info: "Sans engagement • Réponse sous 24h"
+    
+    # Experiences page
+    experiences:
+        title: "Expériences"
+        subtitle: "Des moments d'exception pensés pour vous"
+        gastronomy:
+            title: "Gastronomie"
+            text: "Tables étoilées, chefs privés et dégustations exclusives. Nous orchestrons des expériences culinaires mémorables, des dîners intimes aux grandes célébrations."
+        wellness:
+            title: "Bien-être"
+            text: "Spa privatifs, soins sur-mesure et retraites régénérantes. Offrez-vous une parenthèse de sérénité dans les plus beaux établissements."
+        culture:
+            title: "Culture & Art"
+            text: "Visites privées, accès VIP aux expositions et rencontres avec des artistes. Plongez au cœur de la création et du patrimoine."
+        cta:
+            title: "Créons ensemble votre expérience"
+            button: "Nous contacter"
+    
+    # Owners page
+    owners:
+        title: "Espace Propriétaires"
+        subtitle: "Confiez-nous votre bien d'exception"
+        why_title: "Pourquoi rejoindre Noho ?"
+        visibility:
+            title: "Visibilité premium"
+            text: "Votre propriété mise en valeur auprès d'une clientèle internationale exigeante et qualifiée."
+        management:
+            title: "Gestion complète"
+            text: "De la commercialisation à l'accueil des voyageurs, nous prenons tout en charge avec excellence."
+        revenue:
+            title: "Revenus optimisés"
+            text: "Notre expertise en yield management maximise vos revenus tout au long de l'année."
+        stats:
+            properties: "propriétés gérées"
+            occupancy: "taux d'occupation"
+            satisfaction: "satisfaction client"
+        services_title: "Nos services propriétaires"
+        marketing:
+            title: "Marketing & Distribution"
+            text: "Photos professionnelles, rédaction premium et diffusion multi-canaux."
+        concierge:
+            title: "Conciergerie 24/7"
+            text: "Accueil personnalisé, gestion des demandes et assistance permanente."
+        maintenance:
+            title: "Maintenance & Entretien"
+            text: "Coordination des prestataires, suivi technique et gestion des incidents."
+        reporting:
+            title: "Reporting & Transparence"
+            text: "Tableaux de bord en temps réel et rapports mensuels détaillés."
+        how_title: "Comment ça marche ?"
+        step1:
+            title: "1. Premier contact"
+            text: "Échangeons sur votre projet et vos attentes."
+        step2:
+            title: "2. Visite & Évaluation"
+            text: "Nous visitons votre bien et établissons une estimation."
+        step3:
+            title: "3. Mise en ligne"
+            text: "Shooting photo, création de l'annonce et publication."
+        step4:
+            title: "4. Gestion & Revenus"
+            text: "Nous gérons tout, vous percevez vos revenus."
+        cta:
+            title: "Prêt à nous rejoindre ?"
+            button: "Devenir partenaire"
+    
+    # Contact page
+    contact:
+        title: "Contact"
+        subtitle: "Une question ? Un projet ? Nous sommes à votre écoute."
+        form_title: "Envoyez-nous un message"
+    
+    # Footer
+    footer:
+        tagline: "L'art de l'hospitalité d'exception"
+        navigation: "Navigation"
+        home: "Accueil"
+        properties: "Nos propriétés"
+        experiences: "Expériences"
+        owners: "Espace Propriétaires"
+        contact: "Contact"
+        legal: "Informations légales"
+        terms: "Conditions générales"
+        privacy: "Politique de confidentialité"
+        cookies: "Gestion des cookies"
+        follow_us: "Suivez-nous"
+        copyright: "Tous droits réservés."
+    
+    # Login/Register
+    auth:
+        login_subtitle: "Connectez-vous à votre compte"
+        register_subtitle: "Créez votre compte"
+        no_account: "Pas encore de compte ?"
+        already_registered: "Déjà inscrit ?"
+        confirm_password: "Confirmer le mot de passe"
+    
+    # Calendar
+    calendar:
+        months:
+            january: "Janvier"
+            february: "Février"
+            march: "Mars"
+            april: "Avril"
+            may: "Mai"
+            june: "Juin"
+            july: "Juillet"
+            august: "Août"
+            september: "Septembre"
+            october: "Octobre"
+            november: "Novembre"
+            december: "Décembre"
+        days:
+            mon: "Lu"
+            tue: "Ma"
+            wed: "Me"
+            thu: "Je"
+            fri: "Ve"
+            sat: "Sa"
+            sun: "Di"
