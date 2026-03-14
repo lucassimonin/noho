@@ -63,6 +63,9 @@
             <div class="d-lg-none noho-mobile-nav">
                 {# Navigation links #}
                 <div class="noho-mobile-nav-section">
+                    <a href="{{ path('sylius_shop_homepage') }}" class="noho-mobile-nav-link">
+                        {{ 'sylius.ui.home'|trans }}
+                    </a>
                     <a href="{{ path('sylius_shop_product_index', {slug: 'catalogue'}) }}" class="noho-mobile-nav-link">
                         Catalogue
                     </a>
