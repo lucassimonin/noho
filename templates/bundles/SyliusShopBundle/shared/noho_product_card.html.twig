@@ -9,7 +9,7 @@
     {% set image_path = asset('bundles/syliusui/images/200x200.png') %}
 {% endif %}
 
-<article {{ sylius_test_html_attribute('product', product.code) }} style="background: #fff; border-radius: 4px; overflow: hidden; transition: all 0.4s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.06);" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.12)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.06)';">
+<article {{ sylius_test_html_attribute('product', product.code) }} class="noho-product-card" style="background: #fff; border-radius: 4px; overflow: hidden; transition: all 0.4s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.06); max-width: 100%;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.12)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.06)';">
     <a href="{{ productUrl }}" style="display: block; text-decoration: none !important; color: inherit;">
         {# Image Container #}
         <div style="position: relative; aspect-ratio: 4/3; overflow: hidden; background: #f5f5f5;">

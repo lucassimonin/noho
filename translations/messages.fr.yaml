@@ -1,6 +1,10 @@
 # Noho Translations - French
 
 noho:
+    # Menu
+    menu:
+        close: "Fermer"
+    
     # Homepage
     hero:
         title: "Votre temps est précieux,<br>nous gérons le reste."

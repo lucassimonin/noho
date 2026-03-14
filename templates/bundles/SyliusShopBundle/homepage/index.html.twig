@@ -11,8 +11,8 @@
 </section>
 
 {# Search Box - Full Width Horizontal #}
-<div style="max-width: 1100px; margin: -50px auto 0; padding: 0 24px; position: relative; z-index: 100;">
-    <div style="background: #fff; border-radius: 12px; box-shadow: 0 10px 60px rgba(0,0,0,0.15); padding: 28px 36px;">
+<div class="noho-search-wrapper">
+    <div class="noho-search-box">
         <form action="{{ path('sylius_shop_product_index', {slug: 'catalogue'}) }}" method="get">
             <div class="search-grid" style="display: grid; grid-template-columns: 1.2fr 0.8fr 0.8fr 1.2fr auto; gap: 20px; align-items: end;">
                 {# Destination #}

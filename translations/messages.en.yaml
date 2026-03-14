@@ -1,6 +1,10 @@
 # Noho Translations - English
 
 noho:
+    # Menu
+    menu:
+        close: "Close"
+    
     # Homepage
     hero:
         title: "Your time is precious,<br>we handle the rest."

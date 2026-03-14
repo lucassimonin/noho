@@ -1,9 +1,18 @@
 {# Sidebar with Filters #}
 {% set taxon = noho_current_taxon() %}
 
-<aside style="width: 280px; flex-shrink: 0; position: sticky; top: 24px;">
+<aside class="noho-list-sidebar">
     <div style="background: #fff; border-radius: 12px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
-        <h3 style="font-family: Georgia, serif; font-size: 1.1rem; font-weight: 600; color: #1a1a1a; margin: 0 0 24px; padding-bottom: 16px; border-bottom: 1px solid #eee;">{{ 'noho.filters.title'|trans }}</h3>
+        {# Mobile toggle header #}
+        <div class="noho-filters-header" id="filtersToggle">
+            <h3 style="font-family: Georgia, serif; font-size: 1.1rem; font-weight: 600; color: #1a1a1a; margin: 0;">{{ 'noho.filters.title'|trans }}</h3>
+            <svg class="noho-filters-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1a1a" stroke-width="2">
+                <path d="M6 9l6 6 6-6"/>
+            </svg>
+        </div>
+        
+        {# Filters content - collapsible on mobile #}
+        <div class="noho-filters-content" id="filtersContent">
         
         {# Price Filter #}
         <div style="margin-bottom: 28px;">
@@ -115,6 +124,7 @@
         <a href="{{ taxon ? path('sylius_shop_product_index', {slug: taxon.slug}) : path('sylius_shop_homepage') }}" style="display: block; text-align: center; margin-top: 12px; font-size: 0.85rem; color: #999 !important; text-decoration: none;">
             {{ 'noho.filters.reset'|trans }}
         </a>
+        </div>{# End filters content #}
     </div>
 </aside>
 

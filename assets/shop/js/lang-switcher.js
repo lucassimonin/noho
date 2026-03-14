@@ -11,18 +11,10 @@ document.addEventListener('DOMContentLoaded', function() {
         menu.style.right = (window.innerWidth - rect.right) + 'px';
     }
     
-    function toggleMenu(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        if (menu.classList.contains('open')) {
-            menu.classList.remove('open');
-            switcher.classList.remove('open');
-        } else {
-            positionMenu();
-            menu.classList.add('open');
-            switcher.classList.add('open');
-        }
+    function openMenu() {
+        positionMenu();
+        menu.classList.add('open');
+        switcher.classList.add('open');
     }
     
     function closeMenu() {
@@ -30,10 +22,27 @@ document.addEventListener('DOMContentLoaded', function() {
         switcher.classList.remove('open');
     }
     
+    function toggleMenu(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        if (menu.classList.contains('open')) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    }
+    
     btn.addEventListener('click', toggleMenu);
     
+    // Close when clicking outside, but not on menu items (let them navigate)
     document.addEventListener('click', function(e) {
-        if (!switcher.contains(e.target) && !menu.contains(e.target)) {
+        // If clicking on a lang item, let it navigate
+        if (e.target.closest('.noho-lang-item')) {
+            return;
+        }
+        // If clicking outside switcher, close menu
+        if (!switcher.contains(e.target)) {
             closeMenu();
         }
     });

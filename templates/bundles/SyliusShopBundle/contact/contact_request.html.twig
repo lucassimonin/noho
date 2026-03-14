@@ -17,7 +17,7 @@
 {# Contact Section #}
 <section style="padding: 80px 0; background: #f8f8f8;">
     <div style="max-width: 1100px; margin: 0 auto; padding: 0 24px;">
-        <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: start;">
+        <div class="noho-contact-grid">
             
             {# Contact Info #}
             <div>
@@ -40,7 +40,7 @@
             </div>
             
             {# Contact Form #}
-            <div style="background: #fff; border-radius: 12px; padding: 40px; box-shadow: 0 4px 24px rgba(0,0,0,0.06);">
+            <div class="noho-contact-form">
                 <h3 style="font-family: Georgia, serif; font-size: 1.5rem; font-weight: 400; color: #1a1a1a; margin: 0 0 32px;">Envoyez-nous un message</h3>
                 
                 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}

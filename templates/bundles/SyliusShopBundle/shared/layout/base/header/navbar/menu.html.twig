@@ -1,15 +1,34 @@
 {# Noho Navigation Menu #}
+{% set available_locales = sylius.channel.locales %}
+{% set active_locale = app.request.locale %}
+{% set locale_flags = {
+    'fr_FR': '🇫🇷',
+    'fr': '🇫🇷',
+    'en_US': '🇬🇧',
+    'en_GB': '🇬🇧',
+    'en': '🇬🇧'
+} %}
+{% set locale_names = {
+    'fr_FR': 'Français',
+    'fr': 'Français',
+    'en_US': 'English',
+    'en_GB': 'English',
+    'en': 'English'
+} %}
+
 <div class="w-100 border-bottom noho-nav-wrapper">
     <nav class="navbar offcanvas-lg offcanvas-start offcanvas-wide p-0" id="navbarNav">
-        <div class="offcanvas-header w-full">
-            <h5 class="offcanvas-title">Menu</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#navbarNav" aria-label="Close"></button>
+        <div class="offcanvas-header">
+            <button type="button" class="noho-close-btn" data-bs-dismiss="offcanvas" data-bs-target="#navbarNav" aria-label="Close">
+                {{ 'noho.menu.close'|trans }}
+            </button>
         </div>
-        <div class="offcanvas-body justify-content-lg-center w-full py-0">
-            <div class="navbar-nav my-2 flex-column flex-lg-row gap-lg-4 noho-main-nav" {{ sylius_test_html_attribute('menu') }}>
-                
-                {# Catalogue Mega Menu #}
-                {% if taxons|length > 0 %}
+        <div class="offcanvas-body w-full py-0 d-flex flex-column">
+
+            {# ===== DESKTOP NAV (horizontal, centered) ===== #}
+            <div class="navbar-nav my-2 flex-row gap-4 noho-main-nav d-none d-lg-flex justify-content-center" {{ sylius_test_html_attribute('menu') }}>
+                {# Catalogue Mega Menu - Desktop #}
+                {% if taxons|default([])|length > 0 %}
                 <div class="noho-mega-dropdown">
                     <a href="{{ path('sylius_shop_product_index', {slug: 'catalogue'}) }}" class="nav-link noho-mega-trigger">
                         Catalogue
@@ -17,23 +36,15 @@
                             <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" fill="none"/>
                         </svg>
                     </a>
-                    
                     <div class="noho-mega-menu">
                         <div class="noho-mega-content">
                             {% for taxon in taxons %}
-                                {# Country column #}
                                 <div class="noho-mega-column">
-                                    <a href="{{ path('sylius_shop_product_index', {slug: taxon.slug}) }}" class="noho-mega-title">
-                                        {{ taxon.name }}
-                                    </a>
+                                    <a href="{{ path('sylius_shop_product_index', {slug: taxon.slug}) }}" class="noho-mega-title">{{ taxon.name }}</a>
                                     {% if taxon.enabledChildren|length > 0 %}
                                         <ul class="noho-mega-list">
                                             {% for child in taxon.enabledChildren %}
-                                                <li>
-                                                    <a href="{{ path('sylius_shop_product_index', {slug: child.slug}) }}">
-                                                        {{ child.name }}
-                                                    </a>
-                                                </li>
+                                                <li><a href="{{ path('sylius_shop_product_index', {slug: child.slug}) }}">{{ child.name }}</a></li>
                                             {% endfor %}
                                         </ul>
                                     {% endif %}
@@ -43,16 +54,56 @@
                     </div>
                 </div>
                 {% endif %}
-                
-                {# Expériences #}
                 <a href="{{ path('noho_experiences', { _locale: app.request.locale }) }}" class="nav-link">Expériences</a>
-                
-                {# Espace Propriétaires #}
                 <a href="{{ path('noho_espace_proprietaire', { _locale: app.request.locale }) }}" class="nav-link">Espace Propriétaires</a>
-                
-                {# Contact #}
                 <a href="{{ path('sylius_shop_contact_request') }}" class="nav-link">Contact</a>
             </div>
+
+            {# ===== MOBILE NAV (vertical, full content) ===== #}
+            <div class="d-lg-none noho-mobile-nav">
+                {# Navigation links #}
+                <div class="noho-mobile-nav-section">
+                    <a href="{{ path('sylius_shop_product_index', {slug: 'catalogue'}) }}" class="noho-mobile-nav-link">
+                        Catalogue
+                    </a>
+                    <a href="{{ path('noho_experiences', { _locale: app.request.locale }) }}" class="noho-mobile-nav-link">
+                        Expériences
+                    </a>
+                    <a href="{{ path('noho_espace_proprietaire', { _locale: app.request.locale }) }}" class="noho-mobile-nav-link">
+                        Espace Propriétaires
+                    </a>
+                    <a href="{{ path('sylius_shop_contact_request') }}" class="noho-mobile-nav-link">
+                        Contact
+                    </a>
+                </div>
+
+                {# Bottom section: Account + Language #}
+                <div class="noho-mobile-bottom">
+                    {# Account links - side by side #}
+                    <div class="noho-mobile-account">
+                        <a href="{{ path('sylius_shop_login') }}" class="noho-mobile-account-btn">
+                            Connexion
+                        </a>
+                        <a href="{{ path('sylius_shop_register') }}" class="noho-mobile-account-btn noho-mobile-account-btn--outline">
+                            Inscription
+                        </a>
+                    </div>
+
+                    {# Language switcher #}
+                    {% if available_locales|length > 1 %}
+                    <div class="noho-mobile-lang">
+                        {% for locale in available_locales %}
+                            <a href="{{ path('sylius_shop_switch_locale', {'code': locale.code}) }}"
+                               class="noho-mobile-lang-btn {% if locale.code == active_locale %}active{% endif %}">
+                                <span>{{ locale_flags[locale.code]|default('🌐') }}</span>
+                                <span>{{ locale_names[locale.code]|default(locale.code) }}</span>
+                            </a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
         </div>
     </nav>
 </div>
@@ -170,12 +221,12 @@
         padding-top: 0;
         display: none;
     }
-    
+
     .noho-mega-dropdown:hover .noho-mega-menu,
     .noho-mega-dropdown.active .noho-mega-menu {
         display: block;
     }
-    
+
     .noho-mega-content {
         flex-direction: column;
         min-width: 100%;
@@ -184,16 +235,127 @@
         padding: 16px;
         margin-top: 8px;
     }
-    
+
     .noho-mega-column {
         padding: 16px 0;
         border-right: none;
         border-bottom: 1px solid rgba(255,255,255,0.1);
         min-width: auto;
     }
-    
+
     .noho-mega-column:last-child {
         border-bottom: none;
     }
+}
+
+/* Mobile menu styles */
+.noho-mobile-nav {
+    padding: 32px 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.noho-mobile-nav-section {
+    margin-bottom: 32px;
+}
+
+.noho-mobile-nav-link {
+    display: block;
+    padding: 18px 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #1a1a1a !important;
+    text-decoration: none !important;
+    border-bottom: 1px solid #f0f0f0;
+    transition: opacity 0.2s;
+    letter-spacing: 0.02em;
+}
+
+.noho-mobile-nav-link:first-child {
+    padding-top: 0;
+}
+
+.noho-mobile-nav-link:last-child {
+    border-bottom: none;
+}
+
+.noho-mobile-nav-link:hover {
+    opacity: 0.6;
+}
+
+/* Bottom section - pushed to bottom */
+.noho-mobile-bottom {
+    margin-top: auto;
+    padding-top: 32px;
+    border-top: 1px solid #eee;
+}
+
+/* Account buttons - side by side */
+.noho-mobile-account {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.noho-mobile-account-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none !important;
+    border-radius: 8px;
+    transition: all 0.2s;
+    background: #1a1a1a;
+    color: #fff !important;
+}
+
+.noho-mobile-account-btn:hover {
+    background: #333;
+}
+
+.noho-mobile-account-btn--outline {
+    background: #fff;
+    color: #1a1a1a !important;
+    border: 1px solid #1a1a1a;
+}
+
+.noho-mobile-account-btn--outline:hover {
+    background: #f5f5f5;
+}
+
+/* Language switcher */
+.noho-mobile-lang {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.noho-mobile-lang-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: #f5f5f5;
+    border: none;
+    border-radius: 8px;
+    color: #1a1a1a !important;
+    text-decoration: none !important;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.noho-mobile-lang-btn:hover {
+    background: #eee;
+}
+
+.noho-mobile-lang-btn.active {
+    background: #1a1a1a;
+    color: #fff !important;
 }
 </style>
