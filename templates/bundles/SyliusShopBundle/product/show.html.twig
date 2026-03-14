@@ -41,6 +41,31 @@
 
 {# Main Content #}
 <div style="max-width: 1200px; margin: 0 auto; padding: 60px 24px;">
+    
+    {# Breadcrumbs #}
+    {% set taxon = product.mainTaxon %}
+    {% set ancestors = noho_taxon_ancestors(taxon) %}
+    <nav style="font-size: 0.85rem; color: #666; margin-bottom: 32px;">
+        <a href="{{ path('sylius_shop_homepage') }}" style="color: #666 !important; text-decoration: none;">{{ 'noho.breadcrumb.home'|trans }}</a>
+        
+        {% if taxon %}
+            {% for ancestor in ancestors %}
+                <span style="margin: 0 8px; color: #ccc;">›</span>
+                {% if ancestor.slug %}
+                    <a href="{{ path('sylius_shop_product_index', {'slug': ancestor.slug}) }}" style="color: #666 !important; text-decoration: none;">{{ ancestor.name }}</a>
+                {% else %}
+                    <span style="color: #666;">{{ ancestor.name }}</span>
+                {% endif %}
+            {% endfor %}
+            
+            <span style="margin: 0 8px; color: #ccc;">›</span>
+            <a href="{{ path('sylius_shop_product_index', {'slug': taxon.slug}) }}" style="color: #666 !important; text-decoration: none;">{{ taxon.name }}</a>
+        {% endif %}
+        
+        <span style="margin: 0 8px; color: #ccc;">›</span>
+        <span style="color: #1a1a1a; font-weight: 500;">{{ product.name }}</span>
+    </nav>
+    
     <div style="display: grid; grid-template-columns: 1fr 380px; gap: 60px; align-items: start;">
         
         {# Left Column - Gallery & Details #}
