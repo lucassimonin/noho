@@ -27,12 +27,38 @@ html, body {
   display: flex !important;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 992px) {
   .navbar-toggler {
     display: none !important;
   }
+}
+
+/* Block body scroll when offcanvas is open */
+body.offcanvas-open,
+body:has(.offcanvas.show),
+body:has(.offcanvas.showing) {
+  overflow: hidden !important;
+}
+
+/* Hide header elements behind offcanvas */
+body:has(.offcanvas.show) .border-bottom.py-4,
+body:has(.offcanvas.showing) .border-bottom.py-4 {
+  z-index: 1 !important;
+}
+
+/* Ensure offcanvas is above everything */
+.offcanvas {
+  z-index: 1055 !important;
+}
+
+.offcanvas-backdrop {
+  z-index: 1050 !important;
+  background: transparent !important;
+  opacity: 0 !important;
 }
 
 /* Mobile menu offcanvas - full screen */
@@ -361,7 +387,7 @@ body[data-route="sylius_shop_product_show"] .border-bottom.py-4:first-of-type {
   right: 0;
   background: transparent !important;
   border-bottom: none !important;
-  z-index: 1000;
+  z-index: 100;
 }
 
 /* All header links white */
@@ -387,7 +413,7 @@ body[data-route="sylius_shop_product_show"] nav.border-bottom {
   right: 0;
   background: transparent !important;
   border-bottom: none !important;
-  z-index: 1000;
+  z-index: 100;
 }
 
 /* Navigation links white */
