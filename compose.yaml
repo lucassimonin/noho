@@ -4,8 +4,6 @@ services:
     build:
       context: .
       target: frankenphp_dev
-    # Le nom de l'image locale
-    image: noho
     # Important pour le hot-reloading en dev
     volumes:
       - ./:/app

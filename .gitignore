@@ -82,3 +82,8 @@ phpstan.neon
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+###> production ###
+.env.prod
+.env.local
+###< production ###
