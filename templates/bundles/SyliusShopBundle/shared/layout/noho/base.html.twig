@@ -14,8 +14,10 @@
 
     <title>{% block title %}{{ sylius.channel.name }}{% endblock %}</title>
 
-    {# Tailwind CSS via AssetMapper #}
+    {# Stylesheets: Sylius Shop + App Shop (Noho overrides) + Tailwind #}
     {% block stylesheets %}
+        {{ encore_entry_link_tags('shop-entry', null, 'shop') }}
+        {{ encore_entry_link_tags('app-shop-entry', null, 'app.shop') }}
         {{ importmap('shop') }}
     {% endblock %}
 
@@ -47,7 +49,7 @@
 
     {% block javascripts %}
         {# Sylius JS via Webpack Encore (for Stimulus components) #}
-        {{ encore_entry_script_tags('sylius-shop-entry', null, 'sylius.shop') }}
+        {{ encore_entry_script_tags('shop-entry', null, 'shop') }}
         {{ encore_entry_script_tags('app-shop-entry', null, 'app.shop') }}
     {% endblock %}
 </body>

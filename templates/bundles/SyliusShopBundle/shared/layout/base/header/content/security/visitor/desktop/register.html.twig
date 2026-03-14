@@ -25,9 +25,6 @@
     <button type="button" class="noho-lang-btn" id="nohoLangBtn">
         <span style="font-size: 1.1rem;">{{ locale_flags[active_locale]|default('🌐') }}</span>
         <span>{{ active_locale|slice(0, 2)|upper }}</span>
-        <svg width="10" height="6" viewBox="0 0 10 6" fill="currentColor" style="margin-left: 2px; transition: transform 0.2s;">
-            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" fill="none"/>
-        </svg>
     </button>
     <div class="noho-lang-menu" id="nohoLangMenu">
         {% for locale in available_locales %}
