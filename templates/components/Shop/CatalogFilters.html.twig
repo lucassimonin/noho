@@ -1,0 +1,354 @@
+{# Catalog filters: URL + fetch partial update (see noho-catalog-partial-update.js). #}
+{# strict_variables: use is defined — |default() does not catch undefined vars #}
+{% set voyageurs = voyageurs is defined ? voyageurs : '' %}
+{% set chambres = chambres is defined ? chambres : '' %}
+{% set priceBucket = priceBucket is defined ? priceBucket : '' %}
+{% set dateStart = dateStart is defined ? dateStart : '' %}
+{% set dateEnd = dateEnd is defined ? dateEnd : '' %}
+<div class="noho-catalog-filters-live">
+    <input type="hidden" id="list-noho-date-start" value="{{ dateStart }}">
+    <input type="hidden" id="list-noho-date-end" value="{{ dateEnd }}">
+
+    {# Price buckets — criteria[noho_price][value] #}
+    <section class="noho-filter-section" aria-labelledby="noho-filter-price-label">
+        <h4 id="noho-filter-price-label" class="noho-filter-heading">{{ 'noho.filters.price_per_night'|trans }}</h4>
+        <div class="noho-price-options">
+            {% for bucket, label_key in {
+                '0-500': 'noho.filters.price_under_500',
+                '500-1000': 'noho.filters.price_500_1000',
+                '1000-2000': 'noho.filters.price_1000_2000',
+                '2000_plus': 'noho.filters.price_over_2000',
+            } %}
+                <button type="button"
+                        class="noho-price-bucket-btn{% if priceBucket == bucket %} is-active{% endif %}"
+                        data-noho-price-bucket="{{ bucket|e('html_attr') }}">
+                    {{ label_key|trans }}
+                </button>
+            {% endfor %}
+        </div>
+    </section>
+
+    {# Bedrooms #}
+    <section class="noho-filter-section noho-filter-bedrooms" aria-labelledby="noho-filter-rooms-label">
+        <h4 id="noho-filter-rooms-label" class="noho-filter-heading">{{ 'noho.search.rooms'|trans }}</h4>
+        <div class="noho-filter-segmented" role="group">
+            {% for n in ['1', '2', '3', '4', '5+'] %}
+                <button type="button"
+                        class="noho-filter-chip{% if chambres == n %} is-active{% endif %}"
+                        data-noho-chambres="{{ n|e('html_attr') }}">{{ n }}</button>
+            {% endfor %}
+        </div>
+    </section>
+
+    {# Travelers #}
+    <section class="noho-filter-section noho-filter-travelers" aria-labelledby="noho-filter-guests-label">
+        <h4 id="noho-filter-guests-label" class="noho-filter-heading">{{ 'noho.search.travelers'|trans }}</h4>
+        <div class="noho-filter-segmented" role="group">
+            {% for n in ['1', '2', '3', '4', '5+'] %}
+                <button type="button"
+                        class="noho-filter-chip{% if voyageurs == n %} is-active{% endif %}"
+                        data-noho-voyageurs="{{ n|e('html_attr') }}">{{ n }}</button>
+            {% endfor %}
+        </div>
+    </section>
+
+    {# Dates — same calendar UI as homepage (.noho-home-*) #}
+    <section class="noho-filter-section noho-filter-section--dates" aria-labelledby="noho-filter-dates-label">
+        <h4 id="noho-filter-dates-label" class="noho-filter-heading">{{ 'noho.search.dates'|trans }}</h4>
+
+        <div class="noho-home-search-date-wrap">
+            <button type="button" id="filterDateTrigger" class="noho-home-search-date-trigger" aria-expanded="false" aria-haspopup="dialog">
+                <span class="noho-home-search-date-trigger__icon" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                        <rect x="3" y="5" width="18" height="16" rx="2.5"></rect>
+                        <path d="M3 10h18M8 3v4M16 3v4"></path>
+                    </svg>
+                </span>
+                <span id="filterDateDisplay" class="noho-home-search-date-trigger__text">{{ 'noho.search.select_dates'|trans }}</span>
+            </button>
+
+            <div id="filterDatePicker" class="noho-home-date-dropdown" role="dialog" aria-modal="true" aria-label="{{ 'noho.search.dates'|trans }}">
+                <div class="noho-home-date-nav">
+                    <button type="button" id="filterPrevMonth" class="noho-home-date-nav__btn" aria-label="Mois précédent">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <h4 id="filterMonthYear" class="noho-home-date-nav__title"></h4>
+                    <button type="button" id="filterNextMonth" class="noho-home-date-nav__btn" aria-label="Mois suivant">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                </div>
+
+                <div class="noho-home-cal-weekdays" aria-hidden="true">
+                    <span>{{ 'noho.calendar.days.mon'|trans }}</span>
+                    <span>{{ 'noho.calendar.days.tue'|trans }}</span>
+                    <span>{{ 'noho.calendar.days.wed'|trans }}</span>
+                    <span>{{ 'noho.calendar.days.thu'|trans }}</span>
+                    <span>{{ 'noho.calendar.days.fri'|trans }}</span>
+                    <span>{{ 'noho.calendar.days.sat'|trans }}</span>
+                    <span>{{ 'noho.calendar.days.sun'|trans }}</span>
+                </div>
+                <div id="filterCalendarGrid" class="noho-home-cal-grid"></div>
+
+                <div class="noho-home-date-summary">
+                    <div class="noho-home-date-summary__col">
+                        <div class="noho-home-date-summary__k">{{ 'noho.search.arrival'|trans }}</div>
+                        <div id="filterArrivalDisplay" class="noho-home-date-summary__v">-</div>
+                    </div>
+                    <div class="noho-home-date-summary__col">
+                        <div class="noho-home-date-summary__k">{{ 'noho.search.departure'|trans }}</div>
+                        <div id="filterDepartureDisplay" class="noho-home-date-summary__v">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+(function () {
+    var initialDateStart = {{ dateStart|json_encode|raw }};
+    var initialDateEnd = {{ dateEnd|json_encode|raw }};
+    var selectDatesText = {{ 'noho.search.select_dates'|trans|json_encode|raw }};
+
+    var filterCurrentMonth = new Date().getMonth();
+    var filterCurrentYear = new Date().getFullYear();
+    if (initialDateStart && /^\d{4}-\d{2}-\d{2}$/.test(initialDateStart)) {
+        var p = initialDateStart.split('-');
+        filterCurrentYear = parseInt(p[0], 10);
+        filterCurrentMonth = parseInt(p[1], 10) - 1;
+    }
+    var filterSelectedStart = initialDateStart || null;
+    var filterSelectedEnd = initialDateEnd || null;
+
+    var months = [
+        {{ 'noho.calendar.months.january'|trans|json_encode|raw }},
+        {{ 'noho.calendar.months.february'|trans|json_encode|raw }},
+        {{ 'noho.calendar.months.march'|trans|json_encode|raw }},
+        {{ 'noho.calendar.months.april'|trans|json_encode|raw }},
+        {{ 'noho.calendar.months.may'|trans|json_encode|raw }},
+        {{ 'noho.calendar.months.june'|trans|json_encode|raw }},
+        {{ 'noho.calendar.months.july'|trans|json_encode|raw }},
+        {{ 'noho.calendar.months.august'|trans|json_encode|raw }},
+        {{ 'noho.calendar.months.september'|trans|json_encode|raw }},
+        {{ 'noho.calendar.months.october'|trans|json_encode|raw }},
+        {{ 'noho.calendar.months.november'|trans|json_encode|raw }},
+        {{ 'noho.calendar.months.december'|trans|json_encode|raw }}
+    ];
+
+    /** ES5-safe (padStart missing on older Safari / WebViews) */
+    function pad2(n) {
+        var s = String(n);
+        return s.length < 2 ? '0' + s : s;
+    }
+
+    function formatDateStr(year, month, day) {
+        return year + '-' + pad2(month + 1) + '-' + pad2(day);
+    }
+
+    /** Same display as homepage calendar */
+    function formatDisplayDate(dateStr) {
+        if (!dateStr) return '-';
+        var parts = dateStr.split('-');
+        var mi = parseInt(parts[1], 10) - 1;
+        var label = months[mi];
+        if (!label || !parts[2]) return '-';
+        return parseInt(parts[2], 10) + ' ' + String(label).substring(0, 3);
+    }
+
+    function syncNohoDateHidden() {
+        var ds = document.getElementById('list-noho-date-start');
+        var de = document.getElementById('list-noho-date-end');
+        if (ds) ds.value = filterSelectedStart || '';
+        if (de) de.value = filterSelectedEnd || '';
+    }
+
+    function refreshFilterDateUi() {
+        var arrivalEl = document.getElementById('filterArrivalDisplay');
+        var departureEl = document.getElementById('filterDepartureDisplay');
+        var displayEl = document.getElementById('filterDateDisplay');
+        if (arrivalEl) arrivalEl.textContent = formatDisplayDate(filterSelectedStart);
+        if (departureEl) departureEl.textContent = formatDisplayDate(filterSelectedEnd);
+        if (displayEl) {
+            displayEl.classList.toggle('is-filled', !!(filterSelectedStart || filterSelectedEnd));
+            if (filterSelectedStart && filterSelectedEnd) {
+                displayEl.textContent = formatDisplayDate(filterSelectedStart) + ' → ' + formatDisplayDate(filterSelectedEnd);
+            } else if (filterSelectedStart) {
+                displayEl.textContent = formatDisplayDate(filterSelectedStart) + ' → ...';
+            } else {
+                displayEl.textContent = selectDatesText;
+            }
+        }
+    }
+
+    function setFilterDateDropdownOpen(open) {
+        var picker = document.getElementById('filterDatePicker');
+        var trigger = document.getElementById('filterDateTrigger');
+        if (!picker || !trigger) return;
+        picker.classList.toggle('is-open', open);
+        trigger.classList.toggle('is-open', open);
+        trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (open) {
+            renderFilterCalendar();
+        }
+    }
+
+    function runDatePartialUpdateWhenRangeComplete() {
+        if (!filterSelectedStart || !filterSelectedEnd) return;
+        var s = filterSelectedStart;
+        var e = filterSelectedEnd;
+        var attempts = 0;
+        function runDatePartialUpdate() {
+            if (window.NohoCatalog && typeof window.NohoCatalog.partialUpdateFromDates === 'function') {
+                window.NohoCatalog.partialUpdateFromDates(s, e);
+                return;
+            }
+            attempts += 1;
+            if (attempts < 80) {
+                setTimeout(runDatePartialUpdate, 25);
+            }
+        }
+        setTimeout(runDatePartialUpdate, 60);
+    }
+
+    /** Same grid rendering as homepage (div.home-cal-day, Monday-first) */
+    function renderFilterCalendar() {
+        var monthTitle = document.getElementById('filterMonthYear');
+        var grid = document.getElementById('filterCalendarGrid');
+        if (!monthTitle || !grid) return;
+
+        var firstDay = new Date(filterCurrentYear, filterCurrentMonth, 1);
+        var lastDay = new Date(filterCurrentYear, filterCurrentMonth + 1, 0);
+        var padCount = (firstDay.getDay() + 6) % 7;
+        var daysInMonth = lastDay.getDate();
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        monthTitle.textContent = months[filterCurrentMonth] + ' ' + filterCurrentYear;
+
+        var html = '';
+        for (var i = 0; i < padCount; i++) {
+            html += '<div class="home-cal-day home-cal-day--pad" aria-hidden="true"></div>';
+        }
+
+        for (var day = 1; day <= daysInMonth; day++) {
+            var date = new Date(filterCurrentYear, filterCurrentMonth, day, 12, 0, 0);
+            var dateStr = formatDateStr(filterCurrentYear, filterCurrentMonth, day);
+            var isPast = date < today;
+            var isSelected = (filterSelectedStart && dateStr === filterSelectedStart) || (filterSelectedEnd && dateStr === filterSelectedEnd);
+            var isInRange = filterSelectedStart && filterSelectedEnd && dateStr > filterSelectedStart && dateStr < filterSelectedEnd;
+
+            var classes = 'home-cal-day';
+            if (isPast) classes += ' disabled';
+            if (isSelected) classes += ' selected';
+            if (isInRange) classes += ' in-range';
+
+            html += '<div class="' + classes + '" data-date="' + dateStr + '">' + day + '</div>';
+        }
+
+        grid.innerHTML = html;
+
+        grid.querySelectorAll('.home-cal-day[data-date]').forEach(function (el) {
+            el.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var dateStr = this.getAttribute('data-date');
+                if (!dateStr) return;
+
+                if (!filterSelectedStart || (filterSelectedStart && filterSelectedEnd)) {
+                    filterSelectedStart = dateStr;
+                    filterSelectedEnd = null;
+                } else {
+                    if (dateStr > filterSelectedStart) {
+                        filterSelectedEnd = dateStr;
+                    } else {
+                        filterSelectedStart = dateStr;
+                    }
+                }
+                refreshFilterDateUi();
+                syncNohoDateHidden();
+                renderFilterCalendar();
+                runDatePartialUpdateWhenRangeComplete();
+            });
+        });
+    }
+
+    function init() {
+        var trigger = document.getElementById('filterDateTrigger');
+        var prevBtn = document.getElementById('filterPrevMonth');
+        var nextBtn = document.getElementById('filterNextMonth');
+        var pickerEl = document.getElementById('filterDatePicker');
+
+        if (pickerEl) {
+            pickerEl.addEventListener('click', function (e) { e.stopPropagation(); });
+        }
+        if (trigger) {
+            trigger.setAttribute('aria-expanded', 'false');
+            trigger.setAttribute('aria-haspopup', 'dialog');
+            trigger.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var picker = document.getElementById('filterDatePicker');
+                var open = picker && !picker.classList.contains('is-open');
+                setFilterDateDropdownOpen(open);
+            });
+        }
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                filterCurrentMonth--;
+                if (filterCurrentMonth < 0) {
+                    filterCurrentMonth = 11;
+                    filterCurrentYear--;
+                }
+                renderFilterCalendar();
+            });
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                filterCurrentMonth++;
+                if (filterCurrentMonth > 11) {
+                    filterCurrentMonth = 0;
+                    filterCurrentYear++;
+                }
+                renderFilterCalendar();
+            });
+        }
+
+        document.addEventListener('click', function (e) {
+            var picker = document.getElementById('filterDatePicker');
+            var trg = document.getElementById('filterDateTrigger');
+            if (!picker || !picker.classList.contains('is-open')) return;
+            if (trg && trg.contains(e.target)) return;
+            if (picker.contains(e.target)) return;
+            setFilterDateDropdownOpen(false);
+        });
+
+        refreshFilterDateUi();
+        syncNohoDateHidden();
+        renderFilterCalendar();
+    }
+
+    window.NohoCatalog = window.NohoCatalog || {};
+    window.NohoCatalog.applyDatesFromUrl = function () {
+        var sp = new URLSearchParams(window.location.search);
+        var ds = sp.get('noho_date_start') || '';
+        var de = sp.get('noho_date_end') || '';
+        filterSelectedStart = ds || null;
+        filterSelectedEnd = de || null;
+        if (filterSelectedStart && /^\d{4}-\d{2}-\d{2}$/.test(filterSelectedStart)) {
+            var p2 = filterSelectedStart.split('-');
+            filterCurrentYear = parseInt(p2[0], 10);
+            filterCurrentMonth = parseInt(p2[1], 10) - 1;
+        }
+        syncNohoDateHidden();
+        refreshFilterDateUi();
+        renderFilterCalendar();
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+</script>

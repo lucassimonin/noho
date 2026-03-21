@@ -561,6 +561,7 @@ input[type="button"] {
   border-radius: 12px;
   box-shadow: 0 10px 60px rgba(0,0,0,0.15);
   padding: 28px 36px;
+  overflow: visible;
 }
 
 .noho-search-label {
@@ -583,6 +584,348 @@ input[type="button"] {
   border: none;
   border-bottom: 1px solid #e5e5e5;
   outline: none;
+}
+
+/* Homepage hero search form (catalog_search_form) */
+.noho-home-search-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 0.8fr 1.15fr auto;
+  gap: 16px 18px;
+  align-items: end;
+}
+
+.noho-home-field-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--noho-dark);
+}
+
+/* Shared control height (selects + date trigger) */
+.noho-home-search-select,
+.noho-home-search-date-trigger {
+  box-sizing: border-box;
+  min-height: 48px;
+}
+
+.noho-home-search-select {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 13px 40px 13px 14px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--noho-dark) !important;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23666' d='M0 0l6 6 6-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 12px 8px;
+  border: 1px solid rgba(26, 26, 26, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(26, 26, 26, 0.04);
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.noho-home-search-select:hover {
+  border-color: rgba(26, 26, 26, 0.18);
+}
+
+.noho-home-search-select:focus {
+  border-color: rgba(26, 26, 26, 0.22);
+  box-shadow: 0 4px 20px rgba(26, 26, 26, 0.08);
+}
+
+.noho-home-search-select:focus-visible {
+  outline: 2px solid var(--noho-dark);
+  outline-offset: 2px;
+}
+
+.noho-home-search-date-wrap {
+  position: relative;
+  overflow: visible;
+}
+
+.noho-home-search-date-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  padding: 0 14px;
+  font: inherit;
+  text-align: left;
+  color: var(--noho-dark);
+  background: #fff;
+  border: 1px solid rgba(26, 26, 26, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(26, 26, 26, 0.04);
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.noho-home-search-date-trigger:hover {
+  border-color: rgba(26, 26, 26, 0.18);
+}
+
+.noho-home-search-date-trigger:focus-visible {
+  outline: 2px solid var(--noho-dark);
+  outline-offset: 2px;
+}
+
+.noho-home-search-date-trigger.is-open {
+  border-color: rgba(26, 26, 26, 0.25);
+  box-shadow: 0 4px 20px rgba(26, 26, 26, 0.08);
+}
+
+.noho-home-search-date-trigger__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  color: var(--noho-dark);
+  background: #fafaf9;
+  border-radius: 8px;
+}
+
+.noho-home-search-date-trigger__icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.noho-home-search-date-trigger__text {
+  flex: 1;
+  font-size: 0.875rem;
+  color: #8a8a8a;
+  line-height: 1.4;
+}
+
+.noho-home-search-date-trigger__text.is-filled {
+  color: var(--noho-dark);
+  font-weight: 500;
+}
+
+.noho-home-date-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: min(100vw - 32px, 360px);
+  max-width: none;
+  padding: 18px;
+  background: #fff;
+  border: 1px solid rgba(26, 26, 26, 0.1);
+  border-radius: 14px;
+  box-shadow: 0 16px 48px rgba(26, 26, 26, 0.14);
+  z-index: 1080;
+  box-sizing: border-box;
+}
+
+.noho-home-date-dropdown.is-open {
+  display: block;
+}
+
+.noho-home-date-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.noho-home-date-nav__title {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--noho-dark);
+}
+
+.noho-home-date-nav__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  color: var(--noho-dark);
+  background: #fafaf9;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.noho-home-date-nav__btn:hover {
+  background: #ecebe8;
+}
+
+.noho-home-date-nav__btn:focus-visible {
+  outline: 2px solid var(--noho-dark);
+  outline-offset: 2px;
+}
+
+.noho-home-cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+  margin-bottom: 6px;
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #9a9a9a;
+}
+
+.noho-home-cal-weekdays span {
+  padding: 4px 0;
+}
+
+.noho-home-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+  text-align: center;
+  font-size: 0.8125rem;
+}
+
+.home-cal-day {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 2.35rem;
+  aspect-ratio: 1;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--noho-dark);
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+/* Leading blanks (Monday-first grid) — must keep cell size without “disabled” styles */
+.home-cal-day--pad {
+  visibility: hidden;
+  pointer-events: none;
+  cursor: default;
+  aspect-ratio: 1;
+  min-height: 2.35rem;
+}
+
+.home-cal-day:hover:not(.disabled):not(.selected):not(.home-cal-day--pad) {
+  background: #f3f3f1;
+}
+
+.home-cal-day:focus-visible {
+  outline: 2px solid var(--noho-dark);
+  outline-offset: 1px;
+}
+
+.home-cal-day.disabled:not(.home-cal-day--pad) {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.home-cal-day.disabled:not(.home-cal-day--pad):hover {
+  background: transparent;
+}
+
+.home-cal-day.selected {
+  background: var(--noho-dark);
+  color: #fff;
+}
+
+.home-cal-day.in-range {
+  background: rgba(26, 26, 26, 0.06);
+  color: var(--noho-dark);
+}
+
+.noho-home-date-summary {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(26, 26, 26, 0.08);
+}
+
+.noho-home-date-summary__col {
+  flex: 1;
+}
+
+.noho-home-date-summary__k {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9a9a9a;
+  margin-bottom: 4px;
+}
+
+.noho-home-date-summary__v {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--noho-dark);
+}
+
+.noho-home-search-submit {
+  padding: 14px 28px !important;
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  background-color: var(--noho-dark) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 12px !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  box-shadow: 0 4px 16px rgba(26, 26, 26, 0.2) !important;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease !important;
+}
+
+.noho-home-search-submit:hover {
+  background: #333 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(26, 26, 26, 0.22) !important;
+}
+
+@media (max-width: 900px) {
+  .noho-home-search-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .noho-home-search-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ========================================
@@ -1249,7 +1592,7 @@ select {
     box-sizing: border-box !important;
   }
   
-  .noho-search-box .search-grid {
+  .noho-search-box .noho-home-search-grid {
     grid-template-columns: 1fr !important;
     gap: 16px !important;
   }
@@ -1261,8 +1604,8 @@ select {
   }
   
   /* Product grid responsive */
-  .noho-list-sidebar .filter-btn {
-    padding: 8px 0 !important;
+  .noho-list-sidebar .noho-filter-chip {
+    padding: 8px 2px !important;
     font-size: 0.8rem !important;
   }
   
@@ -1289,5 +1632,342 @@ select {
   .noho-btn-outline {
     padding: 12px 24px !important;
     font-size: 0.8rem !important;
+  }
+}
+
+/* Catalog AJAX partial refresh (filters live component) */
+.noho-catalog-product-list--loading {
+  opacity: 0.45;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* --------------------------------------------------------------------------
+   Catalog sidebar filters (liste produits)
+   -------------------------------------------------------------------------- */
+.noho-catalog-filters-live {
+  --noho-filter-radius: 12px;
+  --noho-filter-border: rgba(26, 26, 26, 0.1);
+  --noho-filter-surface: #fafaf9;
+  --noho-filter-shadow: 0 1px 2px rgba(26, 26, 26, 0.04);
+  --noho-filter-shadow-hover: 0 4px 20px rgba(26, 26, 26, 0.08);
+}
+
+.noho-filter-section {
+  margin-bottom: 1.75rem;
+}
+
+.noho-filter-section:last-child {
+  margin-bottom: 0;
+}
+
+.noho-filter-heading {
+  margin: 0 0 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.07);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--noho-dark);
+}
+
+/* Price buckets — single column stack */
+.noho-price-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.noho-catalog-filters-live .noho-price-bucket-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+  padding: 12px 16px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.35;
+  text-align: left;
+  color: var(--noho-dark);
+  background: #fff;
+  border: 1px solid var(--noho-filter-border);
+  border-radius: var(--noho-filter-radius);
+  box-shadow: var(--noho-filter-shadow);
+  cursor: pointer;
+  gap: 12px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.noho-catalog-filters-live .noho-price-bucket-btn::after {
+  content: "";
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  opacity: 0.35;
+  transform: rotate(-45deg);
+  margin-top: -2px;
+}
+
+.noho-catalog-filters-live .noho-price-bucket-btn.is-active::after {
+  opacity: 1;
+  border-color: #000;
+}
+
+.noho-catalog-filters-live .noho-price-bucket-btn:hover {
+  border-color: rgba(26, 26, 26, 0.22);
+  box-shadow: var(--noho-filter-shadow-hover);
+}
+
+.noho-catalog-filters-live .noho-price-bucket-btn:focus-visible {
+  outline: 2px solid var(--noho-dark);
+  outline-offset: 2px;
+}
+
+.noho-catalog-filters-live .noho-price-bucket-btn.is-active {
+  color: #000;
+  background: #fff;
+  border: 2px solid #000;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  font-weight: 600;
+}
+
+.noho-catalog-filters-live .noho-price-bucket-btn:active {
+  transform: scale(0.98);
+}
+
+/* Rooms / guests: segmented control */
+.noho-filter-segmented {
+  display: flex;
+  gap: 0;
+  padding: 4px;
+  background: var(--noho-filter-surface);
+  border: 1px solid var(--noho-filter-border);
+  border-radius: var(--noho-filter-radius);
+}
+
+.noho-catalog-filters-live .noho-filter-chip {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 10px 2px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--noho-muted);
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 9px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.noho-catalog-filters-live .noho-filter-chip:hover:not(.is-active) {
+  color: var(--noho-dark);
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.noho-catalog-filters-live .noho-filter-chip:focus-visible {
+  outline: 2px solid var(--noho-dark);
+  outline-offset: 1px;
+}
+
+.noho-catalog-filters-live .noho-filter-chip.is-active {
+  color: #000;
+  background: #fff;
+  border-color: #000;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  font-weight: 600;
+}
+
+/*
+ * Dates (liste) : même logique que la home (.noho-home-*) mais harmonisé
+ * avec les filtres (prix / puces) + grille compacte pour ~280px.
+ */
+.noho-catalog-filters-live .noho-filter-section--dates {
+  position: relative;
+  z-index: 4;
+}
+
+.noho-catalog-filters-live .noho-home-search-date-wrap {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+/* Trigger = même langage visuel que les boutons prix */
+.noho-catalog-filters-live .noho-home-search-date-trigger {
+  box-sizing: border-box;
+  min-height: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--noho-filter-border);
+  border-radius: var(--noho-filter-radius);
+  box-shadow: var(--noho-filter-shadow);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.noho-catalog-filters-live .noho-home-search-date-trigger:hover {
+  border-color: rgba(26, 26, 26, 0.22);
+  box-shadow: var(--noho-filter-shadow-hover);
+}
+
+.noho-catalog-filters-live .noho-home-search-date-trigger.is-open {
+  border-color: rgba(26, 26, 26, 0.22);
+  box-shadow: var(--noho-filter-shadow-hover);
+}
+
+.noho-catalog-filters-live .noho-home-search-date-trigger__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+}
+
+.noho-catalog-filters-live .noho-home-search-date-trigger__icon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.noho-catalog-filters-live .noho-home-search-date-trigger__text {
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+.noho-catalog-filters-live .noho-home-search-date-trigger__text.is-filled {
+  font-weight: 600;
+}
+
+/* Popover */
+.noho-catalog-filters-live .noho-home-date-dropdown {
+  width: 100%;
+  max-width: none;
+  left: 0;
+  right: auto;
+  margin-top: 8px;
+  padding: 14px 12px;
+  border: 1px solid var(--noho-filter-border);
+  border-radius: var(--noho-filter-radius);
+  box-shadow: 0 14px 36px rgba(26, 26, 26, 0.12);
+  z-index: 30;
+}
+
+.noho-catalog-filters-live .noho-home-date-nav {
+  margin-bottom: 10px;
+}
+
+.noho-catalog-filters-live .noho-home-date-nav__title {
+  margin: 0;
+  max-width: min(11rem, 52%);
+  padding: 0 4px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.3;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.noho-catalog-filters-live .noho-home-date-nav__btn {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 9px;
+}
+
+.noho-catalog-filters-live .noho-home-cal-weekdays {
+  gap: 2px;
+  margin-bottom: 4px;
+  font-size: 0.58rem;
+  letter-spacing: 0.04em;
+}
+
+.noho-catalog-filters-live .noho-home-cal-weekdays span {
+  padding: 2px 0;
+}
+
+.noho-catalog-filters-live .noho-home-cal-grid {
+  gap: 3px;
+  font-size: 0.75rem;
+}
+
+.noho-catalog-filters-live .home-cal-day {
+  min-height: 0;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.noho-catalog-filters-live .home-cal-day--pad {
+  min-height: 0;
+}
+
+.noho-catalog-filters-live .home-cal-day.selected {
+  background: #000;
+  color: #fff;
+}
+
+.noho-catalog-filters-live .home-cal-day.in-range {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.noho-catalog-filters-live .home-cal-day:hover:not(.disabled):not(.selected):not(.home-cal-day--pad) {
+  background: #f0f0ee;
+}
+
+.noho-catalog-filters-live .noho-home-date-summary {
+  margin-top: 12px;
+  padding-top: 12px;
+  gap: 10px;
+}
+
+.noho-catalog-filters-live .noho-home-date-summary__k {
+  font-size: 0.58rem;
+  margin-bottom: 2px;
+}
+
+.noho-catalog-filters-live .noho-home-date-summary__v {
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+@media (max-width: 991px) {
+  .noho-list-sidebar .noho-filter-chip {
+    padding: 8px 2px !important;
+    font-size: 0.78rem !important;
+  }
+
+  .noho-catalog-filters-live .noho-price-bucket-btn {
+    padding: 10px 12px !important;
+    font-size: 0.78rem !important;
+  }
+
+  .noho-catalog-filters-live .noho-home-date-dropdown {
+    padding: 12px 10px;
+  }
+
+  .noho-catalog-filters-live .noho-home-cal-grid {
+    gap: 2px;
+    font-size: 0.7rem;
+  }
+
+  .noho-catalog-filters-live .home-cal-day {
+    font-size: 0.7rem;
   }
 }

@@ -27,6 +27,8 @@ noho:
         arrival: "Arrivée"
         departure: "Départ"
         search: "Rechercher"
+        invalid: "La recherche n'a pas pu être traitée. Merci de réessayer."
+        invalid_destination: "La destination sélectionnée est invalide."
     
     how_it_works:
         title: "Comment ça marche ?"
@@ -61,6 +63,8 @@ noho:
     # Product list
     filters:
         title: "Filtres"
+        search: "Recherche"
+        search_placeholder: "Rechercher une propriété…"
         price_per_night: "Prix par nuit"
         price_under_500: "Moins de 500 €"
         price_500_1000: "500 € - 1 000 €"

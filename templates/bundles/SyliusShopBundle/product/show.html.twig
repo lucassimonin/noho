@@ -341,10 +341,16 @@
     var selectedEnd = null;
     
     var monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+
+    /** ES5-safe (padStart missing on older Safari / WebViews) */
+    function pad2(n) {
+        var s = String(n);
+        return s.length < 2 ? '0' + s : s;
+    }
     
     // Helper to format date as YYYY-MM-DD without timezone issues
     function formatDate(year, month, day) {
-        return year + '-' + String(month + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+        return year + '-' + pad2(month + 1) + '-' + pad2(day);
     }
     
     // Helper to create date without timezone issues

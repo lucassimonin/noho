@@ -10,123 +10,91 @@
     </div>
 </section>
 
-{# Search Box - Full Width Horizontal #}
+{# Search box — styles: noho-override.css (.noho-home-*) #}
 <div class="noho-search-wrapper">
     <div class="noho-search-box">
-        <form action="{{ path('sylius_shop_product_index', {slug: 'catalogue'}) }}" method="get">
-            <div class="search-grid" style="display: grid; grid-template-columns: 1.2fr 0.8fr 0.8fr 1.2fr auto; gap: 20px; align-items: end;">
-                {# Destination #}
+        {{ form_start(catalog_search_form, {
+            action: path('noho_shop_catalog_search', { _locale: app.request.locale }),
+            method: 'POST',
+            attr: { class: 'noho-catalog-search-form', id: 'noho-catalog-search-form' }
+        }) }}
+            {{ form_widget(catalog_search_form._token) }}
+            <div class="noho-home-search-grid">
                 <div>
-                    <label style="display: block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #999; margin-bottom: 8px;">{{ 'noho.search.destination'|trans }}</label>
-                    <select name="destination" style="display: block; width: 100%; padding: 12px 0; font-size: 0.95rem; color: #1a1a1a; background: transparent; border: none; border-bottom: 1px solid #e5e5e5; outline: none; cursor: pointer; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=\"%23999\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>'); background-repeat: no-repeat; background-position: right 0 center; background-size: 20px;">
-                        <option value="">{{ 'noho.search.all_destinations'|trans }}</option>
-                        <option value="paris">Paris</option>
-                        <option value="nice">Nice</option>
-                        <option value="cannes">Cannes</option>
-                        <option value="saint-tropez">Saint-Tropez</option>
-                        <option value="ibiza">Ibiza</option>
-                        <option value="mykonos">Mykonos</option>
-                    </select>
+                    <label class="noho-home-field-label" for="{{ catalog_search_form.taxonSlug.vars.id }}">{{ 'noho.search.destination'|trans }}</label>
+                    {{ form_widget(catalog_search_form.taxonSlug, { attr: { class: 'noho-home-search-select' } }) }}
+                    {{ form_errors(catalog_search_form.taxonSlug) }}
                 </div>
-                
-                {# Voyageurs #}
+
                 <div>
-                    <label style="display: block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #999; margin-bottom: 8px;">{{ 'noho.search.travelers'|trans }}</label>
-                    <select name="voyageurs" style="display: block; width: 100%; padding: 12px 0; font-size: 0.95rem; color: #1a1a1a; background: transparent; border: none; border-bottom: 1px solid #e5e5e5; outline: none; cursor: pointer; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=\"%23999\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>'); background-repeat: no-repeat; background-position: right 0 center; background-size: 20px;">
-                        <option value="">{{ 'noho.search.travelers_count'|trans }}</option>
-                        <option value="1">1 {{ 'noho.search.traveler_singular'|trans }}</option>
-                        <option value="2">2 {{ 'noho.search.travelers_plural'|trans }}</option>
-                        <option value="3">3 {{ 'noho.search.travelers_plural'|trans }}</option>
-                        <option value="4">4 {{ 'noho.search.travelers_plural'|trans }}</option>
-                        <option value="5">5 {{ 'noho.search.travelers_plural'|trans }}</option>
-                        <option value="6+">6+ {{ 'noho.search.travelers_plural'|trans }}</option>
-                    </select>
+                    <label class="noho-home-field-label" for="{{ catalog_search_form.travelers.vars.id }}">{{ 'noho.search.travelers'|trans }}</label>
+                    {{ form_widget(catalog_search_form.travelers, { attr: { class: 'noho-home-search-select' } }) }}
+                    {{ form_errors(catalog_search_form.travelers) }}
                 </div>
-                
-                {# Chambres #}
+
                 <div>
-                    <label style="display: block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #999; margin-bottom: 8px;">{{ 'noho.search.rooms'|trans }}</label>
-                    <select name="chambres" style="display: block; width: 100%; padding: 12px 0; font-size: 0.95rem; color: #1a1a1a; background: transparent; border: none; border-bottom: 1px solid #e5e5e5; outline: none; cursor: pointer; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill=\"%23999\" height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 10l5 5 5-5z\"/></svg>'); background-repeat: no-repeat; background-position: right 0 center; background-size: 20px;">
-                        <option value="">{{ 'noho.search.rooms_count'|trans }}</option>
-                        <option value="1">1 {{ 'noho.search.room_singular'|trans }}</option>
-                        <option value="2">2 {{ 'noho.search.rooms_plural'|trans }}</option>
-                        <option value="3">3 {{ 'noho.search.rooms_plural'|trans }}</option>
-                        <option value="4">4 {{ 'noho.search.rooms_plural'|trans }}</option>
-                        <option value="5">5 {{ 'noho.search.rooms_plural'|trans }}</option>
-                        <option value="6+">6+ {{ 'noho.search.rooms_plural'|trans }}</option>
-                    </select>
+                    <label class="noho-home-field-label" for="{{ catalog_search_form.bedrooms.vars.id }}">{{ 'noho.search.rooms'|trans }}</label>
+                    {{ form_widget(catalog_search_form.bedrooms, { attr: { class: 'noho-home-search-select' } }) }}
+                    {{ form_errors(catalog_search_form.bedrooms) }}
                 </div>
-                
-                {# Dates #}
-                <div style="position: relative;">
-                    <label style="display: block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #999; margin-bottom: 8px;">{{ 'noho.search.dates'|trans }}</label>
-                    <div id="datePickerTrigger" style="display: block; width: 100%; padding: 12px 0; font-size: 0.95rem; color: #1a1a1a; background: transparent; border: none; border-bottom: 1px solid #e5e5e5; cursor: pointer; user-select: none;">
-                        <span id="dateDisplay">{{ 'noho.search.select_dates'|trans }}</span>
-                    </div>
-                    <input type="hidden" name="date_start" id="homeArrivalDate">
-                    <input type="hidden" name="date_end" id="homeDepartureDate">
-                    
-                    {# Date Picker Dropdown #}
-                    <div id="datePickerDropdown" style="display: none; position: absolute; top: 100%; left: 0; right: 0; min-width: 320px; background: #fff; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); padding: 20px; margin-top: 12px; z-index: 1000;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
-                            <button type="button" id="homePrevMonth" style="width: 32px; height: 32px; border: 1px solid #e5e5e5; border-radius: 6px; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+
+                <div class="noho-home-search-date-wrap">
+                    <label class="noho-home-field-label" for="datePickerTrigger">{{ 'noho.search.dates'|trans }}</label>
+                    <button type="button" id="datePickerTrigger" class="noho-home-search-date-trigger" aria-expanded="false" aria-haspopup="dialog">
+                        <span class="noho-home-search-date-trigger__icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                <rect x="3" y="5" width="18" height="16" rx="2.5"></rect>
+                                <path d="M3 10h18M8 3v4M16 3v4"></path>
+                            </svg>
+                        </span>
+                        <span id="dateDisplay" class="noho-home-search-date-trigger__text">{{ 'noho.search.select_dates'|trans }}</span>
+                    </button>
+                    {{ form_widget(catalog_search_form.dateStart) }}
+                    {{ form_widget(catalog_search_form.dateEnd) }}
+
+                    <div id="datePickerDropdown" class="noho-home-date-dropdown" role="dialog" aria-modal="true" aria-label="{{ 'noho.search.dates'|trans }}">
+                        <div class="noho-home-date-nav">
+                            <button type="button" id="homePrevMonth" class="noho-home-date-nav__btn" aria-label="Mois précédent">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
                             </button>
-                            <h4 id="homeCalendarMonth" style="font-family: Georgia, serif; font-size: 1rem; font-weight: 400; color: #1a1a1a; margin: 0;"></h4>
-                            <button type="button" id="homeNextMonth" style="width: 32px; height: 32px; border: 1px solid #e5e5e5; border-radius: 6px; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                            <h4 id="homeCalendarMonth" class="noho-home-date-nav__title"></h4>
+                            <button type="button" id="homeNextMonth" class="noho-home-date-nav__btn" aria-label="Mois suivant">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
                             </button>
                         </div>
-                        
-                        <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; font-size: 0.75rem; margin-bottom: 8px;">
-                            <div style="padding: 6px; color: #999; font-weight: 500;">{{ 'noho.calendar.days.mon'|trans }}</div>
-                            <div style="padding: 6px; color: #999; font-weight: 500;">{{ 'noho.calendar.days.tue'|trans }}</div>
-                            <div style="padding: 6px; color: #999; font-weight: 500;">{{ 'noho.calendar.days.wed'|trans }}</div>
-                            <div style="padding: 6px; color: #999; font-weight: 500;">{{ 'noho.calendar.days.thu'|trans }}</div>
-                            <div style="padding: 6px; color: #999; font-weight: 500;">{{ 'noho.calendar.days.fri'|trans }}</div>
-                            <div style="padding: 6px; color: #999; font-weight: 500;">{{ 'noho.calendar.days.sat'|trans }}</div>
-                            <div style="padding: 6px; color: #999; font-weight: 500;">{{ 'noho.calendar.days.sun'|trans }}</div>
+
+                        <div class="noho-home-cal-weekdays" aria-hidden="true">
+                            <span>{{ 'noho.calendar.days.mon'|trans }}</span>
+                            <span>{{ 'noho.calendar.days.tue'|trans }}</span>
+                            <span>{{ 'noho.calendar.days.wed'|trans }}</span>
+                            <span>{{ 'noho.calendar.days.thu'|trans }}</span>
+                            <span>{{ 'noho.calendar.days.fri'|trans }}</span>
+                            <span>{{ 'noho.calendar.days.sat'|trans }}</span>
+                            <span>{{ 'noho.calendar.days.sun'|trans }}</span>
                         </div>
-                        <div id="homeCalendarDays" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; font-size: 0.85rem;"></div>
-                        
-                        <div style="display: flex; gap: 12px; margin-top: 16px; padding-top: 16px; border-top: 1px solid #eee;">
-                            <div style="flex: 1;">
-                                <div style="font-size: 0.65rem; color: #999; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">{{ 'noho.search.arrival'|trans }}</div>
-                                <div id="arrivalDisplay" style="font-size: 0.9rem; color: #1a1a1a;">-</div>
+                        <div id="homeCalendarDays" class="noho-home-cal-grid"></div>
+
+                        <div class="noho-home-date-summary">
+                            <div class="noho-home-date-summary__col">
+                                <div class="noho-home-date-summary__k">{{ 'noho.search.arrival'|trans }}</div>
+                                <div id="arrivalDisplay" class="noho-home-date-summary__v">-</div>
                             </div>
-                            <div style="flex: 1;">
-                                <div style="font-size: 0.65rem; color: #999; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">{{ 'noho.search.departure'|trans }}</div>
-                                <div id="departureDisplay" style="font-size: 0.9rem; color: #1a1a1a;">-</div>
+                            <div class="noho-home-date-summary__col">
+                                <div class="noho-home-date-summary__k">{{ 'noho.search.departure'|trans }}</div>
+                                <div id="departureDisplay" class="noho-home-date-summary__v">-</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                {# Submit #}
+
                 <div>
-                    <button type="submit" class="noho-btn-submit" style="display: inline-block; padding: 14px 32px; font-size: 0.875rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; background-color: #1a1a1a; color: #fff; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: all 0.3s ease;">{{ 'noho.search.search'|trans }}</button>
+                    <span class="noho-home-field-label" style="visibility: hidden; user-select: none;" aria-hidden="true">&nbsp;</span>
+                    <button type="submit" class="noho-btn-submit noho-home-search-submit">{{ 'noho.search.search'|trans }}</button>
                 </div>
             </div>
-        </form>
+        {{ form_end(catalog_search_form, { render_rest: false }) }}
     </div>
 </div>
-
-<style>
-.search-grid select:focus { border-bottom-color: #1a1a1a; }
-.home-cal-day { padding: 8px 4px; cursor: pointer; border-radius: 4px; transition: background 0.15s; }
-.home-cal-day:hover { background: #f5f5f5; }
-.home-cal-day.disabled { color: #ccc; cursor: default; }
-.home-cal-day.disabled:hover { background: transparent; }
-.home-cal-day.selected { background: #1a1a1a; color: #fff; }
-.home-cal-day.in-range { background: #f0f0f0; }
-
-@media (max-width: 900px) {
-    .search-grid { grid-template-columns: 1fr 1fr !important; }
-}
-@media (max-width: 600px) {
-    .search-grid { grid-template-columns: 1fr !important; }
-}
-</style>
 
 <script>
 (function() {
@@ -136,39 +104,65 @@
     var selectedStart = null;
     var selectedEnd = null;
     var monthNames = [
-        '{{ 'noho.calendar.months.january'|trans }}',
-        '{{ 'noho.calendar.months.february'|trans }}',
-        '{{ 'noho.calendar.months.march'|trans }}',
-        '{{ 'noho.calendar.months.april'|trans }}',
-        '{{ 'noho.calendar.months.may'|trans }}',
-        '{{ 'noho.calendar.months.june'|trans }}',
-        '{{ 'noho.calendar.months.july'|trans }}',
-        '{{ 'noho.calendar.months.august'|trans }}',
-        '{{ 'noho.calendar.months.september'|trans }}',
-        '{{ 'noho.calendar.months.october'|trans }}',
-        '{{ 'noho.calendar.months.november'|trans }}',
-        '{{ 'noho.calendar.months.december'|trans }}'
+        '{{ 'noho.calendar.months.january'|trans|e('js') }}',
+        '{{ 'noho.calendar.months.february'|trans|e('js') }}',
+        '{{ 'noho.calendar.months.march'|trans|e('js') }}',
+        '{{ 'noho.calendar.months.april'|trans|e('js') }}',
+        '{{ 'noho.calendar.months.may'|trans|e('js') }}',
+        '{{ 'noho.calendar.months.june'|trans|e('js') }}',
+        '{{ 'noho.calendar.months.july'|trans|e('js') }}',
+        '{{ 'noho.calendar.months.august'|trans|e('js') }}',
+        '{{ 'noho.calendar.months.september'|trans|e('js') }}',
+        '{{ 'noho.calendar.months.october'|trans|e('js') }}',
+        '{{ 'noho.calendar.months.november'|trans|e('js') }}',
+        '{{ 'noho.calendar.months.december'|trans|e('js') }}'
     ];
-    var selectDatesText = '{{ 'noho.search.select_dates'|trans }}';
+    var selectDatesText = '{{ 'noho.search.select_dates'|trans|e('js') }}';
     
     var now = new Date();
     currentMonth = now.getMonth();
     currentYear = now.getFullYear();
+
+    /** ES5-safe (padStart missing on older Safari / WebViews) */
+    function pad2(n) {
+        var s = String(n);
+        return s.length < 2 ? '0' + s : s;
+    }
     
     function formatDate(year, month, day) {
-        return year + '-' + String(month + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+        return year + '-' + pad2(month + 1) + '-' + pad2(day);
     }
     
     function formatDisplayDate(dateStr) {
         if (!dateStr) return '-';
         var parts = dateStr.split('-');
-        return parseInt(parts[2]) + ' ' + monthNames[parseInt(parts[1]) - 1].substring(0, 3);
+        var mi = parseInt(parts[1], 10) - 1;
+        var label = monthNames[mi];
+        if (!label || !parts[2]) return '-';
+        return parseInt(parts[2], 10) + ' ' + String(label).substring(0, 3);
+    }
+
+    function homeDateHiddenStart() {
+        return document.getElementById('homeArrivalDate')
+            || document.querySelector('input[name="catalog_search[dateStart]"]');
+    }
+    function homeDateHiddenEnd() {
+        return document.getElementById('homeDepartureDate')
+            || document.querySelector('input[name="catalog_search[dateEnd]"]');
     }
     
+    function setHomeDateDropdownOpen(open) {
+        if (!dropdown || !trigger) return;
+        dropdown.classList.toggle('is-open', open);
+        trigger.classList.toggle('is-open', open);
+        trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
     function updateDisplay() {
         var display = document.getElementById('dateDisplay');
         var arrDisplay = document.getElementById('arrivalDisplay');
         var depDisplay = document.getElementById('departureDisplay');
+        if (!display || !arrDisplay || !depDisplay) return;
         
         if (selectedStart && selectedEnd) {
             display.textContent = formatDisplayDate(selectedStart) + ' → ' + formatDisplayDate(selectedEnd);
@@ -177,27 +171,35 @@
         } else {
             display.textContent = selectDatesText;
         }
+        display.classList.toggle('is-filled', !!(selectedStart || selectedEnd));
         
         arrDisplay.textContent = formatDisplayDate(selectedStart);
         depDisplay.textContent = formatDisplayDate(selectedEnd);
         
-        document.getElementById('homeArrivalDate').value = selectedStart || '';
-        document.getElementById('homeDepartureDate').value = selectedEnd || '';
+        var hS = homeDateHiddenStart();
+        var hE = homeDateHiddenEnd();
+        if (hS) hS.value = selectedStart || '';
+        if (hE) hE.value = selectedEnd || '';
     }
     
     function renderCalendar() {
+        var monthTitle = document.getElementById('homeCalendarMonth');
+        var grid = document.getElementById('homeCalendarDays');
+        if (!monthTitle || !grid) return;
+
         var firstDay = new Date(currentYear, currentMonth, 1);
         var lastDay = new Date(currentYear, currentMonth + 1, 0);
-        var startDay = firstDay.getDay() || 7;
+        /* Monday = first column (headers L … D) */
+        var padCount = (firstDay.getDay() + 6) % 7;
         var daysInMonth = lastDay.getDate();
         var today = new Date();
         today.setHours(0,0,0,0);
         
-        document.getElementById('homeCalendarMonth').textContent = monthNames[currentMonth] + ' ' + currentYear;
+        monthTitle.textContent = monthNames[currentMonth] + ' ' + currentYear;
         
         var html = '';
-        for (var i = 1; i < startDay; i++) {
-            html += '<div class="home-cal-day disabled"></div>';
+        for (var i = 0; i < padCount; i++) {
+            html += '<div class="home-cal-day home-cal-day--pad" aria-hidden="true"></div>';
         }
         
         for (var day = 1; day <= daysInMonth; day++) {
@@ -215,12 +217,13 @@
             html += '<div class="' + classes + '" data-date="' + dateStr + '">' + day + '</div>';
         }
         
-        document.getElementById('homeCalendarDays').innerHTML = html;
+        grid.innerHTML = html;
         
-        document.querySelectorAll('.home-cal-day:not(.disabled)').forEach(function(el) {
+        grid.querySelectorAll('.home-cal-day[data-date]').forEach(function(el) {
             el.addEventListener('click', function(e) {
                 e.stopPropagation();
                 var dateStr = this.getAttribute('data-date');
+                if (!dateStr) return;
                 
                 if (!selectedStart || (selectedStart && selectedEnd)) {
                     selectedStart = dateStr;
@@ -238,31 +241,49 @@
         });
     }
     
-    trigger.addEventListener('click', function(e) {
-        e.stopPropagation();
-        dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-        if (dropdown.style.display === 'block') renderCalendar();
-    });
+    if (dropdown) {
+        dropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+
+    if (trigger && dropdown) {
+        trigger.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var open = !dropdown.classList.contains('is-open');
+            setHomeDateDropdownOpen(open);
+            if (open) renderCalendar();
+        });
+    }
     
     document.addEventListener('click', function(e) {
-        if (!dropdown.contains(e.target) && e.target !== trigger) {
-            dropdown.style.display = 'none';
-        }
+        if (!dropdown || !dropdown.classList.contains('is-open')) return;
+        if (trigger && trigger.contains(e.target)) return;
+        if (dropdown.contains(e.target)) return;
+        setHomeDateDropdownOpen(false);
     });
     
-    document.getElementById('homePrevMonth').addEventListener('click', function(e) {
-        e.stopPropagation();
-        currentMonth--;
-        if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-        renderCalendar();
-    });
-    
-    document.getElementById('homeNextMonth').addEventListener('click', function(e) {
-        e.stopPropagation();
-        currentMonth++;
-        if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-        renderCalendar();
-    });
+    var homePrevMonth = document.getElementById('homePrevMonth');
+    var homeNextMonth = document.getElementById('homeNextMonth');
+    if (homePrevMonth) {
+        homePrevMonth.addEventListener('click', function(e) {
+            e.stopPropagation();
+            currentMonth--;
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            renderCalendar();
+        });
+    }
+    if (homeNextMonth) {
+        homeNextMonth.addEventListener('click', function(e) {
+            e.stopPropagation();
+            currentMonth++;
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            renderCalendar();
+        });
+    }
+
+    updateDisplay();
 })();
 </script>
 

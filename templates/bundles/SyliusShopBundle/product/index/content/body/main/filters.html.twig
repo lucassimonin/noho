@@ -1,18 +1,58 @@
-{# Top bar with count and sorting - No Search #}
+{# Top bar with count and sorting — URLs match Sylius grid (sorting[field]=dir). Wrapper for AJAX partial refresh. #}
 {% set resources = hookable_metadata.context.resources %}
 {% set total = resources.data.nbResults is defined ? resources.data.nbResults : resources.data|length %}
 
+{% set slug = app.request.attributes.get('slug') %}
+{% set locale = app.request.locale %}
+{% set q = app.request.query.all() %}
+{% set crit = q.criteria|default({}) %}
+{% set ds = q.noho_date_start|default('') %}
+{% set de = q.noho_date_end|default('') %}
+{% set sorting = q.sorting|default({}) %}
+
+{% set base = { '_locale': locale, 'slug': slug, 'page': 1 } %}
+{% if crit is not empty %}
+    {% set base = base|merge({ criteria: crit }) %}
+{% endif %}
+{% if ds is not empty %}
+    {% set base = base|merge({ noho_date_start: ds }) %}
+{% endif %}
+{% if de is not empty %}
+    {% set base = base|merge({ noho_date_end: de }) %}
+{% endif %}
+
+{% set url_position = path('sylius_shop_product_index', base|merge({ sorting: { position: 'asc' } })) %}
+{% set url_price_asc = path('sylius_shop_product_index', base|merge({ sorting: { price: 'asc' } })) %}
+{% set url_price_desc = path('sylius_shop_product_index', base|merge({ sorting: { price: 'desc' } })) %}
+{% set url_name = path('sylius_shop_product_index', base|merge({ sorting: { name: 'asc' } })) %}
+{% set url_newest = path('sylius_shop_product_index', base|merge({ sorting: { createdAt: 'desc' } })) %}
+
+{% set current_sort = 'position' %}
+{% if sorting.price is defined and sorting.price == 'asc' %}
+    {% set current_sort = 'price_asc' %}
+{% elseif sorting.price is defined and sorting.price == 'desc' %}
+    {% set current_sort = 'price_desc' %}
+{% elseif sorting.name is defined and sorting.name == 'asc' %}
+    {% set current_sort = 'name' %}
+{% elseif sorting.createdAt is defined and sorting.createdAt == 'desc' %}
+    {% set current_sort = 'newest' %}
+{% elseif sorting.position is defined %}
+    {% set current_sort = 'position' %}
+{% endif %}
+
+<div id="noho-catalog-product-list" class="noho-catalog-product-list">
 <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid #e5e5e5;">
     <span style="font-size: 0.95rem; color: #666;">{{ total }} {{ total > 1 ? 'noho.filters.properties'|trans : 'noho.filters.property'|trans }}</span>
-    
+
     <div style="display: flex; align-items: center; gap: 16px;">
         <span style="font-size: 0.85rem; color: #999;">{{ 'noho.filters.sort_by'|trans }} :</span>
-        <select style="padding: 8px 32px 8px 12px; font-size: 0.9rem; color: #1a1a1a; background: #fff url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"6\" viewBox=\"0 0 12 6\"><path d=\"M0 0l6 6 6-6z\" fill=\"%23666\"/></svg>') no-repeat right 12px center; border: 1px solid #e5e5e5; border-radius: 6px; cursor: pointer; appearance: none; -webkit-appearance: none;">
-            <option value="position">{{ 'noho.filters.position'|trans }}</option>
-            <option value="price_asc">{{ 'noho.filters.price_asc'|trans }}</option>
-            <option value="price_desc">{{ 'noho.filters.price_desc'|trans }}</option>
-            <option value="name">{{ 'noho.filters.name'|trans }}</option>
-            <option value="newest">{{ 'noho.filters.newest'|trans }}</option>
+        <select id="noho-catalog-sort"
+                style="padding: 8px 32px 8px 12px; font-size: 0.9rem; color: #1a1a1a; background: #fff url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"6\" viewBox=\"0 0 12 6\"><path d=\"M0 0l6 6 6-6z\" fill=\"%23666\"/></svg>') no-repeat right 12px center; border: 1px solid #e5e5e5; border-radius: 6px; cursor: pointer; appearance: none; -webkit-appearance: none;">
+            <option value="position" data-url="{{ url_position }}"{% if current_sort == 'position' %} selected{% endif %}>{{ 'noho.filters.position'|trans }}</option>
+            <option value="price_asc" data-url="{{ url_price_asc }}"{% if current_sort == 'price_asc' %} selected{% endif %}>{{ 'noho.filters.price_asc'|trans }}</option>
+            <option value="price_desc" data-url="{{ url_price_desc }}"{% if current_sort == 'price_desc' %} selected{% endif %}>{{ 'noho.filters.price_desc'|trans }}</option>
+            <option value="name" data-url="{{ url_name }}"{% if current_sort == 'name' %} selected{% endif %}>{{ 'noho.filters.name'|trans }}</option>
+            <option value="newest" data-url="{{ url_newest }}"{% if current_sort == 'newest' %} selected{% endif %}>{{ 'noho.filters.newest'|trans }}</option>
         </select>
     </div>
 </div>

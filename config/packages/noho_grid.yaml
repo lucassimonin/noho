@@ -1,0 +1,17 @@
+sylius_grid:
+    grids:
+        sylius_shop_product:
+            filters:
+                voyageurs:
+                    type: noho_product_attribute_minimum
+                    label: false
+                    options:
+                        attribute_code: voyageurs
+                chambres:
+                    type: noho_product_attribute_minimum
+                    label: false
+                    options:
+                        attribute_code: chambres
+                noho_price:
+                    type: noho_channel_price_bucket
+                    label: false

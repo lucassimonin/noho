@@ -1,0 +1,6 @@
+# Symfony UX Live Component — required for LiveProp / LiveAction AJAX endpoints
+# https://symfony.com/bundles/ux-live-component/current/index.html
+ux_live_component:
+    resource: '@LiveComponentBundle/config/routes.php'
+    type: php
+    prefix: /_components

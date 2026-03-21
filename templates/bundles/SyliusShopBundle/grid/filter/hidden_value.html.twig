@@ -1,0 +1,4 @@
+{# Hidden grid criteria field — filtering is driven by query string from homepage / list form #}
+{% if form.value is defined %}
+    {{ form_widget(form.value, { attr: { class: 'd-none', tabindex: -1, 'aria-hidden': 'true' } }) }}
+{% endif %}

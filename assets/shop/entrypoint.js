@@ -5,3 +5,4 @@ import './styles/noho-override.css';
 import './js/lang-switcher.js';
 import './js/filters-toggle.js';
 import './js/mobile-menu.js';
+import './js/noho-catalog-partial-update.js';
