@@ -1,109 +1,80 @@
-<p align="center">
-    <a href="https://sylius.com" target="_blank">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="https://media.sylius.com/sylius-logo-800-dark.png">
-          <source media="(prefers-color-scheme: light)" srcset="https://media.sylius.com/sylius-logo-800.png">
-          <img alt="Sylius Logo." src="https://media.sylius.com/sylius-logo-800.png">
-        </picture>
-    </a>
-</p>
+# Noho Conciergerie
 
-<h1 align="center">Sylius Standard Edition</h1>
+Boutique Sylius pour la location de propriétés haut de gamme (catalogue, réservation, paiements). Le projet repose sur **Sylius 2.x**, **Symfony** et **Doctrine**.
 
-<p align="center">This is Sylius Standard Edition repository for starting new projects.</p>
+## Prérequis
 
-## About
-
-Sylius is the first decoupled eCommerce framework based on [**Symfony**](http://symfony.com) and [**Doctrine**](http://doctrine-project.org). 
-The highest quality of code, strong testing culture, built-in Agile (BDD) workflow and exceptional flexibility make it the best solution for application tailored to your business requirements. 
-Enjoy being an eCommerce Developer again!
-
-Powerful REST API allows for easy integrations and creating unique customer experience on any device.
-
-We're using full-stack Behavior-Driven-Development, with [Behat](http://behat.org)
-
-## Documentation
-
-Documentation is available at [docs.sylius.com](http://docs.sylius.com).
+- PHP **8.4+** (contrainte Composer du projet) avec les extensions Symfony usuelles (`intl`, `pdo_mysql` ou `pdo_pgsql`, etc.)
+- Composer 2
+- Node.js **20+** et npm (ou yarn) pour Webpack Encore
+- Une base **MySQL 8** ou **PostgreSQL** (selon votre `DATABASE_URL`)
 
 ## Installation
 
-### Traditional
-```bash
-$ wget http://getcomposer.org/composer.phar
-$ php composer.phar create-project sylius/sylius-standard project
-$ cd project
-$ yarn install
-$ yarn build
-$ php bin/console sylius:install
-$ symfony serve
-$ open http://localhost:8000/
-```
+1. **Cloner et installer les dépendances PHP**
 
-For more detailed instruction about traditional way of running Sylius please visit [installation chapter in our docs](https://docs.sylius.com/the-book/sylius-ce-installation).
+   ```bash
+   composer install
+   ```
 
-### Docker
+2. **Variables d’environnement**
 
-You can run Sylius and all associated infrastructure dependencies (PHP, Nginx, MySQL, Node) on your machine using only Docker containers. Make sure you have installed [Docker](https://docs.docker.com/get-docker/) on your local machine.
+   Copier `.env` vers `.env.local` et renseigner au minimum `DATABASE_URL` et `APP_SECRET`.
 
-**Option 1: Get the latest release**
-```bash
-LATEST=$(curl -s https://api.github.com/repos/Sylius/Sylius-Standard/releases/latest | grep '"tag_name"' | cut -d'"' -f4)
-curl -L -o sylius-latest.zip https://github.com/Sylius/Sylius-Standard/archive/refs/tags/$LATEST.zip
-unzip sylius-latest.zip
-cd Sylius-Standard-*
-```
+3. **Schéma de base de données**
 
-**Option 2: List available versions**
-```bash
-curl -s https://api.github.com/repos/Sylius/Sylius-Standard/releases | grep '"tag_name"' | cut -d'"' -f4 | head -10
-```
+   ```bash
+   php bin/console doctrine:database:create --if-not-exists
+   php bin/console doctrine:migrations:migrate --no-interaction
+   ```
 
-**Option 3: Get a specific version**
-```bash
-VERSION="v2.x.x"  # Replace with desired version
-curl -L -o sylius-$VERSION.zip https://github.com/Sylius/Sylius-Standard/archive/refs/tags/$VERSION.zip
-unzip sylius-$VERSION.zip
-cd Sylius-Standard-*
-```
+4. **Assets front (admin + boutique)**
 
-**Initialize the project (required for all options):**
-```bash
-make init
-```
+   ```bash
+   npm install
+   npm run build
+   ```
 
-For more detailed instruction about Docker way of running Sylius please visit [Docker installation chapter in our docs](https://docs.sylius.com/getting-started-with-sylius/sylius-ce-installation-with-docker).
+   En développement : `npm run watch`.
 
-## Troubleshooting
+5. **Données de démo (suite `noho`)**
 
-If something goes wrong, errors & exceptions are logged at the application level:
+   ```bash
+   php bin/console sylius:fixtures:load noho -n
+   ```
 
-```bash
-$ tail -f var/log/prod.log
-$ tail -f var/log/dev.log
-```
+   Cette commande purge la base (ORM) puis charge taxons, canal, produits, images, etc.
 
-## Contributing
+## Comptes de démonstration
 
-Would like to help us and build the most developer-friendly eCommerce framework? Start from reading our [Contribution Guide](https://docs.sylius.com/en/latest/contributing/)!
+À utiliser **uniquement en développement / démo**. Changez ces mots de passe en production.
 
-## Stay Updated
+| Contexte | URL (exemple local) | Identifiant | Mot de passe |
+|----------|---------------------|-------------|--------------|
+| **Back-office (BO)** | `/admin` | **Email ou identifiant :** `admin@noho-conciergerie.com` ou `admin` | `noho2024` |
+| **Front-office (FO)** | `/` puis lien « Connexion » | **Email :** `customer@noho-conciergerie.com` | `noho2024` |
 
-If you want to keep up with the updates, [follow the official Sylius account on Twitter](http://twitter.com/Sylius) and [like us on Facebook](https://www.facebook.com/SyliusEcommerce/).
+Les comptes sont définis dans `config/packages/sylius_fixtures.yaml` (fixtures `admin_user` et `shop_user`).
 
-## Bug Tracking
+## Commandes utiles
 
-If you want to report a bug or suggest an idea, please use [GitHub issues](https://github.com/Sylius/Sylius/issues).
+| Action | Commande |
+|--------|----------|
+| Serveur Symfony local | `symfony server:start` ou `php -S localhost:8000 -t public` |
+| Vider le cache | `php bin/console cache:clear` |
+| Traductions | `php bin/console translation:extract` (selon besoin) |
 
-## Community Support
+## Structure notable
 
-Get Sylius support on [Slack](https://sylius.com/slack), [Forum](https://forum.sylius.com/) or [Stack Overflow](https://stackoverflow.com/questions/tagged/sylius).
+- `config/packages/sylius_fixtures.yaml` — suite de fixtures **noho** (canal `NOHO_WEB`, propriétés, taxons, comptes démo).
+- `templates/bundles/SyliusShopBundle/` — surcouches Twig boutique.
+- `assets/shop/` — JS/CSS boutique (Encore + overrides).
+- `src/` — code métier et fixtures personnalisées (ex. images de taxons).
 
-## MIT License
+## Documentation Sylius
 
-Sylius is completely free and released under the [MIT License](https://github.com/Sylius/Sylius/blob/master/LICENSE).
+[docs.sylius.com](https://docs.sylius.com)
 
-## Authors
+## Licence
 
-Sylius was originally created by [Paweł Jędrzejewski](http://pjedrzejewski.com).
-See the list of [contributors from our awesome community](https://github.com/Sylius/Sylius/contributors).
+Le cœur **Sylius** est sous licence MIT. Voir les fichiers `LICENSE` du dépôt Sylius et les licences des dépendances du projet.

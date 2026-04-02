@@ -17,7 +17,8 @@
 } %}
 
 <div class="w-100 border-bottom noho-nav-wrapper">
-    <nav class="navbar offcanvas-lg offcanvas-start offcanvas-wide p-0" id="navbarNav">
+    {# Full-width mobile menu: no backdrop (sibling overlay was intercepting taps on iOS). #}
+    <nav class="navbar offcanvas-lg offcanvas-start offcanvas-wide p-0" id="navbarNav" data-bs-backdrop="false">
         <div class="offcanvas-header">
             <button type="button" class="noho-close-btn" data-bs-dismiss="offcanvas" data-bs-target="#navbarNav" aria-label="Close">
                 {{ 'noho.menu.close'|trans }}

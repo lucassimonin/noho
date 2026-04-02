@@ -207,6 +207,20 @@ sylius_fixtures:
                                 last_name: 'Noho'
 
                 # ==========================================
+                # SHOP USER (Front office — connexion boutique)
+                # ==========================================
+                shop_user:
+                    name: 'shop_user'
+                    options:
+                        random: 0
+                        custom:
+                            -   email: 'customer@noho-conciergerie.com'
+                                first_name: 'Client'
+                                last_name: 'Démo'
+                                password: 'noho2024'
+                                enabled: true
+
+                # ==========================================
                 # PRODUCTS (Properties)
                 # ==========================================
                 noho_products:

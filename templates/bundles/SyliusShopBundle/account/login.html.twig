@@ -39,12 +39,14 @@
                 </div>
             {% endif %}
             
-            <form action="{{ path('sylius_shop_login_check') }}" method="post">
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                
+            <form action="{{ path('sylius_shop_login_check') }}" method="post" novalidate>
+                {# Must match config/packages/security.yaml shop firewall: csrf_parameter + csrf_token_id #}
+                <input type="hidden" name="_csrf_shop_security_token" value="{{ csrf_token('shop_authenticate') }}">
+
                 <div style="margin-bottom: 20px;">
-                    <label style="display: block; font-size: 0.85rem; font-weight: 500; color: #333; margin-bottom: 8px;">{{ 'sylius.ui.email'|trans }}</label>
-                    <input type="email" name="_username" required 
+                    <label for="login-username" style="display: block; font-size: 0.85rem; font-weight: 500; color: #333; margin-bottom: 8px;">{{ 'sylius.ui.email'|trans }}</label>
+                    <input id="login-username" type="email" name="_username" required autocomplete="username"
+                           value="{{ last_username|default('') }}"
                            placeholder="votre@email.com"
                            style="width: 100%; padding: 14px 16px; font-size: 0.95rem; color: #1a1a1a; background: #f8f8f8; border: 1px solid transparent; border-radius: 8px; outline: none; transition: all 0.2s;" 
                            onfocus="this.style.background='#fff'; this.style.borderColor='#1a1a1a';" 
@@ -52,8 +54,8 @@
                 </div>
                 
                 <div style="margin-bottom: 20px;">
-                    <label style="display: block; font-size: 0.85rem; font-weight: 500; color: #333; margin-bottom: 8px;">{{ 'sylius.ui.password'|trans }}</label>
-                    <input type="password" name="_password" required 
+                    <label for="login-password" style="display: block; font-size: 0.85rem; font-weight: 500; color: #333; margin-bottom: 8px;">{{ 'sylius.ui.password'|trans }}</label>
+                    <input id="login-password" type="password" name="_password" required autocomplete="current-password"
                            placeholder="••••••••"
                            style="width: 100%; padding: 14px 16px; font-size: 0.95rem; color: #1a1a1a; background: #f8f8f8; border: 1px solid transparent; border-radius: 8px; outline: none; transition: all 0.2s;" 
                            onfocus="this.style.background='#fff'; this.style.borderColor='#1a1a1a';" 

@@ -36,7 +36,7 @@ db-migrate: ## Apply pending migrations to the database
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
 
 db-fixture: ## Load fixtures
-	$(SYMFONY) sylius:fixtures:load default --no-interaction
+	$(SYMFONY) sylius:fixtures:load noho --no-interaction
 
 ## ——— BDD (DEV) ———
 reset-db: ## Complete reset of the Dev database (Drop -> Create -> Migrate)

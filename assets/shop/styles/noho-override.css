@@ -61,6 +61,13 @@ body:has(.offcanvas.showing) .border-bottom.py-4 {
   opacity: 0 !important;
 }
 
+/* Backdrop sits after #navbarNav in .noho-nav-wrapper; on mobile it must never capture taps meant for menu links */
+@media (max-width: 991.98px) {
+  .noho-nav-wrapper > .offcanvas-backdrop {
+    pointer-events: none !important;
+  }
+}
+
 /* Mobile menu offcanvas - full screen */
 @media (max-width: 991px) {
   #navbarNav {
@@ -1970,4 +1977,212 @@ select {
   .noho-catalog-filters-live .home-cal-day {
     font-size: 0.7rem;
   }
+}
+
+/* ========================================
+   SHOP ACCOUNT (Mon compte) — align with Noho global look
+   ======================================== */
+
+.noho-account {
+  flex: 1;
+  width: 100%;
+  background: #f8f8f8;
+}
+
+.noho-account__inner {
+  width: 100%;
+  min-height: 50vh;
+}
+
+.noho-account__container {
+  max-width: 1140px;
+}
+
+.noho-account__breadcrumbs .breadcrumb {
+  margin-bottom: 0;
+  padding: 0;
+  background: transparent;
+  font-size: 0.8125rem;
+}
+
+.noho-account__breadcrumbs .breadcrumb-item a {
+  color: var(--noho-muted, #666) !important;
+  text-decoration: none;
+}
+
+.noho-account__breadcrumbs .breadcrumb-item a:hover {
+  color: var(--noho-dark, #1a1a1a) !important;
+}
+
+.noho-account__breadcrumbs .breadcrumb-item.active,
+.noho-account__breadcrumbs .breadcrumb-item.active span {
+  color: var(--noho-dark, #1a1a1a) !important;
+}
+
+.noho-account__sidebar {
+  position: relative;
+}
+
+.noho-account__nav-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: var(--noho-dark, #1a1a1a);
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.02em;
+}
+
+.noho-account__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  margin: 0;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid rgba(26, 26, 26, 0.08);
+  overflow: hidden;
+}
+
+.noho-account__nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--noho-dark, #1a1a1a) !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.06);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.noho-account__nav-link:last-child {
+  border-bottom: none;
+}
+
+.noho-account__nav-link:hover {
+  background: rgba(26, 26, 26, 0.04);
+  color: var(--noho-dark, #1a1a1a) !important;
+}
+
+.noho-account__nav-link.is-active {
+  background: var(--noho-dark, #1a1a1a);
+  color: #fff !important;
+}
+
+.noho-account__nav-link.is-active .noho-account__nav-icon {
+  color: #fff;
+}
+
+.noho-account__nav-icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.noho-account__main {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid rgba(26, 26, 26, 0.08);
+  padding: 28px 24px 32px;
+}
+
+@media (min-width: 992px) {
+  .noho-account__main {
+    padding: 36px 40px 40px;
+  }
+}
+
+.noho-account__main h1,
+.noho-account__main .h1,
+.noho-account__main .h2,
+.noho-account__main h2 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  color: var(--noho-dark, #1a1a1a);
+  letter-spacing: 0.02em;
+}
+
+.noho-account__main .text-body-secondary,
+.noho-account__main .text-body-tertiary {
+  color: var(--noho-muted, #666) !important;
+}
+
+.noho-account__main .btn-primary,
+.noho-account__main button[type="submit"].btn-primary {
+  background: var(--noho-dark, #1a1a1a) !important;
+  border-color: var(--noho-dark, #1a1a1a) !important;
+  color: #fff !important;
+  border-radius: 8px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.8125rem;
+  padding: 12px 24px;
+}
+
+.noho-account__main .btn-primary:hover {
+  background: #333 !important;
+  border-color: #333 !important;
+}
+
+.noho-account__main .btn-outline-primary,
+.noho-account__main .btn-outline-secondary {
+  border-radius: 8px;
+  border-color: var(--noho-dark, #1a1a1a);
+  color: var(--noho-dark, #1a1a1a);
+}
+
+.noho-account__main .btn-outline-primary:hover,
+.noho-account__main .btn-outline-secondary:hover {
+  background: var(--noho-dark, #1a1a1a);
+  color: #fff;
+}
+
+.noho-account__main .form-control,
+.noho-account__main .form-select {
+  border-radius: 8px;
+  border: 1px solid rgba(26, 26, 26, 0.12);
+  padding: 12px 14px;
+}
+
+.noho-account__main .form-control:focus,
+.noho-account__main .form-select:focus {
+  border-color: var(--noho-dark, #1a1a1a);
+  box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.08);
+}
+
+.noho-account__main table {
+  font-size: 0.9375rem;
+}
+
+.noho-account__main .table > :not(caption) > * > * {
+  padding: 12px 14px;
+  vertical-align: middle;
+}
+
+.noho-account__main .table thead th {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--noho-muted, #666);
+  border-bottom: 1px solid rgba(26, 26, 26, 0.1);
+}
+
+.noho-account__main a.link-reset,
+.noho-account__main a:not(.btn) {
+  color: var(--noho-dark, #1a1a1a);
+}
+
+.noho-account__main a:not(.btn):hover {
+  opacity: 0.75;
+}
+
+.noho-account__main .badge,
+.noho-account__main [class*="badge"] {
+  border-radius: 6px;
+  font-weight: 500;
 }
