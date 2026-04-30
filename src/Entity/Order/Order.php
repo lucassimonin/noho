@@ -20,4 +20,30 @@ class Order extends BaseOrder implements OrderInterface
     use QRCodeOrderTrait;
     use RecurringOrderTrait;
     use AbandonedEmailOrderTrait;
+
+    #[ORM\Column(name: 'reservation_start_at', type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $reservationStartAt = null;
+
+    #[ORM\Column(name: 'reservation_end_at', type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $reservationEndAt = null;
+
+    public function getReservationStartAt(): ?\DateTimeImmutable
+    {
+        return $this->reservationStartAt;
+    }
+
+    public function setReservationStartAt(?\DateTimeImmutable $reservationStartAt): void
+    {
+        $this->reservationStartAt = $reservationStartAt;
+    }
+
+    public function getReservationEndAt(): ?\DateTimeImmutable
+    {
+        return $this->reservationEndAt;
+    }
+
+    public function setReservationEndAt(?\DateTimeImmutable $reservationEndAt): void
+    {
+        $this->reservationEndAt = $reservationEndAt;
+    }
 }

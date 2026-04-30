@@ -30,7 +30,7 @@ install: start ## Install the entire project (Vendor + Dev database + Test datab
 ## ——— BDD ———
 
 db-diff: ## Generates a new migration by comparing Entities <-> Database
-	$(SYMFONY) make:migration
+	$(SYMFONY) doctrine:migrations:diff --no-interaction
 
 db-migrate: ## Apply pending migrations to the database
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
@@ -43,6 +43,7 @@ reset-db: ## Complete reset of the Dev database (Drop -> Create -> Migrate)
 	$(SYMFONY) doctrine:database:drop --force --if-exists
 	$(SYMFONY) doctrine:database:create
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
+	@$(MAKE) db-fixture
 
 ## ——— Messenger ———
 consume: ## Cosume message async

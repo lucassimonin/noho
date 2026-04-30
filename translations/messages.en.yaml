@@ -105,6 +105,15 @@ noho:
             guests_plural: "guests"
             submit: "Send my request"
             info: "No commitment • Response within 24h"
+
+    reservation:
+        title: "Booking"
+        check_in: "Check-in"
+        check_out: "Check-out"
+        add_to_cart: "Add to cart"
+        period_invalid: "Check-out must be after check-in."
+        min_nights: "Minimum stay is %min% nights."
+        unavailable: "These dates are no longer available for this property."
     
     # Experiences page
     experiences:

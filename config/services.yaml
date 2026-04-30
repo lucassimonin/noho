@@ -35,3 +35,7 @@ services:
             $projectDir: '%kernel.project_dir%'
         tags:
             - { name: 'sylius_fixtures.fixture' }
+
+    App\Fixture\NohoReservationOrderFixture:
+        tags:
+            - { name: 'sylius_fixtures.fixture' }

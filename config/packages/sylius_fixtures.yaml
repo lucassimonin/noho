@@ -152,6 +152,22 @@ sylius_fixtures:
                                 contact_email: 'contact@noho-conciergerie.com'
 
                 # ==========================================
+                # PAYMENT (required for checkout with total > 0)
+                # ==========================================
+                payment_method:
+                    options:
+                        custom:
+                            bank_transfer:
+                                code: 'bank_transfer'
+                                name: 'Virement bancaire'
+                                description: 'Paiement par virement'
+                                gatewayName: 'Offline'
+                                gatewayFactory: 'offline'
+                                channels:
+                                    - 'NOHO_WEB'
+                                enabled: true
+
+                # ==========================================
                 # TAX CATEGORIES
                 # ==========================================
                 tax_category:
@@ -233,6 +249,7 @@ sylius_fixtures:
                                 short_description: 'Villa d''exception avec vue panoramique sur Paris'
                                 description: 'Nichée au cœur de Montmartre, cette villa d''exception offre une vue imprenable sur Paris. Avec ses 3 chambres, son vaste séjour et son jardin privatif, elle est l''endroit idéal pour un séjour inoubliable dans la capitale.'
                                 tax_category: 'rental'
+                                shipping_required: false
                                 channels:
                                     - 'NOHO_WEB'
                                 main_taxon: 'paris'
@@ -254,6 +271,7 @@ sylius_fixtures:
                                 short_description: 'Appartement de charme au cœur du Marais'
                                 description: 'Cet élégant appartement situé dans le quartier historique du Marais allie charme parisien et confort moderne. Hauts plafonds, parquet et mobilier design.'
                                 tax_category: 'rental'
+                                shipping_required: false
                                 channels:
                                     - 'NOHO_WEB'
                                 main_taxon: 'paris'
@@ -275,6 +293,7 @@ sylius_fixtures:
                                 short_description: 'Villa prestigieuse sur la Promenade des Anglais'
                                 description: 'Cette villa Art Déco offre un accès direct à la plage et une vue panoramique sur la mer. Piscine à débordement, jardin paysager et parking privé.'
                                 tax_category: 'rental'
+                                shipping_required: false
                                 channels:
                                     - 'NOHO_WEB'
                                 main_taxon: 'nice'
@@ -297,6 +316,7 @@ sylius_fixtures:
                                 short_description: 'Propriété d''exception vue mer'
                                 description: 'Dans les collines de Ramatuelle, cette propriété d''exception offre intimité totale et vue imprenable sur le golfe de Saint-Tropez. Piscine chauffée, court de tennis, logement gardien.'
                                 tax_category: 'rental'
+                                shipping_required: false
                                 channels:
                                     - 'NOHO_WEB'
                                 main_taxon: 'saint_tropez'
@@ -319,6 +339,7 @@ sylius_fixtures:
                                 short_description: 'Penthouse prestigieux sur La Croisette'
                                 description: 'Au dernier étage d''une résidence de prestige, ce penthouse offre une vue à 180° sur la baie de Cannes. Terrasse de 100m², service de conciergerie, accès plage privée.'
                                 tax_category: 'rental'
+                                shipping_required: false
                                 channels:
                                     - 'NOHO_WEB'
                                 main_taxon: 'cannes'
@@ -340,6 +361,7 @@ sylius_fixtures:
                                 short_description: 'Villa contemporaine avec vue sur Es Vedrà'
                                 description: 'Cette villa contemporaine offre une vue magique sur le rocher mythique d''Es Vedrà. Design minimaliste, piscine à débordement se fondant dans l''horizon.'
                                 tax_category: 'rental'
+                                shipping_required: false
                                 channels:
                                     - 'NOHO_WEB'
                                 main_taxon: 'ibiza'
@@ -361,6 +383,7 @@ sylius_fixtures:
                                 short_description: 'Finca authentique au nord de l''île'
                                 description: 'Cette finca traditionnelle ibizenca a été soigneusement restaurée en préservant son authenticité. Jardin luxuriant, piscine chauffée, tranquillité absolue.'
                                 tax_category: 'rental'
+                                shipping_required: false
                                 channels:
                                     - 'NOHO_WEB'
                                 main_taxon: 'ibiza'
@@ -382,6 +405,7 @@ sylius_fixtures:
                                 short_description: 'Villa ultra-luxe sur le Golden Mile'
                                 description: 'Sur le célèbre Golden Mile, cette villa d''exception incarne le luxe méditerranéen. Spa privatif, salle de cinéma, cave à vin et personnel de maison.'
                                 tax_category: 'rental'
+                                shipping_required: false
                                 channels:
                                     - 'NOHO_WEB'
                                 main_taxon: 'marbella'
@@ -404,6 +428,7 @@ sylius_fixtures:
                                 short_description: 'Villa de charme dans le village des artistes'
                                 description: 'Dans le pittoresque village de Deià, cette villa en pierre offre une vue époustouflante sur la Tramuntana. Oliveraie, piscine au sel, ambiance artistique.'
                                 tax_category: 'rental'
+                                shipping_required: false
                                 channels:
                                     - 'NOHO_WEB'
                                 main_taxon: 'mallorca'
@@ -425,6 +450,7 @@ sylius_fixtures:
                                 short_description: 'Palais du XIXe siècle dans l''Alfama'
                                 description: 'Ce magnifique palais du XIXe siècle a été transformé en résidence privée d''un charme exceptionnel. Azulejos, mobilier d''époque, vue sur le Tage.'
                                 tax_category: 'rental'
+                                shipping_required: false
                                 channels:
                                     - 'NOHO_WEB'
                                 main_taxon: 'lisbon'
@@ -446,6 +472,7 @@ sylius_fixtures:
                                 short_description: 'Villa moderne surplombant les falaises'
                                 description: 'Cette villa contemporaine domine les célèbres falaises dorées de Lagos. Piscine à débordement spectaculaire, jardin luxuriant, accès privilégié à une crique.'
                                 tax_category: 'rental'
+                                shipping_required: false
                                 channels:
                                     - 'NOHO_WEB'
                                 main_taxon: 'algarve'
@@ -467,6 +494,7 @@ sylius_fixtures:
                                 short_description: 'Villa cycladique dominant la plage d''Elia'
                                 description: 'Cette somptueuse villa cycladique domine la célèbre plage d''Elia. Architecture blanche immaculée, touches de cobalt, piscine à débordement se fondant dans l''Égée.'
                                 tax_category: 'rental'
+                                shipping_required: false
                                 channels:
                                     - 'NOHO_WEB'
                                 main_taxon: 'mykonos'
@@ -489,6 +517,7 @@ sylius_fixtures:
                                 short_description: 'Villa iconique à Oia avec vue sur la caldeira'
                                 description: 'Perchée sur les falaises d''Oia, cette villa troglodyte offre le plus beau coucher de soleil au monde. Jacuzzi privatif, cave à vin, vue imprenable sur la caldeira.'
                                 tax_category: 'rental'
+                                shipping_required: false
                                 channels:
                                     - 'NOHO_WEB'
                                 main_taxon: 'santorini'
@@ -510,6 +539,7 @@ sylius_fixtures:
                                 short_description: 'Élégante villa en cascade vers la mer'
                                 description: 'Cette élégante villa dévale la falaise pour offrir une expérience unique. Chaque niveau dévoile des vues imprenables sur le village coloré et la mer Tyrrhénienne.'
                                 tax_category: 'rental'
+                                shipping_required: false
                                 channels:
                                     - 'NOHO_WEB'
                                 main_taxon: 'amalfi'
@@ -531,6 +561,7 @@ sylius_fixtures:
                                 short_description: 'Domaine historique au cœur du Chianti'
                                 description: 'Ce domaine du XVIe siècle au cœur du Chianti a été restauré avec amour. Vignes, oliviers, piscine à débordement avec vue sur les collines toscanes.'
                                 tax_category: 'rental'
+                                shipping_required: false
                                 channels:
                                     - 'NOHO_WEB'
                                 main_taxon: 'tuscany'
@@ -596,3 +627,11 @@ sylius_fixtures:
                                 path: '%kernel.project_dir%/src/Resources/fixtures/properties/amalfi.jpg'
                             -   taxon_code: 'tuscany'
                                 path: '%kernel.project_dir%/src/Resources/fixtures/properties/tuscany.jpg'
+
+                # ==========================================
+                # SAMPLE ORDERS (completed bookings with date ranges)
+                # ==========================================
+                noho_reservation_orders:
+                    name: noho_reservation_order
+                    options:
+                        enabled: true

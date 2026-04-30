@@ -209,56 +209,20 @@
                 </div>
             </div>
 
-            {# Booking Form #}
+            {# Booking: Sylius cart + reservation dates #}
             <div style="background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 24px;">
-                <h3 style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #999; margin: 0 0 20px;">Demande de réservation</h3>
-                
-                <form action="{{ path('sylius_shop_contact_request') }}" method="post">
-                    <input type="hidden" name="property" value="{{ product.name }}">
-                    
-                    {# Dates #}
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
-                        <div>
-                            <label style="display: block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #999; margin-bottom: 6px;">Arrivée</label>
-                            <input type="date" name="arrival" id="arrivalDate" required style="width: 100%; padding: 12px; font-size: 0.9rem; color: #1a1a1a; border: 1px solid #e5e5e5; border-radius: 6px; outline: none;">
-                        </div>
-                        <div>
-                            <label style="display: block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #999; margin-bottom: 6px;">Départ</label>
-                            <input type="date" name="departure" id="departureDate" required style="width: 100%; padding: 12px; font-size: 0.9rem; color: #1a1a1a; border: 1px solid #e5e5e5; border-radius: 6px; outline: none;">
-                        </div>
-                    </div>
+                <h3 style="font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #999; margin: 0 0 20px;">{{ 'noho.reservation.title'|trans }}</h3>
 
-                    {# Name #}
-                    <div style="margin-bottom: 16px;">
-                        <label style="display: block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #999; margin-bottom: 6px;">Nom</label>
-                        <input type="text" name="name" required style="width: 100%; padding: 12px; font-size: 0.9rem; color: #1a1a1a; border: 1px solid #e5e5e5; border-radius: 6px; outline: none;">
-                    </div>
+                {% if variant %}
+                    {{ component('sylius_shop:product:add_to_cart_form', {
+                        product: product,
+                        template: '@SyliusShop/product/show/noho_add_to_cart.html.twig',
+                        routeName: 'sylius_shop_cart_summary'
+                    }) }}
+                {% else %}
+                    <p style="color: #666; font-size: 0.95rem;">{{ 'sylius.ui.out_of_stock'|trans }}</p>
+                {% endif %}
 
-                    {# Email #}
-                    <div style="margin-bottom: 16px;">
-                        <label style="display: block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #999; margin-bottom: 6px;">Email</label>
-                        <input type="email" name="email" required style="width: 100%; padding: 12px; font-size: 0.9rem; color: #1a1a1a; border: 1px solid #e5e5e5; border-radius: 6px; outline: none;">
-                    </div>
-
-                    {# Phone #}
-                    <div style="margin-bottom: 16px;">
-                        <label style="display: block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #999; margin-bottom: 6px;">Téléphone</label>
-                        <input type="tel" name="phone" placeholder="+33 ..." style="width: 100%; padding: 12px; font-size: 0.9rem; color: #1a1a1a; border: 1px solid #e5e5e5; border-radius: 6px; outline: none;">
-                    </div>
-
-                    {# Message #}
-                    <div style="margin-bottom: 20px;">
-                        <label style="display: block; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #999; margin-bottom: 6px;">Message</label>
-                        <textarea name="message" rows="3" placeholder="Nombre de voyageurs, besoins particuliers..." style="width: 100%; padding: 12px; font-size: 0.9rem; color: #1a1a1a; border: 1px solid #e5e5e5; border-radius: 6px; outline: none; resize: vertical;"></textarea>
-                    </div>
-
-                    {# Submit #}
-                    <button type="submit" class="noho-btn-submit" style="width: 100%; padding: 16px; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: #fff; background: #1a1a1a; border: none; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">
-                        Envoyer ma demande
-                    </button>
-                </form>
-
-                {# Quick Contact #}
                 <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; text-align: center;">
                     <p style="font-size: 0.85rem; color: #999; margin-bottom: 4px;">Besoin d'une réponse rapide ?</p>
                     <a href="tel:+33756833888" style="font-size: 1rem; font-weight: 600; color: #1a1a1a !important; text-decoration: none;">+33 7 56 83 38 88</a>
@@ -333,6 +297,20 @@
         });
     });
 
+    // Calendar — resolve date inputs (explicit id or Sylius-generated name)
+    function nohoReservationStartInput() {
+        var byId = document.getElementById('arrivalDate');
+        if (byId) return byId;
+        return document.querySelector('input[name="sylius_shop_add_to_cart[reservationStartAt]"]')
+            || document.querySelector('input[name*="[reservationStartAt]"]');
+    }
+    function nohoReservationEndInput() {
+        var byId = document.getElementById('departureDate');
+        if (byId) return byId;
+        return document.querySelector('input[name="sylius_shop_add_to_cart[reservationEndAt]"]')
+            || document.querySelector('input[name*="[reservationEndAt]"]');
+    }
+
     // Calendar
     var currentDate = new Date();
     var currentMonth = currentDate.getMonth();
@@ -404,18 +382,20 @@
             el.addEventListener('click', function() {
                 var dateStr = this.getAttribute('data-date');
                 
+                var arrIn = nohoReservationStartInput();
+                var depIn = nohoReservationEndInput();
                 if (!selectedStart || (selectedStart && selectedEnd)) {
                     selectedStart = dateStr;
                     selectedEnd = null;
-                    document.getElementById('arrivalDate').value = dateStr;
-                    document.getElementById('departureDate').value = '';
+                    if (arrIn) arrIn.value = dateStr;
+                    if (depIn) depIn.value = '';
                 } else {
                     if (dateStr > selectedStart) {
                         selectedEnd = dateStr;
-                        document.getElementById('departureDate').value = dateStr;
+                        if (depIn) depIn.value = dateStr;
                     } else {
                         selectedStart = dateStr;
-                        document.getElementById('arrivalDate').value = dateStr;
+                        if (arrIn) arrIn.value = dateStr;
                     }
                 }
                 renderCalendar();

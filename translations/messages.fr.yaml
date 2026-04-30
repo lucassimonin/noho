@@ -105,6 +105,15 @@ noho:
             guests_plural: "voyageurs"
             submit: "Envoyer ma demande"
             info: "Sans engagement • Réponse sous 24h"
+
+    reservation:
+        title: "Réservation"
+        check_in: "Arrivée"
+        check_out: "Départ"
+        add_to_cart: "Ajouter au panier"
+        period_invalid: "La date de départ doit être après la date d'arrivée."
+        min_nights: "La durée minimale de séjour est de %min% nuits."
+        unavailable: "Ces dates ne sont plus disponibles pour cette propriété."
     
     # Experiences page
     experiences:
