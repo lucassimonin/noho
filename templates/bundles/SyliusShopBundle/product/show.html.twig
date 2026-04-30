@@ -66,7 +66,7 @@
         <span style="color: #1a1a1a; font-weight: 500;">{{ product.name }}</span>
     </nav>
     
-    <div style="display: grid; grid-template-columns: 1fr 380px; gap: 60px; align-items: start;">
+    <div class="noho-pdp-main-grid">
         
         {# Left Column - Gallery & Details #}
         <div>
@@ -167,7 +167,7 @@
         </div>
 
         {# Right Column - Booking Card #}
-        <div style="position: sticky; top: 24px;">
+        <div class="noho-pdp-sidebar" style="position: sticky; top: 24px;">
             {# Price #}
             <div style="margin-bottom: 24px;">
                 <div style="font-family: Georgia, serif; font-size: 2rem; color: #1a1a1a;">
@@ -273,31 +273,43 @@
 .cal-day.selected { background: #1a1a1a; color: #fff; }
 .cal-day.in-range { background: #f0f0f0; }
 
+.noho-pdp-main-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 380px);
+    gap: 60px;
+    align-items: start;
+}
+.noho-pdp-main-grid > * {
+    min-width: 0;
+}
+.noho-pdp-sidebar {
+    max-width: 100%;
+}
+
 @media (max-width: 900px) {
-    [style*="grid-template-columns: 1fr 380px"] { grid-template-columns: 1fr !important; }
+    .noho-pdp-main-grid { grid-template-columns: 1fr !important; }
     [style*="grid-template-columns: repeat(3, 1fr)"] { grid-template-columns: 1fr !important; }
 }
 </style>
 
 <script>
 (function() {
-    // Thumbnail Gallery
     var thumbs = document.querySelectorAll('.thumb-btn');
     var mainImg = document.getElementById('mainProductImage');
-    
-    thumbs.forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            thumbs.forEach(function(b) { b.classList.remove('active'); });
-            btn.classList.add('active');
-            mainImg.style.opacity = '0.5';
-            setTimeout(function() {
-                mainImg.src = btn.getAttribute('data-src');
-                mainImg.style.opacity = '1';
-            }, 150);
+    if (mainImg) {
+        thumbs.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                thumbs.forEach(function(b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+                mainImg.style.opacity = '0.5';
+                setTimeout(function() {
+                    mainImg.src = btn.getAttribute('data-src');
+                    mainImg.style.opacity = '1';
+                }, 150);
+            });
         });
-    });
+    }
 
-    // Calendar — resolve date inputs (explicit id or Sylius-generated name)
     function nohoReservationStartInput() {
         var byId = document.getElementById('arrivalDate');
         if (byId) return byId;
@@ -311,111 +323,291 @@
             || document.querySelector('input[name*="[reservationEndAt]"]');
     }
 
-    // Calendar
+    /** Live Component (data-model on form) only syncs programmatic values after input/change events */
+    function nohoNotifyLiveFormField(el) {
+        if (!el) return;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    function pdpBookingWrap() {
+        return document.querySelector('.noho-pdp-booking-date-wrap');
+    }
+    function pdpBookingTrigger() {
+        return document.getElementById('pdpBookingDateTrigger');
+    }
+    function pdpBookingDropdown() {
+        return document.getElementById('pdpBookingDateDropdown');
+    }
+    var selectDatesText = (function() {
+        var w = pdpBookingWrap();
+        return (w && w.getAttribute('data-noho-select-dates')) || '';
+    })();
+
     var currentDate = new Date();
     var currentMonth = currentDate.getMonth();
     var currentYear = currentDate.getFullYear();
     var selectedStart = null;
     var selectedEnd = null;
-    
+
     var monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 
-    /** ES5-safe (padStart missing on older Safari / WebViews) */
     function pad2(n) {
         var s = String(n);
         return s.length < 2 ? '0' + s : s;
     }
-    
-    // Helper to format date as YYYY-MM-DD without timezone issues
+
     function formatDate(year, month, day) {
         return year + '-' + pad2(month + 1) + '-' + pad2(day);
     }
-    
-    // Helper to create date without timezone issues
+
     function createLocalDate(year, month, day) {
-        var d = new Date(year, month, day, 12, 0, 0);
-        return d;
+        return new Date(year, month, day, 12, 0, 0);
     }
-    
+
+    function syncStateFromInputs() {
+        var arrIn = nohoReservationStartInput();
+        var depIn = nohoReservationEndInput();
+        selectedStart = (arrIn && arrIn.value) ? arrIn.value : null;
+        selectedEnd = (depIn && depIn.value) ? depIn.value : null;
+    }
+
+    /** After Live morph, inputs may be replaced; never clear JS range when inputs are temporarily empty */
+    function mergeInputsIntoSelectionState() {
+        var arrIn = nohoReservationStartInput();
+        var depIn = nohoReservationEndInput();
+        if (arrIn && arrIn.value) {
+            selectedStart = arrIn.value;
+        }
+        if (depIn && depIn.value) {
+            selectedEnd = depIn.value;
+        }
+    }
+
+    /** Live re-render replaces the trigger markup; refresh labels after the next paint(s) */
+    function schedulePdpLiveMorphUiRefresh() {
+        [0, 40, 120, 280].forEach(function(ms) {
+            window.setTimeout(function() {
+                mergeInputsIntoSelectionState();
+                updatePdpBookingDisplay();
+                renderCalendar();
+            }, ms);
+        });
+    }
+
+    function formatDisplayDate(dateStr) {
+        if (!dateStr) return '-';
+        var parts = dateStr.split('-');
+        if (parts.length < 3) return '-';
+        var mi = parseInt(parts[1], 10) - 1;
+        var label = monthNames[mi];
+        if (!label) return '-';
+        return parseInt(parts[2], 10) + ' ' + String(label).substring(0, 3);
+    }
+
+    function updatePdpBookingDisplay() {
+        var display = document.getElementById('pdpBookingDateDisplay');
+        var arrEl = document.getElementById('pdpArrivalSummary');
+        var depEl = document.getElementById('pdpDepartureSummary');
+        if (!display) return;
+        if (selectedStart && selectedEnd) {
+            display.textContent = formatDisplayDate(selectedStart) + ' \u2192 ' + formatDisplayDate(selectedEnd);
+        } else if (selectedStart) {
+            display.textContent = formatDisplayDate(selectedStart) + ' \u2192 ...';
+        } else {
+            display.textContent = selectDatesText;
+        }
+        display.classList.toggle('is-filled', !!(selectedStart || selectedEnd));
+        if (arrEl) arrEl.textContent = formatDisplayDate(selectedStart);
+        if (depEl) depEl.textContent = formatDisplayDate(selectedEnd);
+    }
+
+    function setPdpDropdownOpen(open) {
+        var dd = pdpBookingDropdown();
+        var tr = pdpBookingTrigger();
+        if (!dd || !tr) return;
+        dd.classList.toggle('is-open', open);
+        tr.classList.toggle('is-open', open);
+        tr.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (open) renderPdpBookingCalendar();
+    }
+
+    function applySelectionFromDayClick(dateStr) {
+        var arrIn = nohoReservationStartInput();
+        var depIn = nohoReservationEndInput();
+        if (!selectedStart || (selectedStart && selectedEnd)) {
+            selectedStart = dateStr;
+            selectedEnd = null;
+            if (arrIn) arrIn.value = dateStr;
+            if (depIn) depIn.value = '';
+        } else {
+            if (dateStr > selectedStart) {
+                selectedEnd = dateStr;
+                if (depIn) depIn.value = dateStr;
+            } else {
+                selectedStart = dateStr;
+                if (arrIn) arrIn.value = dateStr;
+            }
+        }
+        renderCalendar();
+        updatePdpBookingDisplay();
+        arrIn = nohoReservationStartInput();
+        depIn = nohoReservationEndInput();
+        nohoNotifyLiveFormField(arrIn);
+        nohoNotifyLiveFormField(depIn);
+        schedulePdpLiveMorphUiRefresh();
+    }
+
+    function renderPdpBookingCalendar() {
+        var monthTitle = document.getElementById('pdpBookingCalendarMonth');
+        var grid = document.getElementById('pdpBookingCalendarDays');
+        if (!monthTitle || !grid) return;
+
+        var firstDay = new Date(currentYear, currentMonth, 1);
+        var lastDay = new Date(currentYear, currentMonth + 1, 0);
+        var padCount = (firstDay.getDay() + 6) % 7;
+        var daysInMonth = lastDay.getDate();
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        monthTitle.textContent = monthNames[currentMonth] + ' ' + currentYear;
+
+        var html = '';
+        var i;
+        for (i = 0; i < padCount; i++) {
+            html += '<div class="home-cal-day home-cal-day--pad" aria-hidden="true"></div>';
+        }
+        for (var day = 1; day <= daysInMonth; day++) {
+            var date = new Date(currentYear, currentMonth, day, 12, 0, 0);
+            var ds = formatDate(currentYear, currentMonth, day);
+            var isPast = date < today;
+            var isSelected = (selectedStart && ds === selectedStart) || (selectedEnd && ds === selectedEnd);
+            var isInRange = !!(selectedStart && selectedEnd && ds > selectedStart && ds < selectedEnd);
+            var classes = 'home-cal-day';
+            if (isPast) classes += ' disabled';
+            if (isSelected) classes += ' selected';
+            if (isInRange) classes += ' in-range';
+            html += '<div class="' + classes + '" data-date="' + ds + '">' + day + '</div>';
+        }
+        grid.innerHTML = html;
+        grid.querySelectorAll('.home-cal-day[data-date]').forEach(function(el) {
+            el.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var ds = el.getAttribute('data-date');
+                if (!ds) return;
+                applySelectionFromDayClick(ds);
+            });
+        });
+    }
+
     function renderCalendar() {
+        var calMonthEl = document.getElementById('calendarMonth');
+        var calDaysEl = document.getElementById('calendarDays');
+        if (!calMonthEl || !calDaysEl) return;
+
         var firstDay = new Date(currentYear, currentMonth, 1);
         var lastDay = new Date(currentYear, currentMonth + 1, 0);
         var startDay = firstDay.getDay() || 7;
         var daysInMonth = lastDay.getDate();
         var today = new Date();
-        today.setHours(0,0,0,0);
-        
-        document.getElementById('calendarMonth').textContent = monthNames[currentMonth] + ' ' + currentYear;
-        
+        today.setHours(0, 0, 0, 0);
+
+        calMonthEl.textContent = monthNames[currentMonth] + ' ' + currentYear;
+
         var html = '';
-        
-        // Empty cells for days before month starts
         for (var i = 1; i < startDay; i++) {
             html += '<div class="cal-day disabled"></div>';
         }
-        
-        // Days of month
         for (var day = 1; day <= daysInMonth; day++) {
             var date = createLocalDate(currentYear, currentMonth, day);
             var dateStr = formatDate(currentYear, currentMonth, day);
             var isPast = date < today;
-            var isSelected = (selectedStart && dateStr === selectedStart) || 
-                            (selectedEnd && dateStr === selectedEnd);
-            
+            var isSelected = (selectedStart && dateStr === selectedStart) ||
+                (selectedEnd && dateStr === selectedEnd);
             var isInRange = false;
             if (selectedStart && selectedEnd) {
                 isInRange = dateStr > selectedStart && dateStr < selectedEnd;
             }
-            
             var classes = 'cal-day';
             if (isPast) classes += ' disabled';
             if (isSelected) classes += ' selected';
             if (isInRange) classes += ' in-range';
-            
             html += '<div class="' + classes + '" data-date="' + dateStr + '" data-day="' + day + '">' + day + '</div>';
         }
-        
-        document.getElementById('calendarDays').innerHTML = html;
-        
-        // Add click handlers
-        document.querySelectorAll('.cal-day:not(.disabled)').forEach(function(el) {
-            el.addEventListener('click', function() {
-                var dateStr = this.getAttribute('data-date');
-                
-                var arrIn = nohoReservationStartInput();
-                var depIn = nohoReservationEndInput();
-                if (!selectedStart || (selectedStart && selectedEnd)) {
-                    selectedStart = dateStr;
-                    selectedEnd = null;
-                    if (arrIn) arrIn.value = dateStr;
-                    if (depIn) depIn.value = '';
-                } else {
-                    if (dateStr > selectedStart) {
-                        selectedEnd = dateStr;
-                        if (depIn) depIn.value = dateStr;
-                    } else {
-                        selectedStart = dateStr;
-                        if (arrIn) arrIn.value = dateStr;
-                    }
-                }
-                renderCalendar();
-            });
+        calDaysEl.innerHTML = html;
+
+        if (document.getElementById('pdpBookingCalendarDays')) {
+            renderPdpBookingCalendar();
+        }
+    }
+
+    var calDaysHost = document.getElementById('calendarDays');
+    if (calDaysHost) {
+        calDaysHost.addEventListener('click', function(e) {
+            var cell = e.target.closest('.cal-day:not(.disabled)');
+            if (!cell) return;
+            var dateStr = cell.getAttribute('data-date');
+            if (!dateStr) return;
+            applySelectionFromDayClick(dateStr);
         });
     }
-    
-    document.getElementById('prevMonth').addEventListener('click', function() {
-        currentMonth--;
-        if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-        renderCalendar();
+
+    var prevMonthBtn = document.getElementById('prevMonth');
+    if (prevMonthBtn) {
+        prevMonthBtn.addEventListener('click', function() {
+            currentMonth--;
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            renderCalendar();
+        });
+    }
+    var nextMonthBtn = document.getElementById('nextMonth');
+    if (nextMonthBtn) {
+        nextMonthBtn.addEventListener('click', function() {
+            currentMonth++;
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            renderCalendar();
+        });
+    }
+
+    document.addEventListener('click', function(e) {
+        var dd = pdpBookingDropdown();
+        var tr = pdpBookingTrigger();
+        if (!dd || !tr) return;
+
+        if (e.target.closest('#pdpBookingPrevMonth')) {
+            e.stopPropagation();
+            currentMonth--;
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            renderCalendar();
+            return;
+        }
+        if (e.target.closest('#pdpBookingNextMonth')) {
+            e.stopPropagation();
+            currentMonth++;
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            renderCalendar();
+            return;
+        }
+
+        if (dd && dd.contains(e.target)) {
+            return;
+        }
+
+        if (tr && tr.contains(e.target)) {
+            e.preventDefault();
+            var open = !dd.classList.contains('is-open');
+            setPdpDropdownOpen(open);
+            return;
+        }
+
+        if (dd && dd.classList.contains('is-open')) {
+            setPdpDropdownOpen(false);
+        }
     });
-    
-    document.getElementById('nextMonth').addEventListener('click', function() {
-        currentMonth++;
-        if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-        renderCalendar();
-    });
-    
+
+    syncStateFromInputs();
     renderCalendar();
+    updatePdpBookingDisplay();
 })();
 </script>
 {% endblock %}

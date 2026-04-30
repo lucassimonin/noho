@@ -8,16 +8,86 @@
         <div {{ sylius_test_html_attribute('product-out-of-stock') }}>{{ 'sylius.ui.out_of_stock'|trans }}</div>
     {% else %}
         {{ loader.render() }}
-        <div {{ sylius_test_html_attribute('product-selecting-variant') }}>
+        <div class="noho-pdp-cart-form" {{ sylius_test_html_attribute('product-selecting-variant') }}>
             {{ form_start(form, {'attr': {'data-action': 'live#action:prevent live#$render', 'data-live-action-param': 'addToCart'}}) }}
             {{ form_errors(form) }}
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
-                {% if form.reservationStartAt is defined %}
-                    {{ form_row(form.reservationStartAt, {'attr': {'id': 'arrivalDate'}}) }}
-                {% endif %}
-                {% if form.reservationEndAt is defined %}
-                    {{ form_row(form.reservationEndAt, {'attr': {'id': 'departureDate'}}) }}
+            <div class="noho-pdp-reservation-dates">
+                {% if form.reservationStartAt is defined and form.reservationEndAt is defined %}
+                    <div
+                        class="noho-pdp-booking-date-wrap noho-home-search-date-wrap"
+                        data-noho-select-dates="{{ 'noho.search.select_dates'|trans|e('html_attr') }}"
+                    >
+                        {% set pdp_rs = form.reservationStartAt.vars.value %}
+                        {% set pdp_re = form.reservationEndAt.vars.value %}
+                        <label class="noho-home-field-label" for="pdpBookingDateTrigger">{{ 'noho.search.dates'|trans }}</label>
+                        <button type="button" id="pdpBookingDateTrigger" class="noho-home-search-date-trigger" aria-expanded="false" aria-haspopup="dialog">
+                            <span class="noho-home-search-date-trigger__icon" aria-hidden="true">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                    <rect x="3" y="5" width="18" height="16" rx="2.5"></rect>
+                                    <path d="M3 10h18M8 3v4M16 3v4"></path>
+                                </svg>
+                            </span>
+                            <span id="pdpBookingDateDisplay" class="noho-home-search-date-trigger__text{% if pdp_rs and pdp_re %} is-filled{% elseif pdp_rs %} is-filled{% endif %}">
+                                {%- if pdp_rs and pdp_re -%}
+                                    {{- pdp_rs|date('d/m/Y') }} → {{ pdp_re|date('d/m/Y') -}}
+                                {%- elseif pdp_rs -%}
+                                    {{- pdp_rs|date('d/m/Y') }} → …{%- else -%}
+                                    {{- 'noho.search.select_dates'|trans -}}
+                                {%- endif -%}
+                            </span>
+                        </button>
+
+                        <div id="pdpBookingDateDropdown" class="noho-home-date-dropdown" role="dialog" aria-modal="true" aria-label="{{ 'noho.search.dates'|trans }}">
+                            <div class="noho-home-date-nav">
+                                <button type="button" id="pdpBookingPrevMonth" class="noho-home-date-nav__btn" aria-label="Mois précédent">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                                </button>
+                                <h4 id="pdpBookingCalendarMonth" class="noho-home-date-nav__title"></h4>
+                                <button type="button" id="pdpBookingNextMonth" class="noho-home-date-nav__btn" aria-label="Mois suivant">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                                </button>
+                            </div>
+                            <div class="noho-home-cal-weekdays" aria-hidden="true">
+                                <span>{{ 'noho.calendar.days.mon'|trans }}</span>
+                                <span>{{ 'noho.calendar.days.tue'|trans }}</span>
+                                <span>{{ 'noho.calendar.days.wed'|trans }}</span>
+                                <span>{{ 'noho.calendar.days.thu'|trans }}</span>
+                                <span>{{ 'noho.calendar.days.fri'|trans }}</span>
+                                <span>{{ 'noho.calendar.days.sat'|trans }}</span>
+                                <span>{{ 'noho.calendar.days.sun'|trans }}</span>
+                            </div>
+                            <div id="pdpBookingCalendarDays" class="noho-home-cal-grid"></div>
+                            <div class="noho-home-date-summary">
+                                <div class="noho-home-date-summary__col">
+                                    <div class="noho-home-date-summary__k">{{ 'noho.search.arrival'|trans }}</div>
+                                    <div id="pdpArrivalSummary" class="noho-home-date-summary__v">{% if pdp_rs %}{{ pdp_rs|date('d/m/Y') }}{% else %}-{% endif %}</div>
+                                </div>
+                                <div class="noho-home-date-summary__col">
+                                    <div class="noho-home-date-summary__k">{{ 'noho.search.departure'|trans }}</div>
+                                    <div id="pdpDepartureSummary" class="noho-home-date-summary__v">{% if pdp_re %}{{ pdp_re|date('d/m/Y') }}{% else %}-{% endif %}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{ form_errors(form.reservationStartAt) }}
+                        {{ form_errors(form.reservationEndAt) }}
+
+                        <div class="noho-pdp-reservation-native-fields">
+                            {{ form_widget(form.reservationStartAt, { attr: {
+                                id: 'arrivalDate',
+                                class: 'noho-pdp-res-hidden-input',
+                                tabindex: '-1',
+                                autocomplete: 'off'
+                            } }) }}
+                            {{ form_widget(form.reservationEndAt, { attr: {
+                                id: 'departureDate',
+                                class: 'noho-pdp-res-hidden-input',
+                                tabindex: '-1',
+                                autocomplete: 'off'
+                            } }) }}
+                        </div>
+                    </div>
                 {% endif %}
             </div>
 
